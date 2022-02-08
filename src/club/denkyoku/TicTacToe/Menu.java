@@ -1,13 +1,12 @@
 package club.denkyoku.TicTacToe;
 
-import org.jetbrains.annotations.Nullable;
 
 public class Menu {
     private final String header_text, footer_text;
     private int cur_position = 0;
     private final String[] menuItems;
 
-    public Menu(String[] menuItems, @Nullable String header, @Nullable String footer) {
+    public Menu(String[] menuItems, String header, String footer) {
         this.header_text = (header != null) ? header + "\n" : "";
         this.footer_text = (footer != null) ? footer : "";
         this.menuItems = menuItems;
@@ -35,21 +34,24 @@ public class Menu {
     }
 
     protected void printMenu() {
-        System.out.println(this.header_text);
+        ConsoleHelper.println(this.header_text);
         for (int i = 0; i < this.menuItems.length; i++) {
             if (i == this.cur_position) {
-                System.out.println("~ " + this.menuItems[i].toUpperCase());
+                ConsoleHelper.println("▶ " + this.menuItems[i]);
             } else {
-                System.out.println("  " + this.menuItems[i]);
+                ConsoleHelper.println("  " + this.menuItems[i]);
             }
         }
-        System.out.println(this.footer_text);
+        ConsoleHelper.println(this.footer_text);
     }
 
-    public void start() {
+    public int start() {
         // first we clear the screen
-        System.out.println("haha");
         ConsoleHelper.CleanConsole();
+
         this.printMenu();
+        // wait for key press:
+
+        return -1;
     }
 }
