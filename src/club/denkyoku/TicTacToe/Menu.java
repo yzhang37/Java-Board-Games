@@ -1,6 +1,13 @@
 package club.denkyoku.TicTacToe;
 
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.CharBuffer;
+import java.util.Arrays;
+
+
 public class Menu {
     private final String header_text, footer_text;
     private int cur_position = 0;
@@ -46,11 +53,35 @@ public class Menu {
     }
 
     public int start() {
-        // first we clear the screen
         ConsoleHelper.CleanConsole();
-
         this.printMenu();
-        // wait for key press:
+
+        SttyHelper.disableEcho();
+        SttyHelper.bufferByCharacter();
+
+        int i = 0;
+        String line = "";
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        char[] buffer = new char[10];
+
+        while (i <= 10000){
+            try {
+                br.read(buffer);
+            } catch (IOException e) {}
+            System.out.print("\"\"");
+            for (int c : buffer) {
+                if (c != '\0') {
+                    System.out.print(c);
+                } else
+                    break;
+            }
+            System.out.print("\"\"");
+
+            Arrays.fill(buffer, '\0');
+            ++i;
+        }
 
         return -1;
     }
