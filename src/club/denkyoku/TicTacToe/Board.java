@@ -1,7 +1,7 @@
 package club.denkyoku.TicTacToe;
 
 public abstract class Board {
-    // 棋盘的大小。一旦设置就不能再改变。
+    // The size of the chessboard. Once set, it cannot be changed.
     private final int height;
     private final int width;
     private int usedSlots;
@@ -41,7 +41,7 @@ public abstract class Board {
         }
     }
 
-    // 检查是否可以放棋子。
+    // Check if a move can be placed.
     abstract public boolean canPut(int x, int y);
 
     public boolean isFull() {
@@ -52,7 +52,7 @@ public abstract class Board {
         return this.usedSlots == 0;
     }
 
-    // 检查游戏棋盘的状态，判断是否有一方赢。
+    // Check the state of the game board to see if one side wins.
     abstract public int check_win();
 
     public void clear() {

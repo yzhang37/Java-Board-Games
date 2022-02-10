@@ -31,8 +31,8 @@ public abstract class Player {
         return this.isHuman;
     }
 
-    // 给定一个棋盘，让玩家判断走哪一个位置。
-    // 如果 isHuman = true，则 Game 可以忽略调用这个函数。
+    // Given a board, let the player decide which position to take.
+    // If isHuman = true, Game can ignore calling this function.
     public abstract Move getMove(Board board, int myId, int[] otherIds);
 
     public static class Move {

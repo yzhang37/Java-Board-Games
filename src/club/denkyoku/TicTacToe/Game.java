@@ -20,14 +20,14 @@ public class Game {
     protected Board board;
     protected Player[] players;
     protected int turn;
-    // 控制人类玩家使用的光标位置。
+    // Controls the cursor position used by human players.
     protected int cursor_x;
     protected int cursor_y;
 
     protected boolean onlyOneHuman;
     protected boolean hasAI;
 
-    // 创建一局游戏。需要提供 Player 的对象列表，以及棋盘对象。
+    // Create a game. Requires a list of Player objects, and a chessboard object.
     public Game(Board board, Player[] players) {
         this.board = board;
         this.players = players;
@@ -97,11 +97,11 @@ public class Game {
     public void printUI(boolean showCursor) {
         String[] boardString = this.renderBoard(showCursor);
 
-        // 因为这里棋盘一定是等宽的，所以取第一个就是最大的大小。
+        // Because the chessboard here must be of equal width, the first one is the largest size.
         int maxBoardWidth = boardString[0].length();
 
-        // 计算终端最大的高度，以计算具体需要打印多少个用户的信息。
-        // 当前用户是必须要打印出来的。
+        // Because the chessboard here must be of equal width, the first one is the largest size.
+        // The current user must be printed out.
         int maxPrintPlayers = ConsoleHelper.GetConsoleHeight() / 3;
         int firstPrintPlayer = 0;
         if (turn >= maxPrintPlayers) {
@@ -117,15 +117,15 @@ public class Game {
             StringBuilder sb = new StringBuilder();
 
             if (lineId < boardString.length) {
-                // 如果在棋盘的部分，就输出棋盘的内容
+                // If it is part of the chessboard, output the content of the chessboard
                 sb.append(boardString[lineId]);
             } else {
-                // 否则就生成棋盘同样宽度的空白行
+                // Otherwise, a blank line of the same width as the chessboard is generated
                 sb.append(" ".repeat(maxBoardWidth));
             }
 
             if (curPrintPlayer < Math.min(firstPrintPlayer + maxPrintPlayers, this.players.length)) {
-                // 每 3 行的第 0 行是空白的。
+                // Line 0 of every 3 lines is blank.
                 if (lineId % 3 == 1) {
                     sb.append("  ");
                     if (curPrintPlayer == this.turn) {
@@ -138,7 +138,7 @@ public class Game {
                     sb.append(this.getPlayerAt(curPrintPlayer).getName());
                 } else if (lineId % 3 == 2) {
                     if (curPrintPlayer == this.turn) {
-                        // 如果是当前玩家，就输出当前玩家的提示信息。
+                        // If it is the current player, output the prompt information of the current player.
                         sb.append("     ");
 
                         if (this.getPlayerAt(curPrintPlayer).isHumanPlayer()) {
@@ -169,7 +169,7 @@ public class Game {
             if (turnResult == -2)
                 return;
 
-            // 结束前重新打印一次棋盘。
+            // Reprint the board once before ending.
             this.printUI(false);
 
             String[] messages;
@@ -214,15 +214,13 @@ public class Game {
     }
 
     /**
-     * 执行一次 Turn
-     * @return 返回值：0 表示继续,
-     *                >= 1 表示获胜的玩家的 id + 1
-     *                -1 表示棋盘已满，并且没有人获胜。
-     *                -2 表示游戏强退。
+     * perform a Turn
+     * @return Return value：0: means go to next turn, -1: means draw, -2: means exit
+     *                       >= 1: the win player's id + 1
      */
     public int oneTurn() {
         this.printUI(false);
-        // 现在轮到玩家来下棋。
+        //
         Player curTurnPlayer = this.getPlayerAt(this.turn);
         if (curTurnPlayer.isHumanPlayer()) {
             char[] buffer = new char[10];
@@ -279,7 +277,7 @@ public class Game {
             }
 
         } else {
-            // AI 玩家，就让 AI 来下棋。
+            // AI player
             int[] otherIds = new int[this.players.length - 1];
             for (int all_i = 0, o_i = 0; all_i < this.players.length; all_i++) {
                 if (all_i != this.turn) {
@@ -294,7 +292,7 @@ public class Game {
         if (winner > 0) {
             return winner;
         } else {
-            // 判断游戏是否结束
+            // check if draw
             if (this.board.isFull()) {
                 return -1;
             }

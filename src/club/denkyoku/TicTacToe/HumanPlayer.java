@@ -1,6 +1,6 @@
 package club.denkyoku.TicTacToe;
 
-// 人类玩家，按键盘进行游戏。
+// Human player, press the keyboard to play the game.
 public class HumanPlayer extends Player {
     public HumanPlayer() {
         super();

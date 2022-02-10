@@ -63,7 +63,7 @@ public class MessageDialog {
     }
 
     public static int show(String[] message, Button[] buttons, int defaultButton, int cancelButton) {
-        // 如果按钮有 access key，为它做一次索引
+        // If the button has an access key, index it once
         HashMap<Character, ArrayList<Integer>> accessKeyIndex = new HashMap<>();
         for (int i = 0; i < buttons.length; i++) {
             char key = buttons[i].getAccessKey();
@@ -110,7 +110,7 @@ public class MessageDialog {
                 }
                 redraw = true;
             }
-            // 测试访问键
+            // test access key
             if (buffer.length > 2 && buffer[1] == '\0') {
                 char key = buffer[0];
                 if ('a' <= key && key <= 'z') {
@@ -118,12 +118,12 @@ public class MessageDialog {
                 }
                 if (accessKeyIndex.containsKey(key)) {
                     ArrayList<Integer> indexList = accessKeyIndex.get(key);
-                    // 正好有一个按钮，我们直接点击它
+                    // There happens to be a button, we just click it
                     if (indexList.size() == 1) {
                         retvalue = indexList.get(0);
                         break;
                     } else if (indexList.size() > 1) {
-                        // 如果有多个按钮，我们在他们之间循环
+                        // If there are multiple buttons, we cycle through them
                         if (indexList.contains(currentButton)) {
                             int curIndex = indexList.indexOf(currentButton);
                             curIndex ++;
@@ -145,15 +145,15 @@ public class MessageDialog {
     }
 
     protected static void printDialog(String[] message, Button[] buttons, int currentButton, String[] lastScreen) {
-        // 首先获取当前窗口的宽度和高度
+        // First get the width and height of the current window
         int height = ConsoleHelper.GetConsoleHeight(),
                 width = ConsoleHelper.GetConsoleWidth();
 
-        // 先计算所需要的高度
+        // Calculate the required height first
         int neededHeight = buttons.length + 1 + message.length;
         boolean showTopBottomBorder = false, showTopBottomMargin = false;
 
-        // 如果增加边框可以显示，上下各增加边框高度
+        // If adding a border can be displayed, increase the height of the border up and down
         if (neededHeight + 2 < height) {
             neededHeight += 2;
             showTopBottomBorder = true;
@@ -163,7 +163,7 @@ public class MessageDialog {
             showTopBottomMargin = true;
         }
 
-        // 获取所有文本中最宽的
+        // Get the widest of all texts
         int neededWidth = 0;
         boolean showLeftRightBorder = false, showLeftRightMargin = false;
         for (String s : message) {
@@ -177,7 +177,7 @@ public class MessageDialog {
                 neededWidth = length;
             }
         }
-        // 如果增加边框可以显示，左右各增加边框宽度
+        // If adding a border can be displayed, increase the border width on the left and right sides
         if (neededWidth + 2 < width) {
             neededWidth += 2;
             showLeftRightBorder = true;
@@ -187,11 +187,11 @@ public class MessageDialog {
             showLeftRightMargin = true;
         }
 
-        // 获取 Dialog 实际的左上角坐标
+        // Get the actual upper left corner coordinates of the Dialog
         int dialog_Y = Math.max(0, (width - neededWidth) / 2),
                 dialog_X = Math.max(0, (height - neededHeight) / 2);
 
-        // 先获取之前的 screen，然后修改它。
+        // Get the previous screen first, then modify it.
         ArrayList<String> newScreen = new ArrayList<>();
         int lines = 0;
         while (lines < dialog_X) {
@@ -202,7 +202,7 @@ public class MessageDialog {
             lines++;
         }
 
-        // 替换文本为窗口
+        // replace text with window
         int dialogLines = 0;
         String leftTopCorner = "", rightTopCorner = "",
                 leftBottomCorner = "", rightBottomCorner = "",

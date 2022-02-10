@@ -26,7 +26,7 @@ public class TicTacToeAIPlayer extends Player {
     private Move smartAI(Board board, int myId, int[] otherIds) {
         if (StdRandom.bernoulli(smart_prob)) {
             Move newMove;
-            // 这一步先去寻找有没有自己或者别人的连子。如果有就优先连活/堵塞
+            // This step is to first find out if there is any connection with yourself or others. If there is, priority connection/blocking
             if ((newMove = findConsecutive(board, myId)) != null) {
                 return newMove;
             }
@@ -36,18 +36,18 @@ public class TicTacToeAIPlayer extends Player {
                 }
             }
 
-            // 高级 AI：第一步如果先选，地图中央是空的一定要选。
+            // Advanced AI: If you choose the first step first, you must choose if the center of the map is empty.
             if (board.atByOne(2, 2) == 0) {
                 return new Move1(2, 2);
             }
 
-            // 没有的话，我们随机挑一个有大概率能胜利的（就是没被别人堵上的位置）
+            // If not, we randomly pick one that has a high probability of winning (that is, the position that is not blocked by others)
             if ((newMove = findPossible(board, myId)) != null) {
                 return newMove;
             }
         }
 
-        // 再没有，我们只能随机挑一个了
+        // No more, we just have to pick one at random
         return FindRandom(board);
     }
 
