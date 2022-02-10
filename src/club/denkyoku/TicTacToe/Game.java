@@ -1,5 +1,6 @@
 package club.denkyoku.TicTacToe;
 
+import java.io.Console;
 import java.util.Arrays;
 import java.util.StringJoiner;
 
@@ -96,7 +97,7 @@ public class Game {
                 sb.append(" ".repeat(maxBoardWidth));
             }
 
-            if (curPrintPlayer < Math.min(firstPrintPlayer + 3, this.players.length)) {
+            if (curPrintPlayer < Math.min(firstPrintPlayer + maxPrintPlayers, this.players.length)) {
                 // 每 3 行的第 0 行是空白的。
                 if (lineId % 3 == 1) {
                     sb.append("  ");

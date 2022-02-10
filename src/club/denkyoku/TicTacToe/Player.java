@@ -35,7 +35,7 @@ public abstract class Player {
     // 如果 isHuman = true，则 Game 可以忽略调用这个函数。
     public abstract Move getMove(Board board);
 
-    public class Move {
+    public static class Move {
         public int x;
         public int y;
         public Move(int x, int y) {

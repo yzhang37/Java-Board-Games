@@ -8,6 +8,7 @@ public class TicTacToe {
             int ret = menu.start();
             switch (ret) {
                 case 0:
+                    multiplayer();
                     singlePlayer();
                     break;
                 case 1:
@@ -47,7 +48,11 @@ public class TicTacToe {
         Board board = new NInRowBoard(3);
         Player player1 = new HumanPlayer("Player 1", '✕');
         Player player2 = new HumanPlayer("Player 2", '○');
-        Game game = new Game(board, new Player[]{player1, player2});
+        Player player3 = new HumanPlayer("Player 3", '◎');
+        Player player4 = new HumanPlayer("Player 4", '◇');
+        Player player5 = new HumanPlayer("Player 5", '◆');
+        Player player6 = new HumanPlayer("Player 6", '◐');
+        Game game = new Game(board, new Player[]{player1, player2, player3, player4, player5, player6});
         game.start();
     }
 }
