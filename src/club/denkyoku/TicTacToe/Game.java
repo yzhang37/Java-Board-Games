@@ -194,8 +194,10 @@ public class Game {
                     }
                     redraw = true;
                 } else if (KeyHandler.isEnter(buffer)) {
-                    // TODO: 检查是否可以放置棋子
-                    break;
+                    if (this.board.canPut(this.cursor_x, this.cursor_y)) {
+                        this.board.put(this.cursor_x, this.cursor_y, this.turn + 1);
+                        break;
+                    }
                 }
             }
 

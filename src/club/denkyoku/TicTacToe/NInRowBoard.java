@@ -9,6 +9,13 @@ public class NInRowBoard extends Board{
     }
 
     @Override
+    public boolean canPut(int x, int y) {
+        return 0 <= x && x < this.getHeight() &&
+                0 <= y && y < this.getWidth() &&
+                this.board[x][y] == 0;
+    }
+
+    @Override
     public int check_win() {
         boolean same;
         int first;

@@ -37,6 +37,9 @@ public abstract class Board {
         }
     }
 
+    // 检查是否可以放棋子。
+    abstract public boolean canPut(int x, int y);
+
     public boolean isFull() {
         return this.usedSlots == this.height * this.width;
     }
