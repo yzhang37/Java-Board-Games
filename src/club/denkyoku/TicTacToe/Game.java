@@ -83,9 +83,10 @@ public class Game {
         }
         int maxPrintPlayersLines = Math.min(maxPrintPlayers * 3, this.players.length * 3);
 
+        int finalMaxLines = Math.max(maxPrintPlayersLines, boardString.length);
+        String[] gameScreen = new String[finalMaxLines];
         for (int lineId = 0, curPrintPlayer = firstPrintPlayer;
-             lineId < Math.max(maxPrintPlayersLines, boardString.length);
-             ++lineId) {
+             lineId < finalMaxLines; ++lineId) {
 
             StringBuilder sb = new StringBuilder();
 
@@ -123,8 +124,9 @@ public class Game {
                     curPrintPlayer ++;
                 }
             }
-            ConsoleHelper.println(sb.toString());
+            gameScreen[lineId] = sb.toString();
         }
+        ConsoleHelper.printScreen(gameScreen);
     }
 
     public void start() {
@@ -134,9 +136,10 @@ public class Game {
         } while (turnResult == 0);
 
         if (turnResult == -1) {
-            ConsoleHelper.println("Draw!");
+            // TODO: use Draw message box
         } else {
-            ConsoleHelper.println("Winner: " + this.getPlayerAt(turnResult - 1).getName());
+            // TODO: use win message box
+//            "Winner: " + this.getPlayerAt(turnResult - 1).getName());
         }
     }
 

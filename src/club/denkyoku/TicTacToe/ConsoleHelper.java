@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 
 public class ConsoleHelper {
     protected static final PrintWriter printWriter = new PrintWriter(System.out, true);
+    protected static String[] lastScreen = new String[]{""};
 
     static void CleanConsole() {
         printWriter.print("\033[H\033[2J");
@@ -20,6 +21,21 @@ public class ConsoleHelper {
 
     static void print(char c) {
         printWriter.print(c);
+    }
+
+    static void bell() {
+        print("\007");
+    }
+
+    static void printScreen(String[] screen) {
+        ConsoleHelper.lastScreen = screen;
+        for (var line : screen) {
+            ConsoleHelper.println(line);
+        }
+    }
+
+    static String[] GetLastScreen() {
+        return ConsoleHelper.lastScreen;
     }
 
     static int GetConsoleWidth() {

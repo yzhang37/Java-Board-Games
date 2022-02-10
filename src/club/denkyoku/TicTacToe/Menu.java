@@ -65,15 +65,17 @@ public class Menu {
     }
 
     protected void printMenu() {
-        ConsoleHelper.println(this.header_text);
+        String[] menuScreen = new String[this.menuItems.length + 2];
+        menuScreen[0] = this.header_text;
         for (int i = 0; i < this.menuItems.length; i++) {
             if (i == this.cur_position) {
-                ConsoleHelper.println("▶ " + this.menuItems[i].toUpperCase());
+                menuScreen[i + 1] = "▶ " + this.menuItems[i].toUpperCase();
             } else {
-                ConsoleHelper.println("  " + this.menuItems[i]);
+                menuScreen[i + 1] = "  " + this.menuItems[i];
             }
         }
-        ConsoleHelper.println(this.footer_text);
+        menuScreen[menuScreen.length - 1] = this.footer_text;
+        ConsoleHelper.printScreen(menuScreen);
     }
 
     public int start() {
@@ -93,17 +95,17 @@ public class Menu {
 //            DebugHelper.viewKeyBuffer(buffer);
 
             if (KeyHandler.isEsc(buffer)) {
-                ConsoleHelper.print('\7');
+                ConsoleHelper.bell();
                 return -1;
             } else if (KeyHandler.isEnter(buffer)) {
                 return this.cur_position;
             } else if (KeyHandler.isKeyUp(buffer)) {
                 this.decrementPosition();
-                ConsoleHelper.print('\7');
+                ConsoleHelper.bell();
                 redraw = true;
             } else if (KeyHandler.isKeyDown(buffer)) {
                 this.incrementPosition();
-                ConsoleHelper.print('\7');
+                ConsoleHelper.bell();
                 redraw = true;
             }
         }
