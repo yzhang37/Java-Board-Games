@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class ShellHelper {
+    private static final String SHELL = "/bin/sh";
+
     public static class Result {
         public String output;
         public String error;
@@ -17,11 +19,11 @@ public class ShellHelper {
         }
     }
 
-    public static Result shell(String[] commands) throws IOException {
+    public static Result shell(String command) throws IOException {
         Runtime rt = Runtime.getRuntime();
         int ret = 1;
 
-        Process proc = rt.exec(commands);
+        Process proc = rt.exec(new String[]{SHELL, "-c", command});
 
         BufferedReader stdOutput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
         BufferedReader stdError = new BufferedReader(new InputStreamReader(proc.getErrorStream()));

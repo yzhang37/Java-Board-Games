@@ -24,7 +24,7 @@ public class ConsoleHelper {
 
     static int GetConsoleWidth() {
         try {
-            var result = ShellHelper.shell(new String[]{"tput cols"});
+            var result = ShellHelper.shell("tput cols");
             if (result.ret == 0) {
                 return Integer.parseInt(result.output);
             }
@@ -34,7 +34,7 @@ public class ConsoleHelper {
 
     static int GetConsoleHeight() {
         try {
-            var result = ShellHelper.shell(new String[]{"tput lines"});
+            var result = ShellHelper.shell("tput lines");
             if (result.ret == 0) {
                 return Integer.parseInt(result.output);
             }
