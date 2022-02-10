@@ -8,6 +8,10 @@ public class TicTacToe {
     protected static String[] exitQueryMessage = new String[]{
             "Are you sure you want to exit?"
     };
+    protected static String[] singleWarning = new String[] {
+            "[Single Player] only supports",
+            "classic Tic-Tac-Toe and 2 players.",
+    };
 
     public void start() {
         while (true) {
@@ -31,9 +35,14 @@ public class TicTacToe {
     }
 
     protected void singlePlayer() {
+        if (config.boardSize != 3 || config.getPlayerCounts() != 2) {
+            MessageDialog.show(singleWarning);
+            return;
+        }
+
         Menu menu = new Menu(
-                new String[]{"i can win", "bring it on", "hardcore", "nightmare"},
-                "Choose difficulty", ""
+                new String[]{"I can win", "Bring it on", "Hardcore", "Nightmare"},
+                "Choose Difficulty", ""
         );
 
         int ret = menu.start();

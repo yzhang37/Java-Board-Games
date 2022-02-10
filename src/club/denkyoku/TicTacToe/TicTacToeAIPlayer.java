@@ -1,4 +1,4 @@
 package club.denkyoku.TicTacToe;
 
-public class AIPlayer {
+public class TicTacToeAIPlayer {
 }
