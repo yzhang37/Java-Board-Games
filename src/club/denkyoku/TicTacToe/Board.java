@@ -2,8 +2,8 @@ package club.denkyoku.TicTacToe;
 
 public abstract class Board {
     // 棋盘的大小。一旦设置就不能再改变。
-    private int height;
-    private int width;
+    private final int height;
+    private final int width;
     private int usedSlots;
     protected int[][] board;
 
@@ -46,4 +46,8 @@ public abstract class Board {
 
     // 检查游戏棋盘的状态，判断是否有一方赢。
     abstract public int check_win();
+
+    public void clear() {
+        this.board = new int[this.height][this.width];
+    }
 }

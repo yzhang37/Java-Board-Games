@@ -145,6 +145,9 @@ public class Game {
 
     public void start() {
         while (true) {
+            // 先清空棋盘
+            this.board.clear();
+
             int turnResult = 0;
             do {
                 turnResult = this.oneTurn();
