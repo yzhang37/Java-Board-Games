@@ -1,17 +1,23 @@
 package club.denkyoku.TicTacToe;
 
+import java.util.Arrays;
 import java.util.StringJoiner;
 
 public class Game {
     protected Board board;
     protected Player[] players;
     protected int turn;
+    // 控制人类玩家使用的光标位置。
+    protected int cursor_x;
+    protected int cursor_y;
 
     // 创建一局游戏。需要提供 Player 的对象列表，以及棋盘对象。
     public Game(Board board, Player[] players) {
         this.board = board;
         this.players = players;
         this.turn = 0;
+        this.cursor_x = 0;
+        this.cursor_y = 0;
     }
 
     public void nextTurn() {
@@ -25,7 +31,7 @@ public class Game {
         return this.players[index];
     }
 
-    public String[] renderBoard() {
+    public String[] renderBoard(boolean showCursor) {
         String[] lines = new String[2 * this.board.getHeight() + 1];
         StringJoiner joiner1, joiner2;
         for (int i = 0; i < this.board.getHeight(); ++i) {
@@ -38,10 +44,14 @@ public class Game {
 
             for (int j = 0; j < this.board.getWidth(); ++j) {
                 joiner1.add("─");
-                int cellValue = this.board.at(i, j);
                 char symbolForJoiner2 = ' ';
-                if (cellValue > 0) {
-                    symbolForJoiner2 = this.getPlayerAt(cellValue - 1).getSymbol();
+                if (showCursor && this.cursor_x == i && this.cursor_y == j) {
+                    symbolForJoiner2 = '█';
+                } else {
+                    int cellValue = this.board.at(i, j);
+                    if (cellValue > 0) {
+                        symbolForJoiner2 = this.getPlayerAt(cellValue - 1).getSymbol();
+                    }
                 }
                 joiner2.add(String.valueOf(symbolForJoiner2));
             }
@@ -56,28 +66,9 @@ public class Game {
         return lines;
     }
 
-    public void start() {
-        int turnResult = 0;
-        do {
-            turnResult = this.oneTurn();
-        } while (turnResult == 0);
-
-        if (turnResult == -1) {
-            ConsoleHelper.println("Draw!");
-        } else {
-            ConsoleHelper.println("Winner: " + this.getPlayerAt(turnResult - 1).getName());
-        }
-    }
-
-    /**
-     * 执行一次 Turn
-     * @return 返回值：0 表示继续,
-     *                >= 1 表示获胜的玩家的 id + 1
-     *                -1 表示棋盘已满。
-     */
-    public int oneTurn() {
+    public void printUI(boolean showCursor) {
         ConsoleHelper.CleanConsole();
-        String[] boardString = this.renderBoard();
+        String[] boardString = this.renderBoard(showCursor);
 
         // 因为这里棋盘一定是等宽的，所以取第一个就是最大的大小。
         int maxBoardWidth = boardString[0].length();
@@ -133,10 +124,79 @@ public class Game {
             }
             ConsoleHelper.println(sb.toString());
         }
+    }
 
+    public void start() {
+        int turnResult = 0;
+        do {
+            turnResult = this.oneTurn();
+        } while (turnResult == 0);
+
+        if (turnResult == -1) {
+            ConsoleHelper.println("Draw!");
+        } else {
+            ConsoleHelper.println("Winner: " + this.getPlayerAt(turnResult - 1).getName());
+        }
+    }
+
+    /**
+     * 执行一次 Turn
+     * @return 返回值：0 表示继续,
+     *                >= 1 表示获胜的玩家的 id + 1
+     *                -1 表示棋盘已满。
+     */
+    public int oneTurn() {
+        this.printUI(false);
         // 现在轮到玩家来下棋。
         Player curTurnPlayer = this.getPlayerAt(this.turn);
         if (curTurnPlayer.isHumanPlayer()) {
+            char[] buffer = new char[10];
+            boolean redraw = false;
+            boolean firstTouch = true;
+            while (true) {
+                if (redraw) {
+                    ConsoleHelper.CleanConsole();
+                    this.printUI(true);
+                    redraw = false;
+                }
+
+                Arrays.fill(buffer, '\0');
+                KeyHandler.getKey(buffer);
+
+                if (firstTouch) {
+                    redraw = true;
+                    firstTouch = false;
+                }
+                // TODO: 可以增加暂停退出的功能。
+                if (KeyHandler.isKeyUp(buffer)) {
+                    this.cursor_x--;
+                    if (this.cursor_x < 0) {
+                        this.cursor_x = this.board.getWidth() - 1;
+                    }
+                    redraw = true;
+                } else if (KeyHandler.isKeyDown(buffer)) {
+                    this.cursor_x++;
+                    if (this.cursor_x >= this.board.getWidth()) {
+                        this.cursor_x = 0;
+                    }
+                    redraw = true;
+                } else if (KeyHandler.isKeyLeft(buffer)) {
+                    this.cursor_y--;
+                    if (this.cursor_y < 0) {
+                        this.cursor_y = this.board.getHeight() - 1;
+                    }
+                    redraw = true;
+                } else if (KeyHandler.isKeyRight(buffer)) {
+                    this.cursor_y++;
+                    if (this.cursor_y >= this.board.getHeight()) {
+                        this.cursor_y = 0;
+                    }
+                    redraw = true;
+                } else if (KeyHandler.isEnter(buffer)) {
+                    // TODO: 检查是否可以放置棋子
+                    break;
+                }
+            }
 
         } else {
             // AI 玩家，就让 AI 来下棋。
