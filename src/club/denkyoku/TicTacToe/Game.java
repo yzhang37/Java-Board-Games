@@ -71,7 +71,7 @@ public class Game {
             joiner2 = new StringJoiner("│", "│", "│");
 
             for (int j = 0; j < this.board.getWidth(); ++j) {
-                joiner1.add("─");
+                joiner1.add("───");
                 char symbolForJoiner2 = ' ';
                 if (showCursor && this.cursor_x == i && this.cursor_y == j) {
                     symbolForJoiner2 = '█';
@@ -81,14 +81,14 @@ public class Game {
                         symbolForJoiner2 = this.getPlayerAt(cellValue - 1).getSymbol();
                     }
                 }
-                joiner2.add(String.valueOf(symbolForJoiner2));
+                joiner2.add(" " + String.valueOf(symbolForJoiner2) + " ");
             }
             lines[2 * i] = joiner1.toString();
             lines[2 * i + 1] = joiner2.toString();
         }
         joiner1 = new StringJoiner("┴", "└", "┘");
         for (int j = 0; j < this.board.getWidth(); ++j) {
-            joiner1.add("─");
+            joiner1.add("───");
         }
         lines[2 * this.board.getHeight()] = joiner1.toString();
         return lines;
