@@ -84,7 +84,6 @@ public class Menu {
 
         while (true) {
             if (redraw) {
-                ConsoleHelper.CleanConsole();
                 this.printMenu();
                 redraw = false;
             }

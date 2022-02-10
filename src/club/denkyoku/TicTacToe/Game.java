@@ -68,7 +68,6 @@ public class Game {
     }
 
     public void printUI(boolean showCursor) {
-        ConsoleHelper.CleanConsole();
         String[] boardString = this.renderBoard(showCursor);
 
         // 因为这里棋盘一定是等宽的，所以取第一个就是最大的大小。
@@ -159,7 +158,6 @@ public class Game {
             boolean firstTouch = true;
             while (true) {
                 if (redraw) {
-                    ConsoleHelper.CleanConsole();
                     this.printUI(true);
                     redraw = false;
                 }

@@ -1,6 +1,7 @@
 package club.denkyoku.TicTacToe;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MessageDialog {
     public static class Button {
@@ -63,10 +64,42 @@ public class MessageDialog {
     public static int show(String[] message, Button[] buttons, int defaultButton, int cancelButton) {
         String[] lastScreen = ConsoleHelper.GetLastScreen();
 
+        boolean redraw = true;
         int currentButton = defaultButton;
-        printDialog(message, buttons, currentButton, lastScreen);
 
-        return -1;
+        char[] buffer = new char[10];
+
+        int retvalue = -1;
+        while (true) {
+            if (redraw) {
+                printDialog(message, buttons, currentButton, lastScreen);
+                redraw = false;
+            }
+            Arrays.fill(buffer, '\0');
+            KeyHandler.getKey(buffer);
+
+            if (cancelButton >= 0 && KeyHandler.isEsc(buffer)) {
+                retvalue = cancelButton;
+                break;
+            } else if (KeyHandler.isEnter(buffer)) {
+                retvalue = currentButton;
+                break;
+            } else if (KeyHandler.isKeyUp(buffer)) {
+                currentButton --;
+                if (currentButton < 0) {
+                    currentButton = buttons.length - 1;
+                }
+                redraw = true;
+            } else if (KeyHandler.isKeyDown(buffer)) {
+                currentButton ++;
+                if (currentButton >= buttons.length) {
+                    currentButton = 0;
+                }
+                redraw = true;
+            }
+        }
+        ConsoleHelper.printScreen(lastScreen);
+        return retvalue;
     }
 
     protected static void printDialog(String[] message, Button[] buttons, int currentButton, String[] lastScreen) {
@@ -117,7 +150,7 @@ public class MessageDialog {
                 dialog_X = Math.max(0, (height - neededHeight) / 2);
 
         // 先获取之前的 screen，然后修改它。
-        ArrayList<String> newScreen = new ArrayList<String>();
+        ArrayList<String> newScreen = new ArrayList<>();
         int lines = 0;
         while (lines < dialog_X) {
             if (lastScreen.length <= lines)

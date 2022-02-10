@@ -28,6 +28,7 @@ public class ConsoleHelper {
     }
 
     static void printScreen(String[] screen) {
+        ConsoleHelper.CleanConsole();
         ConsoleHelper.lastScreen = screen;
         for (var line : screen) {
             ConsoleHelper.println(line);
