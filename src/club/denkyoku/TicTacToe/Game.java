@@ -157,8 +157,8 @@ public class Game {
 
     public void start() {
         while (true) {
-            // 先清空棋盘
-            this.board.clear();
+            this.reset();
+            this.printUI(false);
 
             int turnResult = 0;
             do {
@@ -290,16 +290,21 @@ public class Game {
             this.board.put(move.x, move.y, this.turn + 1);
         }
 
-        // 判断游戏是否结束
-        if (this.board.isFull()) {
-            return -1;
-        }
         int winner = this.board.check_win();
         if (winner > 0) {
             return winner;
         } else {
+            // 判断游戏是否结束
+            if (this.board.isFull()) {
+                return -1;
+            }
             this.nextTurn();
             return 0;
         }
+    }
+
+    void reset() {
+        this.cursor_x = this.cursor_y = 0;
+        this.board.clear();
     }
 }

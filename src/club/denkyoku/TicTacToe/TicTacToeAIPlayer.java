@@ -5,10 +5,13 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class TicTacToeAIPlayer extends Player {
-    public TicTacToeAIPlayer(char symbol, int difficulty) {
+    protected double smart_prob;
+
+    public TicTacToeAIPlayer(char symbol, double smart_prob) {
         super();
         this.name = "Computer";
         this.symbol = symbol;
+        this.smart_prob = smart_prob;
     }
 
     @Override
@@ -21,24 +24,27 @@ public class TicTacToeAIPlayer extends Player {
     }
 
     private Move smartAI(Board board, int myId, int[] otherIds) {
-        if (board.isEmpty()) {
-            return new Move1(2, 2);
-        }
-
-        Move newMove;
-        // 这一步先去寻找有没有自己或者别人的连子。如果有就优先连活/堵塞
-        if ((newMove = findConsecutive(board, myId)) != null) {
-            return newMove;
-        }
-        for (int id : otherIds) {
-            if ((newMove = findConsecutive(board, id)) != null) {
+        if (StdRandom.bernoulli(smart_prob)) {
+            Move newMove;
+            // 这一步先去寻找有没有自己或者别人的连子。如果有就优先连活/堵塞
+            if ((newMove = findConsecutive(board, myId)) != null) {
                 return newMove;
             }
-        }
+            for (int id : otherIds) {
+                if ((newMove = findConsecutive(board, id)) != null) {
+                    return newMove;
+                }
+            }
 
-        // 没有的话，我们随机挑一个有大概率能胜利的（就是没被别人堵上的位置）
-        if ((newMove = findPossible(board, myId)) != null) {
-            return newMove;
+            // 高级 AI：第一步如果先选，地图中央是空的一定要选。
+            if (board.atByOne(2, 2) == 0) {
+                return new Move1(2, 2);
+            }
+
+            // 没有的话，我们随机挑一个有大概率能胜利的（就是没被别人堵上的位置）
+            if ((newMove = findPossible(board, myId)) != null) {
+                return newMove;
+            }
         }
 
         // 再没有，我们只能随机挑一个了
@@ -166,4 +172,6 @@ public class TicTacToeAIPlayer extends Player {
         } while (board.atByOne(x, y) != 0);
         return new Move1(x, y);
     }
+
+
 }

@@ -49,22 +49,24 @@ public class TicTacToe {
         Board board = new NInRowBoard(config.boardSize);
         Player[] players;
         switch (ret) {
-            case 0:
-                break;
-            case 1:
-                break;
-            case 2:
-                break;
-            case 3:
+            case 0, 1, 2, 3 -> {
+                double ai_prob = 1.0;
+                if (ret == 0) {
+                    ai_prob = 0.1;
+                } else if (ret == 1) {
+                    ai_prob = 0.4;
+                } else if (ret == 2) {
+                    ai_prob = 0.8;
+                }
                 players = new Player[]{
-                        new TicTacToeAIPlayer(config.playerInfos.get(0).symbol, 3),
-                        new HumanPlayer("Player", config.playerInfos.get(1).symbol)
+                        new HumanPlayer("Player", config.playerInfos.get(0).symbol),
+                        new TicTacToeAIPlayer(config.playerInfos.get(1).symbol, ai_prob),
                 };
                 Game game = new Game(board, players);
                 game.start();
-                break;
-            default:
-                break;
+            }
+            default -> {
+            }
         }
     }
 

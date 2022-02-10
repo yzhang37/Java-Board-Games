@@ -57,5 +57,6 @@ public abstract class Board {
 
     public void clear() {
         this.board = new int[this.height][this.width];
+        this.usedSlots = 0;
     }
 }
