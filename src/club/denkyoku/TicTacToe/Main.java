@@ -8,5 +8,8 @@ public class Main {
 
         TicTacToe game = new TicTacToe();
         game.start();
+
+        // enable echo before exit
+        SttyHelper.enableEcho();
     }
 }
