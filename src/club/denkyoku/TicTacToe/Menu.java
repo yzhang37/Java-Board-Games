@@ -1,10 +1,6 @@
 package club.denkyoku.TicTacToe;
 
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.CharBuffer;
 import java.util.Arrays;
 
 
@@ -40,11 +36,23 @@ public class Menu {
         return this.cur_position = position;
     }
 
+    public void incrementPosition() {
+        this.cur_position++;
+        this.cur_position %= this.menuItems.length;
+    }
+
+    public void decrementPosition() {
+        if (this.cur_position == 0) {
+            this.cur_position = this.menuItems.length;
+        }
+        this.cur_position--;
+    }
+
     protected void printMenu() {
         ConsoleHelper.println(this.header_text);
         for (int i = 0; i < this.menuItems.length; i++) {
             if (i == this.cur_position) {
-                ConsoleHelper.println("▶ " + this.menuItems[i]);
+                ConsoleHelper.println("▶ " + this.menuItems[i].toUpperCase());
             } else {
                 ConsoleHelper.println("  " + this.menuItems[i]);
             }
@@ -53,36 +61,32 @@ public class Menu {
     }
 
     public int start() {
-        ConsoleHelper.CleanConsole();
-        this.printMenu();
-
-        SttyHelper.disableEcho();
-        SttyHelper.bufferByCharacter();
-
-        int i = 0;
-        String line = "";
-
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
         char[] buffer = new char[10];
+        boolean redraw = true;
 
-        while (i <= 10000){
-            try {
-                br.read(buffer);
-            } catch (IOException e) {}
-            System.out.print("\"\"");
-            for (int c : buffer) {
-                if (c != '\0') {
-                    System.out.print(c);
-                } else
-                    break;
+        while (true) {
+            if (redraw) {
+                ConsoleHelper.CleanConsole();
+                this.printMenu();
+                redraw = false;
             }
-            System.out.print("\"\"");
 
             Arrays.fill(buffer, '\0');
-            ++i;
-        }
+            KeyHandler.getKey(buffer);
 
-        return -1;
+//            DebugHelper.viewKeyBuffer(buffer);
+
+            if (KeyHandler.isEsc(buffer)) {
+                return -1;
+            } else if (KeyHandler.isEnter(buffer)) {
+                return this.cur_position;
+            } else if (KeyHandler.isKeyUp(buffer)) {
+                this.decrementPosition();
+                redraw = true;
+            } else if (KeyHandler.isKeyDown(buffer)) {
+                this.incrementPosition();
+                redraw = true;
+            }
+        }
     }
 }

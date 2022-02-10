@@ -32,8 +32,6 @@ public class SttyHelper {
 //                throw new UnsupportedOperationException(
 //                        String.format("Calling Stty failed\nCalled: %s\nReturned: %d", command, ret));
             }
-        } catch (IOException | InterruptedException e) {
-
-        }
+        } catch (IOException | InterruptedException e) {}
     }
 }
