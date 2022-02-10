@@ -38,7 +38,12 @@ public class Game {
 
             for (int j = 0; j < this.board.getWidth(); ++j) {
                 joiner1.add("─");
-                joiner2.add(String.valueOf(this.getPlayerAt(this.board.at(i, j)).getSymbol()));
+                int cellValue = this.board.at(i, j);
+                char symbolForJoiner2 = ' ';
+                if (cellValue > 0) {
+                    symbolForJoiner2 = this.getPlayerAt(cellValue - 1).getSymbol();
+                }
+                joiner2.add(String.valueOf(symbolForJoiner2));
             }
             lines[2 * i] = joiner1.toString();
             lines[2 * i + 1] = joiner2.toString();
@@ -51,6 +56,19 @@ public class Game {
         return lines;
     }
 
+    public void start() {
+        int turnResult = 0;
+        do {
+            turnResult = this.oneTurn();
+        } while (turnResult == 0);
+
+        if (turnResult == -1) {
+            ConsoleHelper.println("Draw!");
+        } else {
+            ConsoleHelper.println("Winner: " + this.getPlayerAt(turnResult - 1).getName());
+        }
+    }
+
     /**
      * 执行一次 Turn
      * @return 返回值：0 表示继续,
@@ -58,7 +76,7 @@ public class Game {
      *                -1 表示棋盘已满。
      */
     public int oneTurn() {
-        // 先打印棋盘和玩家信息
+        ConsoleHelper.CleanConsole();
         String[] boardString = this.renderBoard();
 
         // 因为这里棋盘一定是等宽的，所以取第一个就是最大的大小。
@@ -71,7 +89,7 @@ public class Game {
         if (turn >= maxPrintPlayers) {
             firstPrintPlayer = turn - maxPrintPlayers + 1;
         }
-        int maxPrintPlayersLines = maxPrintPlayers * 3;
+        int maxPrintPlayersLines = Math.min(maxPrintPlayers * 3, this.players.length * 3);
 
         for (int lineId = 0, curPrintPlayer = firstPrintPlayer;
              lineId < Math.max(maxPrintPlayersLines, boardString.length);
@@ -97,11 +115,12 @@ public class Game {
                         sb.append(" ");
                     }
                     sb.append(this.getPlayerAt(curPrintPlayer).getSymbol());
+                    sb.append(" ");
                     sb.append(this.getPlayerAt(curPrintPlayer).getName());
                 } else if (lineId % 3 == 2) {
                     if (curPrintPlayer == this.turn) {
                         // 如果是当前玩家，就输出当前玩家的提示信息。
-                        sb.append("   ");
+                        sb.append("     ");
 
                         if (this.getPlayerAt(curPrintPlayer).isHumanPlayer()) {
                             sb.append("Your turn");
@@ -109,6 +128,7 @@ public class Game {
                             sb.append("AI thinking...");
                         }
                     }
+                    curPrintPlayer ++;
                 }
             }
             ConsoleHelper.println(sb.toString());

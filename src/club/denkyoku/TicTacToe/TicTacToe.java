@@ -11,6 +11,7 @@ public class TicTacToe {
                     singlePlayer();
                     break;
                 case 1:
+                    multiplayer();
                     break;
                 case 2:
                     break;
@@ -40,5 +41,13 @@ public class TicTacToe {
             default:
                 break;
         }
+    }
+
+    protected void multiplayer() {
+        Board board = new NInRowBoard(3);
+        Player player1 = new HumanPlayer("Player 1", '✕');
+        Player player2 = new HumanPlayer("Player 2", '○');
+        Game game = new Game(board, new Player[]{player1, player2});
+        game.start();
     }
 }

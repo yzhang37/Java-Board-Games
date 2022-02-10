@@ -7,8 +7,15 @@ public class HumanPlayer extends Player {
         this.isHuman = true;
     }
 
+    public HumanPlayer(String name, char symbol) {
+        super();
+        this.isHuman = true;
+        this.name = name;
+        this.symbol = symbol;
+    }
+
     @Override
-    public int[] getMove(Board board) {
-        return new int[]{0, 0};
+    public Move getMove(Board board) {
+        return new Move(0, 0);
     }
 }
