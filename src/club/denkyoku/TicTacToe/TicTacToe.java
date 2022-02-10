@@ -8,7 +8,6 @@ public class TicTacToe {
             int ret = menu.start();
             switch (ret) {
                 case 0:
-                    multiplayer();
                     singlePlayer();
                     break;
                 case 1:
