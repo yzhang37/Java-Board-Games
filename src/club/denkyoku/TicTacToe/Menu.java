@@ -5,9 +5,9 @@ import java.util.Arrays;
 
 
 public class Menu {
-    private final String header_text, footer_text;
-    private int cur_position = 0;
-    private final String[] menuItems;
+    protected String header_text, footer_text;
+    protected int cur_position = 0;
+    protected final String[] menuItems;
 
     public Menu(String[] menuItems, String header, String footer) {
         this.header_text = (header != null) ? header + "\n" : "";
@@ -21,6 +21,22 @@ public class Menu {
 
     protected boolean getHasFooterText() {
         return this.footer_text.length() > 0;
+    }
+
+    public String getHeaderText() {
+        return this.header_text;
+    }
+
+    public void setHeaderText(String headerText) {
+        this.header_text = headerText;
+    }
+
+    public String getFooterText() {
+        return this.footer_text;
+    }
+
+    public void setFooterText(String headerText) {
+        this.footer_text = headerText;
     }
 
     public int getCurrentPosition() {
@@ -77,14 +93,17 @@ public class Menu {
 //            DebugHelper.viewKeyBuffer(buffer);
 
             if (KeyHandler.isEsc(buffer)) {
+                ConsoleHelper.print('\7');
                 return -1;
             } else if (KeyHandler.isEnter(buffer)) {
                 return this.cur_position;
             } else if (KeyHandler.isKeyUp(buffer)) {
                 this.decrementPosition();
+                ConsoleHelper.print('\7');
                 redraw = true;
             } else if (KeyHandler.isKeyDown(buffer)) {
                 this.incrementPosition();
+                ConsoleHelper.print('\7');
                 redraw = true;
             }
         }
