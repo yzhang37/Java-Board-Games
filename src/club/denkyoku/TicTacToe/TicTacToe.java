@@ -4,6 +4,9 @@ public class TicTacToe {
     public void start() {
         Menu menu = new Menu(new String[]{"Single Player", "Multiplayer", "Settings", "Exit"},
                 "Tic-Tac-Toe", "\nCopyright (c) 2022 Denkyoku. All Rights Reserved.");
+        String[] exitQueryMessage = new String[]{
+                "Are you sure you want to exit?"
+        };
         while (true) {
             int ret = menu.start();
             switch (ret) {
@@ -16,8 +19,13 @@ public class TicTacToe {
                 case 2:
                     break;
                 case 3:
-                    ConsoleHelper.println("See you~");
-                    return;
+                case -1:
+                    int retVal = MessageDialog.show(exitQueryMessage,
+                            MessageDialog.getYesNo(), 1, 1);
+                    if (retVal == 0) {
+                        ConsoleHelper.println("See you~");
+                        return;
+                    }
             }
         }
     }
@@ -45,13 +53,9 @@ public class TicTacToe {
 
     protected void multiplayer() {
         Board board = new NInRowBoard(3);
-        Player player1 = new HumanPlayer("Player 1", '✕');
-        Player player2 = new HumanPlayer("Player 2", '○');
-        Player player3 = new HumanPlayer("Player 3", '◎');
-        Player player4 = new HumanPlayer("Player 4", '◇');
-        Player player5 = new HumanPlayer("Player 5", '◆');
-        Player player6 = new HumanPlayer("Player 6", '◐');
-        Game game = new Game(board, new Player[]{player1, player2, player3, player4, player5, player6});
+        Player player1 = new HumanPlayer("Player 1", '○');
+        Player player2 = new HumanPlayer("Player 2", '✕');
+        Game game = new Game(board, new Player[]{player1, player2});
         game.start();
     }
 }

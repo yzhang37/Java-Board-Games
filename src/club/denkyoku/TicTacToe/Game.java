@@ -12,6 +12,9 @@ public class Game {
     protected int cursor_x;
     protected int cursor_y;
 
+    protected boolean onlyOneHuman;
+    protected boolean hasAI;
+
     // 创建一局游戏。需要提供 Player 的对象列表，以及棋盘对象。
     public Game(Board board, Player[] players) {
         this.board = board;
@@ -19,6 +22,18 @@ public class Game {
         this.turn = 0;
         this.cursor_x = 0;
         this.cursor_y = 0;
+
+        int humanCount = 0;
+        for (Player player : players) {
+            if (player.isHumanPlayer()) {
+                humanCount ++;
+            } else {
+                this.hasAI = true;
+            }
+        }
+        if (humanCount == 1) {
+            this.onlyOneHuman = true;
+        }
     }
 
     public void nextTurn() {
@@ -129,16 +144,48 @@ public class Game {
     }
 
     public void start() {
-        int turnResult = 0;
-        do {
-            turnResult = this.oneTurn();
-        } while (turnResult == 0);
+        while (true) {
+            int turnResult = 0;
+            do {
+                turnResult = this.oneTurn();
+            } while (turnResult == 0);
 
-        if (turnResult == -1) {
-            // TODO: use Draw message box
-        } else {
-            // TODO: use win message box
-//            "Winner: " + this.getPlayerAt(turnResult - 1).getName());
+            MessageDialog.Button[] buttons = new MessageDialog.Button[]{
+                    new MessageDialog.Button("Have another try", 'T'),
+                    new MessageDialog.Button("Back to menu", 'B'),
+            };
+            String[] messages;
+
+            if (turnResult == -1) {
+                messages = new String[]{
+                        "You draw the game",
+                        "Please restart the game.",
+                };
+            } else {
+                if (this.onlyOneHuman && this.hasAI) {
+                    messages = new String[] {
+                            "You win!",
+                            "Congratulations! You beat the Computer!",
+                            "Now do you want to play again?",
+                    };
+                } else if (!this.onlyOneHuman && this.hasAI) {
+                    messages = new String[] {
+                            String.format("%s win!", this.getPlayerAt(turnResult - 1).getName()),
+                            "Congratulations! You beat the Computer!",
+                            "Now do you want to play again?",
+                    };
+                } else {
+                    messages = new String[] {
+                            String.format("%s win!", this.getPlayerAt(turnResult - 1).getName()),
+                            "Congratulations! You beat your friends.",
+                            "Now do you want to play again?",
+                    };
+                }
+            }
+            int msgRet = MessageDialog.show(messages, buttons, 0, 1);
+            if (msgRet == 1) {
+                break;
+            }
         }
     }
 
