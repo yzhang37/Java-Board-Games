@@ -46,6 +46,8 @@ public class TicTacToe {
         );
 
         int ret = menu.start();
+        Board board = new NInRowBoard(config.boardSize);
+        Player[] players;
         switch (ret) {
             case 0:
                 break;
@@ -54,6 +56,12 @@ public class TicTacToe {
             case 2:
                 break;
             case 3:
+                players = new Player[]{
+                        new TicTacToeAIPlayer(config.playerInfos.get(0).symbol, 3),
+                        new HumanPlayer("You", config.playerInfos.get(1).symbol)
+                };
+                Game game = new Game(board, players);
+                game.start();
                 break;
             default:
                 break;

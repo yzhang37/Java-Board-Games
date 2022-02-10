@@ -15,7 +15,7 @@ public class HumanPlayer extends Player {
     }
 
     @Override
-    public Move getMove(Board board) {
+    public Move getMove(Board board, int myId, int[] otherIds) {
         return new Move(0, 0);
     }
 }
