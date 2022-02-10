@@ -2,6 +2,7 @@ package club.denkyoku.TicTacToe;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class MessageDialog {
     public static class Button {
@@ -62,6 +63,18 @@ public class MessageDialog {
     }
 
     public static int show(String[] message, Button[] buttons, int defaultButton, int cancelButton) {
+        // 如果按钮有 access key，为它做一次索引
+        HashMap<Character, ArrayList<Integer>> accessKeyIndex = new HashMap<>();
+        for (int i = 0; i < buttons.length; i++) {
+            char key = buttons[i].getAccessKey();
+            if (key != '\0') {
+                if (!accessKeyIndex.containsKey(key)) {
+                    accessKeyIndex.put(key, new ArrayList<>());
+                }
+                accessKeyIndex.get(key).add(i);
+            }
+        }
+
         String[] lastScreen = ConsoleHelper.GetLastScreen();
 
         boolean redraw = true;
@@ -96,6 +109,35 @@ public class MessageDialog {
                     currentButton = 0;
                 }
                 redraw = true;
+            }
+            // 测试访问键
+            if (buffer.length > 2 && buffer[1] == '\0') {
+                char key = buffer[0];
+                if ('a' <= key && key <= 'z') {
+                    key = (char) (key - ('a' - 'A'));
+                }
+                if (accessKeyIndex.containsKey(key)) {
+                    ArrayList<Integer> indexList = accessKeyIndex.get(key);
+                    // 正好有一个按钮，我们直接点击它
+                    if (indexList.size() == 1) {
+                        retvalue = indexList.get(0);
+                        break;
+                    } else if (indexList.size() > 1) {
+                        // 如果有多个按钮，我们在他们之间循环
+                        if (indexList.contains(currentButton)) {
+                            int curIndex = indexList.indexOf(currentButton);
+                            curIndex ++;
+                            if (curIndex >= indexList.size()) {
+                                curIndex = 0;
+                            }
+                            currentButton = indexList.get(curIndex);
+                            redraw = true;
+                        } else {
+                            currentButton = indexList.get(0);
+                            redraw = true;
+                        }
+                    }
+                }
             }
         }
         ConsoleHelper.printScreen(lastScreen);
