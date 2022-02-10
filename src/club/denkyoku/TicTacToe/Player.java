@@ -33,7 +33,7 @@ public abstract class Player {
 
     // 给定一个棋盘，让玩家判断走哪一个位置。
     // 如果 isHuman = true，则 Game 可以忽略调用这个函数。
-    public abstract Move getMove(Board board);
+    public abstract Move getMove(Board board, int myId, int[] otherIds);
 
     public static class Move {
         public int x;
@@ -41,6 +41,12 @@ public abstract class Player {
         public Move(int x, int y) {
             this.x = x;
             this.y = y;
+        }
+    }
+
+    public static class Move1 extends Move {
+        public Move1(int x, int y) {
+            super(x - 1, y - 1);
         }
     }
 }

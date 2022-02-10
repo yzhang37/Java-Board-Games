@@ -271,7 +271,13 @@ public class Game {
 
         } else {
             // AI 玩家，就让 AI 来下棋。
-            var move = curTurnPlayer.getMove(this.board);
+            int[] otherIds = new int[this.players.length - 1];
+            for (int all_i = 0, o_i = 0; all_i < this.players.length; all_i++) {
+                if (all_i != this.turn) {
+                    otherIds[o_i++] = all_i + 1;
+                }
+            }
+            var move = curTurnPlayer.getMove(this.board, this.turn + 1, otherIds);
             this.board.put(move.x, move.y, this.turn + 1);
         }
 

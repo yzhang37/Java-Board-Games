@@ -26,6 +26,10 @@ public abstract class Board {
         return this.board[x][y];
     }
 
+    public final int atByOne(int x, int y) {
+        return this.board[x - 1][y - 1];
+    }
+
     public void put(int x, int y, int value) {
         if (0 <= x && x < this.height && 0 <= y && y < this.width) {
             if (this.board[x][y] == 0 && value != 0) {
@@ -42,6 +46,10 @@ public abstract class Board {
 
     public boolean isFull() {
         return this.usedSlots == this.height * this.width;
+    }
+
+    public boolean isEmpty() {
+        return this.usedSlots == 0;
     }
 
     // 检查游戏棋盘的状态，判断是否有一方赢。
