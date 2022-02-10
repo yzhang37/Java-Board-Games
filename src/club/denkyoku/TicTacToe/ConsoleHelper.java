@@ -30,7 +30,7 @@ public class ConsoleHelper {
     static void printScreen(String[] screen) {
         ConsoleHelper.CleanConsole();
         ConsoleHelper.lastScreen = screen;
-        for (var line : screen) {
+        for (String line : screen) {
             ConsoleHelper.println(line);
         }
     }
@@ -41,7 +41,7 @@ public class ConsoleHelper {
 
     static int GetConsoleWidth() {
         try {
-            var result = ShellHelper.shell("tput cols");
+            ShellHelper.Result result = ShellHelper.shell("tput cols");
             if (result.ret == 0) {
                 return Integer.parseInt(result.output);
             }
@@ -51,7 +51,7 @@ public class ConsoleHelper {
 
     static int GetConsoleHeight() {
         try {
-            var result = ShellHelper.shell("tput lines");
+            ShellHelper.Result result = ShellHelper.shell("tput lines");
             if (result.ret == 0) {
                 return Integer.parseInt(result.output);
             }

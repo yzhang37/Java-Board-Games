@@ -19,17 +19,23 @@ public class TicTacToe {
                     config.getCustomTicName(config.boardSize), copyright);
             int ret = menu.start();
             switch (ret) {
-                case 0 -> singlePlayer();
-                case 1 -> multiplayer();
-                case 2 -> settings();
-                case 3, -1 -> {
+                case 0:
+                    singlePlayer();
+                    break;
+                case 1:
+                    multiplayer();
+                    break;
+                case 2:
+                    settings();
+                    break;
+                case 3:
+                case -1:
                     int retVal = MessageDialog.show(exitQueryMessage,
                             MessageDialog.getYesNo(), 1, 1);
                     if (retVal == 0) {
                         ConsoleHelper.println("See you~");
                         return;
                     }
-                }
             }
         }
     }
@@ -49,7 +55,10 @@ public class TicTacToe {
         Board board = new NInRowBoard(config.boardSize);
         Player[] players;
         switch (ret) {
-            case 0, 1, 2, 3 -> {
+            case 0:
+            case 1:
+            case 2:
+            case 3:
                 double ai_prob = 1.0;
                 if (ret == 0) {
                     ai_prob = 0.1;
@@ -64,9 +73,7 @@ public class TicTacToe {
                 };
                 Game game = new Game(board, players);
                 game.start();
-            }
-            default -> {
-            }
+                break;
         }
     }
 
@@ -79,7 +86,7 @@ public class TicTacToe {
     protected Player[] createPlayers() {
         Player[] players = new Player[config.getPlayerCounts()];
         for (int i = 0; i < config.getPlayerCounts(); i++) {
-            var info = config.playerInfos.get(i);
+            config.PlayerInfo info = config.playerInfos.get(i);
             players[i] = new HumanPlayer(info.name, info.symbol);
         }
         return players;
@@ -123,16 +130,31 @@ public class TicTacToe {
         );
         int ret = menu.start();
         switch (ret) {
-            case 0 -> config.setPlayerCounts(2);
-            case 1 -> config.setPlayerCounts(3);
-            case 2 -> config.setPlayerCounts(4);
-            case 3 -> config.setPlayerCounts(5);
-            case 4 -> config.setPlayerCounts(6);
-            case 5 -> config.setPlayerCounts(7);
-            case 6 -> config.setPlayerCounts(8);
-            case 7 -> config.setPlayerCounts(9);
-            default -> {
-            }
+            case 0:
+                config.setPlayerCounts(2);
+                break;
+            case 1:
+                config.setPlayerCounts(3);
+                break;
+            case 2:
+                config.setPlayerCounts(4);
+                break;
+            case 3:
+                config.setPlayerCounts(5);
+                break;
+            case 4:
+                config.setPlayerCounts(6);
+                break;
+            case 5:
+                config.setPlayerCounts(7);
+                break;
+            case 6:
+                config.setPlayerCounts(8);
+                break;
+            case 7:
+                config.setPlayerCounts(9);
+                break;
+            default:
         }
     }
 
@@ -143,15 +165,27 @@ public class TicTacToe {
         );
         int ret = menu.start();
         switch (ret) {
-            case 0 -> config.boardSize = 3;
-            case 1 -> config.boardSize = 4;
-            case 2 -> config.boardSize = 5;
-            case 3 -> config.boardSize = 6;
-            case 4 -> config.boardSize = 7;
-            case 5 -> config.boardSize = 8;
-            case 6 -> config.boardSize = 9;
-            default -> {
-            }
+            case 0:
+                config.boardSize = 3;
+                break;
+            case 1:
+                config.boardSize = 4;
+                break;
+            case 2:
+                config.boardSize = 5;
+                break;
+            case 3:
+                config.boardSize = 6;
+                break;
+            case 4:
+                config.boardSize = 7;
+                break;
+            case 5:
+                config.boardSize = 8;
+                break;
+            case 6:
+                config.boardSize = 9;
+                break;
         }
     }
 }

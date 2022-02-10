@@ -225,9 +225,9 @@ public class MessageDialog {
             rightBottomCorner = "━" + rightBottomCorner;
         }
         if (dialog_Y > 0) {
-            leftTopCorner = " ".repeat(dialog_Y) + leftTopCorner;
-            leftMargin = " ".repeat(dialog_Y) + leftMargin;
-            leftBottomCorner = " ".repeat(dialog_Y) + leftBottomCorner;
+            leftTopCorner = Utility.Repeat(" ", dialog_Y) + leftTopCorner;
+            leftMargin = Utility.Repeat(" ", dialog_Y) + leftMargin;
+            leftBottomCorner = Utility.Repeat(" ", dialog_Y) + leftBottomCorner;
         }
 
         int curMessage = 0;
@@ -235,54 +235,54 @@ public class MessageDialog {
         while (dialogLines < neededHeight) {
             if (showTopBottomBorder && dialogLines == 0) {
                 if (showLeftRightBorder && showLeftRightMargin) {
-                    newScreen.add(leftTopCorner + "─".repeat(neededWidth - 4) + rightTopCorner);
+                    newScreen.add(leftTopCorner + Utility.Repeat("─", neededWidth - 4) + rightTopCorner);
                 } else if (showLeftRightBorder) {
-                    newScreen.add(leftTopCorner + "─".repeat(neededWidth - 2) + rightTopCorner);
+                    newScreen.add(leftTopCorner + Utility.Repeat("─", neededWidth - 2) + rightTopCorner);
                 } else {
-                    newScreen.add("─".repeat(neededWidth));
+                    newScreen.add(Utility.Repeat("─", neededWidth));
                 }
             } else if (showTopBottomMargin && dialogLines == 1) {
                 if (showLeftRightBorder && showLeftRightMargin) {
-                    newScreen.add(leftMargin + " ".repeat(neededWidth - 4) + rightMargin);
+                    newScreen.add(leftMargin + Utility.Repeat(" ", neededWidth - 4) + rightMargin);
                 } else if (showLeftRightBorder) {
-                    newScreen.add(leftMargin + " ".repeat(neededWidth - 2) + rightMargin);
+                    newScreen.add(leftMargin + Utility.Repeat(" ", neededWidth - 2) + rightMargin);
                 } else {
-                    newScreen.add(" ".repeat(neededWidth));
+                    newScreen.add(Utility.Repeat(" ", neededWidth));
                 }
             } else if (showTopBottomMargin && dialogLines == neededHeight - 2) {
                 if (showLeftRightBorder && showLeftRightMargin) {
-                    newScreen.add(leftMargin + " ".repeat(neededWidth - 4) + rightMargin);
+                    newScreen.add(leftMargin + Utility.Repeat(" ", neededWidth - 4) + rightMargin);
                 } else if (showLeftRightBorder) {
-                    newScreen.add(leftMargin + " ".repeat(neededWidth - 2) + rightMargin);
+                    newScreen.add(leftMargin + Utility.Repeat(" ", neededWidth - 2) + rightMargin);
                 } else {
-                    newScreen.add(" ".repeat(neededWidth));
+                    newScreen.add(Utility.Repeat(" ", neededWidth));
                 }
             } else if (showTopBottomBorder && dialogLines == neededHeight - 1) {
                 if (showLeftRightBorder && showLeftRightMargin) {
-                    newScreen.add(leftBottomCorner + "━".repeat(neededWidth - 4) + rightBottomCorner);
+                    newScreen.add(leftBottomCorner + Utility.Repeat("━", neededWidth - 4) + rightBottomCorner);
                 } else if (showLeftRightBorder) {
-                    newScreen.add(leftBottomCorner + "━".repeat(neededWidth - 2) + rightBottomCorner);
+                    newScreen.add(leftBottomCorner + Utility.Repeat("━", neededWidth - 2) + rightBottomCorner);
                 } else {
-                    newScreen.add("━".repeat(neededWidth));
+                    newScreen.add(Utility.Repeat("━", neededWidth));
                 }
             } else {
                 if (curMessage < message.length) {
                     String s = message[curMessage];
                     if (showLeftRightBorder && showLeftRightMargin) {
-                        newScreen.add(leftMargin + s + " ".repeat(Math.max(0, neededWidth - 4 - s.length())) + rightMargin);
+                        newScreen.add(leftMargin + s + Utility.Repeat(" ", Math.max(0, neededWidth - 4 - s.length())) + rightMargin);
                     } else if (showLeftRightBorder) {
-                        newScreen.add(leftMargin + s + " ".repeat(Math.max(0, neededWidth - 2 - s.length())) + rightMargin);
+                        newScreen.add(leftMargin + s + Utility.Repeat(" ", Math.max(0, neededWidth - 2 - s.length())) + rightMargin);
                     } else {
                         newScreen.add(s);
                     }
                     curMessage++;
                 } else if (curMessage == message.length) {
                     if (showLeftRightBorder && showLeftRightMargin) {
-                        newScreen.add(leftMargin + "─".repeat(neededWidth - 4) + rightMargin);
+                        newScreen.add(leftMargin + Utility.Repeat("─", neededWidth - 4) + rightMargin);
                     } else if (showLeftRightBorder) {
-                        newScreen.add(leftMargin + "─".repeat(neededWidth - 2) + rightMargin);
+                        newScreen.add(leftMargin + Utility.Repeat("─", neededWidth - 2) + rightMargin);
                     } else {
-                        newScreen.add("─".repeat(neededWidth));
+                        newScreen.add(Utility.Repeat("─", neededWidth));
                     }
                     curMessage++;
                 } else if (curButton < buttons.length) {
@@ -292,9 +292,9 @@ public class MessageDialog {
                     }
                     String s = buttons[curButton].getTitle();
                     if (showLeftRightBorder && showLeftRightMargin) {
-                        newScreen.add(leftMargin + prefix + s + " ".repeat(Math.max(0, neededWidth - 2 - 4 - s.length())) + rightMargin);
+                        newScreen.add(leftMargin + prefix + s + Utility.Repeat(" ", Math.max(0, neededWidth - 2 - 4 - s.length())) + rightMargin);
                     } else if (showLeftRightBorder) {
-                        newScreen.add(leftMargin + prefix + s + " ".repeat(Math.max(0, neededWidth - 2 - 2 - s.length())) + rightMargin);
+                        newScreen.add(leftMargin + prefix + s + Utility.Repeat(" ", Math.max(0, neededWidth - 2 - 2 - s.length())) + rightMargin);
                     } else {
                         newScreen.add(prefix + s);
                     }

@@ -3,6 +3,8 @@ package club.denkyoku.TicTacToe;
 import java.util.Arrays;
 import java.util.StringJoiner;
 
+import static club.denkyoku.TicTacToe.Utility.Repeat;
+
 public class Game {
     protected static final String[] pauseGameMessages = new String[]{
             "Game is paused.",
@@ -121,7 +123,7 @@ public class Game {
                 sb.append(boardString[lineId]);
             } else {
                 // Otherwise, a blank line of the same width as the chessboard is generated
-                sb.append(" ".repeat(maxBoardWidth));
+                sb.append(Repeat(" ", maxBoardWidth));
             }
 
             if (curPrintPlayer < Math.min(firstPrintPlayer + maxPrintPlayers, this.players.length)) {
@@ -284,7 +286,7 @@ public class Game {
                     otherIds[o_i++] = all_i + 1;
                 }
             }
-            var move = curTurnPlayer.getMove(this.board, this.turn + 1, otherIds);
+            Player.Move move = curTurnPlayer.getMove(this.board, this.turn + 1, otherIds);
             this.board.put(move.x, move.y, this.turn + 1);
         }
 
