@@ -1,13 +1,15 @@
 package club.denkyoku.TicTacToe;
 
-import org.jetbrains.annotations.Nullable;
+
+import java.util.Arrays;
+
 
 public class Menu {
-    private final String header_text, footer_text;
-    private int cur_position = 0;
-    private final String[] menuItems;
+    protected String header_text, footer_text;
+    protected int cur_position = 0;
+    protected final String[] menuItems;
 
-    public Menu(String[] menuItems, @Nullable String header, @Nullable String footer) {
+    public Menu(String[] menuItems, String header, String footer) {
         this.header_text = (header != null) ? header + "\n" : "";
         this.footer_text = (footer != null) ? footer : "";
         this.menuItems = menuItems;
@@ -19,6 +21,22 @@ public class Menu {
 
     protected boolean getHasFooterText() {
         return this.footer_text.length() > 0;
+    }
+
+    public String getHeaderText() {
+        return this.header_text;
+    }
+
+    public void setHeaderText(String headerText) {
+        this.header_text = headerText;
+    }
+
+    public String getFooterText() {
+        return this.footer_text;
+    }
+
+    public void setFooterText(String headerText) {
+        this.footer_text = headerText;
     }
 
     public int getCurrentPosition() {
@@ -34,22 +52,61 @@ public class Menu {
         return this.cur_position = position;
     }
 
-    protected void printMenu() {
-        System.out.println(this.header_text);
-        for (int i = 0; i < this.menuItems.length; i++) {
-            if (i == this.cur_position) {
-                System.out.println("~ " + this.menuItems[i].toUpperCase());
-            } else {
-                System.out.println("  " + this.menuItems[i]);
-            }
-        }
-        System.out.println(this.footer_text);
+    public void incrementPosition() {
+        this.cur_position++;
+        this.cur_position %= this.menuItems.length;
     }
 
-    public void start() {
-        // first we clear the screen
-        System.out.println("haha");
-        ConsoleHelper.CleanConsole();
-        this.printMenu();
+    public void decrementPosition() {
+        if (this.cur_position == 0) {
+            this.cur_position = this.menuItems.length;
+        }
+        this.cur_position--;
+    }
+
+    protected void printMenu() {
+        String[] menuScreen = new String[this.menuItems.length + 2];
+        menuScreen[0] = this.header_text;
+        for (int i = 0; i < this.menuItems.length; i++) {
+            if (i == this.cur_position) {
+                menuScreen[i + 1] = "▶ " + this.menuItems[i].toUpperCase();
+            } else {
+                menuScreen[i + 1] = "  " + this.menuItems[i];
+            }
+        }
+        menuScreen[menuScreen.length - 1] = this.footer_text;
+        ConsoleHelper.printScreen(menuScreen);
+    }
+
+    public int start() {
+        char[] buffer = new char[10];
+        boolean redraw = true;
+
+        while (true) {
+            if (redraw) {
+                this.printMenu();
+                redraw = false;
+            }
+
+            Arrays.fill(buffer, '\0');
+            KeyHandler.getKey(buffer);
+
+//            DebugHelper.viewKeyBuffer(buffer);
+
+            if (KeyHandler.isEsc(buffer)) {
+                ConsoleHelper.bell();
+                return -1;
+            } else if (KeyHandler.isEnter(buffer)) {
+                return this.cur_position;
+            } else if (KeyHandler.isKeyUp(buffer)) {
+                this.decrementPosition();
+                ConsoleHelper.bell();
+                redraw = true;
+            } else if (KeyHandler.isKeyDown(buffer)) {
+                this.incrementPosition();
+                ConsoleHelper.bell();
+                redraw = true;
+            }
+        }
     }
 }
