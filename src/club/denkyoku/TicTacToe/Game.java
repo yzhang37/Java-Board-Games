@@ -169,6 +169,9 @@ public class Game {
             if (turnResult == -2)
                 return;
 
+            // 结束前重新打印一次棋盘。
+            this.printUI(false);
+
             String[] messages;
 
             if (turnResult == -1) {
@@ -177,7 +180,13 @@ public class Game {
                         "Please restart the game.",
                 };
             } else {
-                if (this.onlyOneHuman && this.hasAI) {
+                if (this.hasAI && !this.getPlayerAt(turnResult-1).isHumanPlayer()) {
+                    messages = new String[] {
+                            "You lose!",
+                            "[Computer] beat you.",
+                            "Would you like to have another try?",
+                    };
+                } else if (this.onlyOneHuman && this.hasAI) {
                     messages = new String[] {
                             "You win!",
                             "Congratulations! You beat the Computer!",

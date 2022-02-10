@@ -58,7 +58,7 @@ public class TicTacToe {
             case 3:
                 players = new Player[]{
                         new TicTacToeAIPlayer(config.playerInfos.get(0).symbol, 3),
-                        new HumanPlayer("You", config.playerInfos.get(1).symbol)
+                        new HumanPlayer("Player", config.playerInfos.get(1).symbol)
                 };
                 Game game = new Game(board, players);
                 game.start();
