@@ -1,10 +1,22 @@
 package club.denkyoku.TicTacToe;
 
-import java.io.Console;
 import java.util.Arrays;
 import java.util.StringJoiner;
 
 public class Game {
+    protected static final String[] pauseGameMessages = new String[]{
+            "Game is paused.",
+            "What do you want to do?",
+    };
+    protected static final MessageDialog.Button[] pauseGameButtons = new MessageDialog.Button[]{
+            new MessageDialog.Button("Resume", 'R'),
+            new MessageDialog.Button("Quit", 'Q'),
+    };
+    protected static final MessageDialog.Button[] restartGameButtons = new MessageDialog.Button[]{
+            new MessageDialog.Button("Have another try", 'T'),
+            new MessageDialog.Button("Back to menu", 'B'),
+    };
+
     protected Board board;
     protected Player[] players;
     protected int turn;
@@ -153,10 +165,10 @@ public class Game {
                 turnResult = this.oneTurn();
             } while (turnResult == 0);
 
-            MessageDialog.Button[] buttons = new MessageDialog.Button[]{
-                    new MessageDialog.Button("Have another try", 'T'),
-                    new MessageDialog.Button("Back to menu", 'B'),
-            };
+            // force exit
+            if (turnResult == -2)
+                return;
+
             String[] messages;
 
             if (turnResult == -1) {
@@ -185,7 +197,7 @@ public class Game {
                     };
                 }
             }
-            int msgRet = MessageDialog.show(messages, buttons, 0, 1);
+            int msgRet = MessageDialog.show(messages, restartGameButtons, 0, 1);
             if (msgRet == 1) {
                 break;
             }
@@ -196,7 +208,8 @@ public class Game {
      * 执行一次 Turn
      * @return 返回值：0 表示继续,
      *                >= 1 表示获胜的玩家的 id + 1
-     *                -1 表示棋盘已满。
+     *                -1 表示棋盘已满，并且没有人获胜。
+     *                -2 表示游戏强退。
      */
     public int oneTurn() {
         this.printUI(false);
@@ -219,8 +232,12 @@ public class Game {
                     redraw = true;
                     firstTouch = false;
                 }
-                // TODO: 可以增加暂停退出的功能。
-                if (KeyHandler.isKeyUp(buffer)) {
+
+                if (KeyHandler.isEsc(buffer)) {
+                    if (MessageDialog.show(pauseGameMessages, pauseGameButtons, 0, 0) == 1) {
+                        return -2;
+                    }
+                } else if (KeyHandler.isKeyUp(buffer)) {
                     this.cursor_x--;
                     if (this.cursor_x < 0) {
                         this.cursor_x = this.board.getWidth() - 1;
