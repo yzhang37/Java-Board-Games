@@ -38,9 +38,10 @@ public class config {
         playerInfos.add(new PlayerInfo("Player 1", '✕'));
         playerInfos.add(new PlayerInfo("Player 2", '○'));
     }
-        static String getCustomTicName(int boardSize) {
+
+    static String getCustomTicName(int boardSize) {
         if (boardSize == 3) {
-            return "TicTacToe";
+            return "Tic-Tac-Toe";
         } else {
             return String.format("%d-In-a-Row", boardSize);
         }

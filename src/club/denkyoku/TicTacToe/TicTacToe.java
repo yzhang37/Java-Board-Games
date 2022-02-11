@@ -119,11 +119,49 @@ public class TicTacToe {
                     break;
                 case -1:
                     return;
+                default:
+                    playerFancySettings(ret - basicSettings.length);
             }
         }
     }
 
-    private void settingsPlayerCounts() {
+    protected void playerFancySettings(int id) {
+        String[] settings = new String[]{
+                "Change your name",
+                "Customize symbol"
+        };
+        String str1 = String.format("Player %d settings", (id + 1));
+        String str2 = Utility.Repeat("═", str1.length() + 2);
+        while (true) {
+
+            String title = String.format("%s\n%s\nName: %s\nSymbol: %c", str1, str2,
+                    config.playerInfos.get(id).name,
+                    config.playerInfos.get(id).symbol);
+            Menu menu = new Menu(settings, title, "");
+            int ret = menu.start();
+            switch (ret) {
+                case 1:
+                    settingsPlayerSymbol(id);
+                    break;
+                case -1:
+                    return;
+            }
+        }
+    }
+
+    protected void settingsPlayerSymbol(int id) {
+        String [] symbols = new String[config.allSymbol.length];
+        for (int i = 0; i < symbols.length; i++) {
+            symbols[i] = String.format("%c", config.allSymbol[i]);
+        }
+        Menu menu = new Menu(symbols,"Player " + (id + 1) + " symbol", "");
+        int ret = menu.start();
+        if (ret >= 0) {
+            config.playerInfos.get(id).symbol = config.allSymbol[ret];
+        }
+    }
+
+    protected void settingsPlayerCounts() {
         Menu menu = new Menu(
                 new String[]{"2", "3", "4", "5", "6", "7", "8", "9"},
                 "Choose Player Counts", ""

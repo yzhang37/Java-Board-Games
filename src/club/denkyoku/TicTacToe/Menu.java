@@ -93,7 +93,7 @@ public class Menu {
 
 //            DebugHelper.viewKeyBuffer(buffer);
 
-            if (KeyHandler.isEsc(buffer)) {
+            if (KeyHandler.isEsc(buffer) || KeyHandler.isKeyLeft(buffer)) {
                 ConsoleHelper.bell();
                 return -1;
             } else if (KeyHandler.isEnter(buffer)) {
