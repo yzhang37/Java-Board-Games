@@ -140,6 +140,14 @@ public class TicTacToe {
             Menu menu = new Menu(settings, title, "");
             int ret = menu.start();
             switch (ret) {
+                case 0:
+                    MessageDialog.show(new String[]{
+                            "Under Construction",
+                            "Sorry, this feature is not available yet.",
+                            "Due to the lack of TextInput Control in Terminal.",
+                            "It will be available in the future."
+                    });
+                    break;
                 case 1:
                     settingsPlayerSymbol(id);
                     break;
