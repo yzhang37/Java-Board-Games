@@ -1,0 +1,1 @@
+(cd out/production/Tic-Tac-Toe/ && java club.denkyoku.TicTacToe.Main)
