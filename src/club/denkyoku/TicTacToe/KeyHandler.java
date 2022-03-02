@@ -39,6 +39,63 @@ public class KeyHandler {
     public final int run() {
         if (RawConsoleInput.getIsWindows()) {
             int key = this.rawGetKeyWindows(true);
+
+            if (key == 57416)
+                this.onKeyUp();
+            else if (key == 57424)
+                this.onKeyDown();
+            else if (key == 57421)
+                this.onKeyRight();
+            else if (key == 57419)
+                this.onKeyLeft();
+            else if (key == 57403)
+                this.onKeyF1();
+            else if (key == 57404)
+                this.onKeyF2();
+            else if (key == 57405)
+                this.onKeyF3();
+            else if (key == 57406)
+                this.onKeyF4();
+            else if (key == 57407)
+                this.onKeyF5();
+            else if (key == 57408)
+                this.onKeyF6();
+            else if (key == 57409)
+                this.onKeyF7();
+            else if (key == 57410)
+                this.onKeyF8();
+            else if (key == 57411)
+                this.onKeyF9();
+            else if (key == 57412)
+                this.onKeyF10();
+            else if (key == 57477)
+                this.onKeyF11();
+            else if (key == 57478)
+                this.onKeyF12();
+            else if (key == 57415)
+                this.onKeyHome();
+            else if (key == 57423)
+                this.onKeyEnd();
+            else if (key == 57417)
+                this.onKeyPgUp();
+            else if (key == 57425)
+                this.onKeyPgDown();
+            else if (key == 57426)
+                this.onKeyInsert();
+            else if (key == 57427)
+                this.onKeyDelete();
+            else if (key == 27)
+                this.onKeyEsc();
+            else if (key == 13)
+                this.onKeyEnter();
+            else if (key == 8)
+                this.onKeyBackspace();
+            else if (key == 9)
+                this.onKeyTab();
+            else if (32 <= key && key <= 126)
+                this.onNormalKey((char) key);
+            else
+                System.out.println(key);
         } else {
             // make call to read key stream
             this.rawReadKeyBuffer();
@@ -141,10 +198,3 @@ public class KeyHandler {
         } catch (IOException e) {}
     }
 }
-
-// TODO: isKeyEnter
-// TODO: isKeyEsc
-// TODO: isKeyUp
-// TODO: isKeyDown
-// TODO: isKeyLeft
-// TODO: isKeyRight
