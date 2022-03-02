@@ -87,7 +87,7 @@ public class MessageDialog {
                 printDialog(message, buttons, currentButton, lastScreen);
                 redraw = false;
             }
-            keyHandler.getKey();
+            keyHandler.run();
 
             // TOOD:
 //            if (cancelButton >= 0 && KeyHandler.isEsc(buffer)) {

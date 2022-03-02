@@ -99,6 +99,14 @@ public class RawConsoleInput {
     private static Pointer       consoleHandle;
     private static int           originalConsoleMode;
 
+    /**
+     * Helper function for detect if the OS is Windows.
+     * @return <code>true</code> if the OS is Windows.
+     */
+    public static boolean getIsWindows() {
+        return isWindows;
+    }
+
     private static int readWindows (boolean wait) throws IOException {
         initWindows();
         if (!stdinIsConsole) {
