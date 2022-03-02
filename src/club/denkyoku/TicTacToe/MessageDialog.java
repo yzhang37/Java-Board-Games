@@ -61,6 +61,52 @@ public class MessageDialog {
         return show(message, getOK(), 0, -1);
     }
 
+    private static class ShowDataSync {
+        public boolean redraw;
+        public boolean keepRun;
+
+        public boolean doDecrement;
+        public boolean doIncrement;
+        public boolean doExecute;
+
+        public ShowDataSync() {
+            this.reset();
+        }
+
+        public void reset() {
+            this.redraw = false;
+            this.keepRun = true;
+
+            this.doDecrement = false;
+            this.doIncrement = false;
+            this.doExecute = false;
+        }
+    }
+
+    private static class ShowDialogKeyHandler extends KeyHandler {
+        ShowDataSync dataSync;
+
+        public ShowDialogKeyHandler(ShowDataSync showDataSync) {
+            dataSync = showDataSync;
+        }
+
+        void onKeyEsc() {
+            dataSync.keepRun = false;
+        }
+
+        void onKeyEnter() {
+            dataSync.doExecute = true;
+        }
+
+        void onKeyUp() {
+            dataSync.doDecrement = true;
+        }
+
+        void onKeyDown() {
+            dataSync.doIncrement = true;
+        }
+    }
+
     public static int show(String[] message, Button[] buttons, int defaultButton, int cancelButton) {
         // If the button has an access key, index it once
         HashMap<Character, ArrayList<Integer>> accessKeyIndex = new HashMap<>();
@@ -75,40 +121,43 @@ public class MessageDialog {
         }
 
         String[] lastScreen = ConsoleHelper.GetLastScreen();
-
-        boolean redraw = true;
+        int ret_value = -1;
         int currentButton = defaultButton;
 
-        int retvalue = -1;
+        ShowDataSync dataSync = new ShowDataSync();
+        // draw the first time
+        dataSync.redraw = true;
+        KeyHandler keyHandler = new ShowDialogKeyHandler(dataSync);
 
-        KeyHandler keyHandler = new KeyHandler();
-        while (true) {
-            if (redraw) {
+        while (dataSync.keepRun) {
+            if (dataSync.redraw) {
                 printDialog(message, buttons, currentButton, lastScreen);
-                redraw = false;
             }
+
+            dataSync.reset();
             keyHandler.run();
 
-            // TOOD:
-//            if (cancelButton >= 0 && KeyHandler.isEsc(buffer)) {
-//                retvalue = cancelButton;
-//                break;
-//            } else if (KeyHandler.isEnter(buffer)) {
-//                retvalue = currentButton;
-//                break;
-//            } else if (KeyHandler.isKeyUp(buffer)) {
-//                currentButton --;
-//                if (currentButton < 0) {
-//                    currentButton = buttons.length - 1;
-//                }
-//                redraw = true;
-//            } else if (KeyHandler.isKeyDown(buffer)) {
-//                currentButton ++;
-//                if (currentButton >= buttons.length) {
-//                    currentButton = 0;
-//                }
-//                redraw = true;
-//            }
+            if (!dataSync.keepRun && cancelButton >= 0) {
+                ret_value = cancelButton;
+                break;
+            } else if (dataSync.doDecrement) {
+                currentButton --;
+                if (currentButton < 0) {
+                    currentButton = buttons.length - 1;
+                }
+                dataSync.redraw = true;
+            } else if (dataSync.doIncrement) {
+                currentButton ++;
+                if (currentButton >= buttons.length) {
+                    currentButton = 0;
+                }
+                dataSync.redraw = true;
+            } else if (dataSync.doExecute) {
+                ret_value = currentButton;
+                break;
+            }
+
+// TODO:
 //            // test access key
 //            if (buffer.length > 2 && buffer[1] == '\0') {
 //                char key = buffer[0];
@@ -139,9 +188,8 @@ public class MessageDialog {
 //                }
 //            }
         }
-// TODO:
-//        ConsoleHelper.printScreen(lastScreen);
-//        return retvalue;
+        ConsoleHelper.printScreen(lastScreen);
+        return ret_value;
     }
 
     protected static void printDialog(String[] message, Button[] buttons, int currentButton, String[] lastScreen) {
