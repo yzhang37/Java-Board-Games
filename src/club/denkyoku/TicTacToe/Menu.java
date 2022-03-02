@@ -76,33 +76,82 @@ public class Menu {
     }
 
     public int start() {
-        boolean redraw = true;
-        KeyHandler keyHandler = new KeyHandler();
+        this.printMenu();
 
-        while (true) {
-            if (redraw) {
-                this.printMenu();
-                redraw = false;
+        MenuHandlerDataSync dataSync = new MenuHandlerDataSync();
+        KeyHandler keyHandler = new MenuKeyHandler(dataSync);
+
+        while (dataSync.keepRun) {
+            dataSync.reset();
+            keyHandler.run();
+
+            if (dataSync.doIncrement) {
+                this.incrementPosition();
+            } else if (dataSync.doDecrement) {
+                this.decrementPosition();
+            } else if (dataSync.doExecute) {
+                return this.cur_position;
             }
 
-            keyHandler.getKey();
+            if (dataSync.redraw) {
+                this.printMenu();
+            }
+        }
 
-//            DebugHelper.viewKeyBuffer(buffer);
-            // TODO:
-//            if (KeyHandler.isEsc(buffer) || KeyHandler.isKeyLeft(buffer)) {
-//                ConsoleHelper.bell();
-//                return -1;
-//            } else if (KeyHandler.isEnter(buffer)) {
-//                return this.cur_position;
-//            } else if (KeyHandler.isKeyUp(buffer)) {
-//                this.decrementPosition();
-//                ConsoleHelper.bell();
-//                redraw = true;
-//            } else if (KeyHandler.isKeyDown(buffer)) {
-//                this.incrementPosition();
-//                ConsoleHelper.bell();
-//                redraw = true;
-//            }
+        // the program has already exited
+        return -1;
+    }
+
+    private static class MenuHandlerDataSync {
+        public boolean redraw;
+        public boolean keepRun;
+        public boolean doIncrement;
+        public boolean doDecrement;
+        public boolean doExecute;
+
+        public MenuHandlerDataSync() {
+            this.reset();
+        }
+
+        public void reset() {
+            this.redraw = false;
+            this.keepRun = true;
+            this.doIncrement = false;
+            this.doDecrement = false;
+            this.doExecute = false;
+        }
+    }
+
+    private static class MenuKeyHandler extends KeyHandler {
+        MenuHandlerDataSync dataSync;
+
+        public MenuKeyHandler(MenuHandlerDataSync sync) {
+            this.dataSync = sync;
+        }
+
+        void onKeyEsc() {
+            ConsoleHelper.bell();
+            this.dataSync.keepRun = false;
+        }
+
+        void onKeyLeft() {
+            this.onKeyEsc();
+        }
+
+        void onKeyEnter() {
+            this.dataSync.doExecute = true;
+        }
+
+        void onKeyUp() {
+            this.dataSync.doDecrement = true;
+            ConsoleHelper.bell();
+            this.dataSync.redraw = true;
+        }
+
+        void onKeyDown() {
+            this.dataSync.doIncrement = true;
+            ConsoleHelper.bell();
+            this.dataSync.redraw = true;
         }
     }
 }

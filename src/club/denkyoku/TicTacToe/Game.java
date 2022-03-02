@@ -234,7 +234,7 @@ public class Game {
                     redraw = false;
                 }
 
-                keyHandler.getKey();
+                keyHandler.run();
 
                 if (firstTouch) {
                     redraw = true;

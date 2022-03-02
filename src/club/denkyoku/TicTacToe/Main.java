@@ -3,13 +3,15 @@ package club.denkyoku.TicTacToe;
 public class Main {
 
     public static void main(String[] args) {
-//        SttyHelper.disableEcho();
-//        SttyHelper.bufferByCharacter();
+        // TODO: only needed for Unix and Linux
+        SttyHelper.disableEcho();
+        SttyHelper.bufferByCharacter();
 
         TicTacToe game = new TicTacToe();
         game.start();
 
+        // TODO: don't leave it here
         // enable echo before exit
-//        SttyHelper.enableEcho();
+        SttyHelper.enableEcho();
     }
 }
