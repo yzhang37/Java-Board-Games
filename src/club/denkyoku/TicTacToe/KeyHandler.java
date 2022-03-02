@@ -52,10 +52,54 @@ public class KeyHandler {
                 this.onKeyRight();
             else if (bf[0] == 27 && bf[1] == 91 && bf[2] == 68 && bf[3] == 0)
                 this.onKeyLeft();
+            else if (bf[0] == 27 && bf[1] == 79 && bf[2] == 80 && bf[3] == 0)
+                this.onKeyF1();
+            else if (bf[0] == 27 && bf[1] == 79 && bf[2] == 81 && bf[3] == 0)
+                this.onKeyF2();
+            else if (bf[0] == 27 && bf[1] == 79 && bf[2] == 82 && bf[3] == 0)
+                this.onKeyF3();
+            else if (bf[0] == 27 && bf[1] == 79 && bf[2] == 83 && bf[3] == 0)
+                this.onKeyF4();
+            else if (bf[0] == 27 && bf[1] == 91 && bf[2] == 49 && bf[3] == 53 && bf[4] == 126 && bf[5] == 0)
+                this.onKeyF5();
+            else if (bf[0] == 27 && bf[1] == 91 && bf[2] == 49 && bf[3] == 55 && bf[4] == 126 && bf[5] == 0)
+                this.onKeyF6();
+            else if (bf[0] == 27 && bf[1] == 91 && bf[2] == 49 && bf[3] == 56 && bf[4] == 126 && bf[5] == 0)
+                this.onKeyF7();
+            else if (bf[0] == 27 && bf[1] == 91 && bf[2] == 49 && bf[3] == 57 && bf[4] == 126 && bf[5] == 0)
+                this.onKeyF8();
+            else if (bf[0] == 27 && bf[1] == 91 && bf[2] == 50 && bf[3] == 48 && bf[4] == 126 && bf[5] == 0)
+                this.onKeyF9();
+            else if (bf[0] == 27 && bf[1] == 91 && bf[2] == 50 && bf[3] == 49 && bf[4] == 126 && bf[5] == 0)
+                this.onKeyF10();
+            else if (bf[0] == 27 && bf[1] == 91 && bf[2] == 50 && bf[3] == 51 && bf[4] == 126 && bf[5] == 0)
+                this.onKeyF11();
+            else if (bf[0] == 27 && bf[1] == 91 && bf[2] == 50 && bf[3] == 52 && bf[4] == 126 && bf[5] == 0)
+                this.onKeyF12();
+            else if (bf[0] == 27 && bf[1] == 91 && bf[2] == 51 && bf[3] == 49 && bf[4] == 126 && bf[5] == 0)
+                this.onKeyHome();
+            else if (bf[0] == 27 && bf[1] == 91 && bf[2] == 51 && bf[3] == 53 && bf[4] == 126 && bf[5] == 0)
+                this.onKeyEnd();
+            else if (bf[0] == 27 && bf[1] == 91 && bf[2] == 51 && bf[3] == 55 && bf[4] == 126 && bf[5] == 0)
+                this.onKeyPgUp();
+            else if (bf[0] == 27 && bf[1] == 91 && bf[2] == 51 && bf[3] == 56 && bf[4] == 126 && bf[5] == 0)
+                this.onKeyPgDown();
+            else if (bf[0] == 27 && bf[1] == 91 && bf[2] == 52 && bf[3] == 55 && bf[4] == 126 && bf[5] == 0)
+                this.onKeyInsert();
+            else if (bf[0] == 27 && bf[1] == 91 && bf[2] == 52 && bf[3] == 56 && bf[4] == 126 && bf[5] == 0)
+                this.onKeyDelete();
             else if (bf[0] == 27 && bf[1] == 0)
                 this.onKeyEsc();
             else if (bf[0] == 10 && bf[1] == 0)
                 this.onKeyEnter();
+            else if (bf[0] >= 32 && bf[0] <= 126 && bf[1] == 0)
+                this.onNormalKey(bf[0]);
+            else if (bf[0] == 127 && bf[1] == 0)
+                this.onKeyBackspace();
+            else if (bf[0] == 9 && bf[1] == 0)
+                this.onKeyTab();
+            else
+                DebugHelper.viewKeyBuffer(bf);
         }
         return 0;
     }
@@ -78,7 +122,15 @@ public class KeyHandler {
     void onKeyDown() {}
     void onKeyLeft() {}
     void onKeyRight() {}
-
+    void onKeyHome() {}
+    void onKeyEnd() {}
+    void onKeyPgUp() {}
+    void onKeyPgDown() {}
+    void onKeyInsert() {}
+    void onKeyDelete() {}
+    void onKeyBackspace() {}
+    void onKeyTab() {}
+    void onNormalKey(char key) {}
 
     /**
      * Exit the Raw key input status.

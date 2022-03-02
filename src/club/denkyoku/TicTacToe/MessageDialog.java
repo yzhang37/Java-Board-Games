@@ -68,6 +68,7 @@ public class MessageDialog {
         public boolean doDecrement;
         public boolean doIncrement;
         public boolean doExecute;
+        public char accessKey;
 
         public ShowDataSync() {
             this.reset();
@@ -80,6 +81,7 @@ public class MessageDialog {
             this.doDecrement = false;
             this.doIncrement = false;
             this.doExecute = false;
+            this.accessKey = '\0';
         }
     }
 
@@ -104,6 +106,15 @@ public class MessageDialog {
 
         void onKeyDown() {
             dataSync.doIncrement = true;
+        }
+
+        void onNormalKey(char key) {
+            if ('a' <= key && key <= 'z') {
+                key = (char) (key - ('a' - 'A'));
+            }
+            if ('0' <= key && key <= '9' || 'A' <= key && key <= 'Z') {
+                dataSync.accessKey = key;
+            }
         }
     }
 
@@ -155,38 +166,34 @@ public class MessageDialog {
             } else if (dataSync.doExecute) {
                 ret_value = currentButton;
                 break;
-            }
+            } else if (dataSync.accessKey != '\0') {
+                char key = dataSync.accessKey;
 
-// TODO:
-//            // test access key
-//            if (buffer.length > 2 && buffer[1] == '\0') {
-//                char key = buffer[0];
-//                if ('a' <= key && key <= 'z') {
-//                    key = (char) (key - ('a' - 'A'));
-//                }
-//                if (accessKeyIndex.containsKey(key)) {
-//                    ArrayList<Integer> indexList = accessKeyIndex.get(key);
-//                    // There happens to be a button, we just click it
-//                    if (indexList.size() == 1) {
-//                        retvalue = indexList.get(0);
-//                        break;
-//                    } else if (indexList.size() > 1) {
-//                        // If there are multiple buttons, we cycle through them
-//                        if (indexList.contains(currentButton)) {
-//                            int curIndex = indexList.indexOf(currentButton);
-//                            curIndex ++;
-//                            if (curIndex >= indexList.size()) {
-//                                curIndex = 0;
-//                            }
-//                            currentButton = indexList.get(curIndex);
-//                            redraw = true;
-//                        } else {
-//                            currentButton = indexList.get(0);
-//                            redraw = true;
-//                        }
-//                    }
-//                }
-//            }
+                if (accessKeyIndex.containsKey(key)) {
+                    ArrayList<Integer> indexList = accessKeyIndex.get(key);
+
+                    // There happens to be a button, we just click it
+                    if (indexList.size() == 1) {
+                        ret_value = indexList.get(0);
+                        break;
+                    } else if (indexList.size() > 1) {
+
+                        // If there are multiple buttons, we cycle through them
+                        if (indexList.contains(currentButton)) {
+                            int curIndex = indexList.indexOf(currentButton);
+                            curIndex ++;
+                            if (curIndex >= indexList.size()) {
+                                curIndex = 0;
+                            }
+                            currentButton = indexList.get(curIndex);
+                            dataSync.redraw = true;
+                        } else {
+                            currentButton = indexList.get(0);
+                            dataSync.redraw = true;
+                        }
+                    }
+                }
+            }
         }
         ConsoleHelper.printScreen(lastScreen);
         return ret_value;
