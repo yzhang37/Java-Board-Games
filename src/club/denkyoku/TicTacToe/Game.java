@@ -222,10 +222,10 @@ public class Game {
      */
     public int oneTurn() {
         this.printUI(false);
-        //
         Player curTurnPlayer = this.getPlayerAt(this.turn);
+
+        KeyHandler keyHandler = new KeyHandler();
         if (curTurnPlayer.isHumanPlayer()) {
-            char[] buffer = new char[10];
             boolean redraw = false;
             boolean firstTouch = true;
             while (true) {
@@ -234,48 +234,47 @@ public class Game {
                     redraw = false;
                 }
 
-                Arrays.fill(buffer, '\0');
-                KeyHandler.getKey(buffer);
+                keyHandler.getKey();
 
                 if (firstTouch) {
                     redraw = true;
                     firstTouch = false;
                 }
 
-                if (KeyHandler.isEsc(buffer)) {
-                    if (MessageDialog.show(pauseGameMessages, pauseGameButtons, 0, 0) == 1) {
-                        return -2;
-                    }
-                } else if (KeyHandler.isKeyUp(buffer)) {
-                    this.cursor_x--;
-                    if (this.cursor_x < 0) {
-                        this.cursor_x = this.board.getWidth() - 1;
-                    }
-                    redraw = true;
-                } else if (KeyHandler.isKeyDown(buffer)) {
-                    this.cursor_x++;
-                    if (this.cursor_x >= this.board.getWidth()) {
-                        this.cursor_x = 0;
-                    }
-                    redraw = true;
-                } else if (KeyHandler.isKeyLeft(buffer)) {
-                    this.cursor_y--;
-                    if (this.cursor_y < 0) {
-                        this.cursor_y = this.board.getHeight() - 1;
-                    }
-                    redraw = true;
-                } else if (KeyHandler.isKeyRight(buffer)) {
-                    this.cursor_y++;
-                    if (this.cursor_y >= this.board.getHeight()) {
-                        this.cursor_y = 0;
-                    }
-                    redraw = true;
-                } else if (KeyHandler.isEnter(buffer)) {
-                    if (this.board.canPut(this.cursor_x, this.cursor_y)) {
-                        this.board.put(this.cursor_x, this.cursor_y, this.turn + 1);
-                        break;
-                    }
-                }
+//                if (KeyHandler.isEsc(buffer)) {
+//                    if (MessageDialog.show(pauseGameMessages, pauseGameButtons, 0, 0) == 1) {
+//                        return -2;
+//                    }
+//                } else if (KeyHandler.isKeyUp(buffer)) {
+//                    this.cursor_x--;
+//                    if (this.cursor_x < 0) {
+//                        this.cursor_x = this.board.getWidth() - 1;
+//                    }
+//                    redraw = true;
+//                } else if (KeyHandler.isKeyDown(buffer)) {
+//                    this.cursor_x++;
+//                    if (this.cursor_x >= this.board.getWidth()) {
+//                        this.cursor_x = 0;
+//                    }
+//                    redraw = true;
+//                } else if (KeyHandler.isKeyLeft(buffer)) {
+//                    this.cursor_y--;
+//                    if (this.cursor_y < 0) {
+//                        this.cursor_y = this.board.getHeight() - 1;
+//                    }
+//                    redraw = true;
+//                } else if (KeyHandler.isKeyRight(buffer)) {
+//                    this.cursor_y++;
+//                    if (this.cursor_y >= this.board.getHeight()) {
+//                        this.cursor_y = 0;
+//                    }
+//                    redraw = true;
+//                } else if (KeyHandler.isEnter(buffer)) {
+//                    if (this.board.canPut(this.cursor_x, this.cursor_y)) {
+//                        this.board.put(this.cursor_x, this.cursor_y, this.turn + 1);
+//                        break;
+//                    }
+//                }
             }
 
         } else {

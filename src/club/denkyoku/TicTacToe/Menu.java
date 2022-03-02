@@ -1,9 +1,6 @@
 package club.denkyoku.TicTacToe;
 
 
-import java.util.Arrays;
-
-
 public class Menu {
     protected String header_text, footer_text;
     protected int cur_position = 0;
@@ -79,8 +76,8 @@ public class Menu {
     }
 
     public int start() {
-        char[] buffer = new char[10];
         boolean redraw = true;
+        KeyHandler keyHandler = new KeyHandler();
 
         while (true) {
             if (redraw) {
@@ -88,25 +85,24 @@ public class Menu {
                 redraw = false;
             }
 
-            Arrays.fill(buffer, '\0');
-            KeyHandler.getKey(buffer);
+            keyHandler.getKey();
 
 //            DebugHelper.viewKeyBuffer(buffer);
-
-            if (KeyHandler.isEsc(buffer) || KeyHandler.isKeyLeft(buffer)) {
-                ConsoleHelper.bell();
-                return -1;
-            } else if (KeyHandler.isEnter(buffer)) {
-                return this.cur_position;
-            } else if (KeyHandler.isKeyUp(buffer)) {
-                this.decrementPosition();
-                ConsoleHelper.bell();
-                redraw = true;
-            } else if (KeyHandler.isKeyDown(buffer)) {
-                this.incrementPosition();
-                ConsoleHelper.bell();
-                redraw = true;
-            }
+            // TODO:
+//            if (KeyHandler.isEsc(buffer) || KeyHandler.isKeyLeft(buffer)) {
+//                ConsoleHelper.bell();
+//                return -1;
+//            } else if (KeyHandler.isEnter(buffer)) {
+//                return this.cur_position;
+//            } else if (KeyHandler.isKeyUp(buffer)) {
+//                this.decrementPosition();
+//                ConsoleHelper.bell();
+//                redraw = true;
+//            } else if (KeyHandler.isKeyDown(buffer)) {
+//                this.incrementPosition();
+//                ConsoleHelper.bell();
+//                redraw = true;
+//            }
         }
     }
 }
