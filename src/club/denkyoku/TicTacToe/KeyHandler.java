@@ -1,68 +1,54 @@
 package club.denkyoku.TicTacToe;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+
+import biz.source_code.utils.RawConsoleInput;
+
 
 public class KeyHandler {
-    private static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-    public static void getKey(char []buffer) {
+    /**
+     * Read a raw input key from the console.
+     * @return The raw input key's ASCII code (int).
+     * value of <code>0</code> means nothing was pressed.
+     */
+    private int performGetKey() {
         try {
-            br.read(buffer);
+            return RawConsoleInput.read(true);
         } catch (IOException e) {}
+        return 0;
     }
 
-    public static boolean isKeyUp(char []buffer) {
-        if (buffer.length >= 3) {
-            return buffer[0] == 27 &&
-                    buffer[1] == 91 &&
-                    buffer[2] == 65;
-        }
-        return false;
+    public final int getKey() {
+        int result = this.performGetKey();
+        System.out.println(result);
+        return result;
     }
 
-    public static boolean isKeyLeft(char []buffer) {
-        if (buffer.length >= 3) {
-            return buffer[0] == 27 &&
-                    buffer[1] == 91 &&
-                    buffer[2] == 68;
-        }
-        return false;
-    }
 
-    public static boolean isKeyDown(char []buffer) {
-        if (buffer.length >= 3) {
-            return buffer[0] == 27 &&
-                    buffer[1] == 91 &&
-                    buffer[2] == 66;
-        }
-        return false;
-    }
-
-    public static boolean isKeyRight(char []buffer) {
-        if (buffer.length >= 3) {
-            return buffer[0] == 27 &&
-                    buffer[1] == 91 &&
-                    buffer[2] == 67;
-        }
-        return false;
-    }
-
-    public static boolean isEsc(char []buffer) {
-        if (buffer.length >= 2) {
-            return buffer[0] == 27 &&
-                    buffer[1] == 0;
-        }
-        return false;
-    }
-
-    public static boolean isEnter(char []buffer) {
-        if (buffer.length >= 2) {
-            return buffer[0] == 10 &&
-                    buffer[1] == 0;
-        }
-        return false;
-    }
+    void onKeyEsc() {}
+    void onKeyF1() {}
+    void onKeyF2() {}
+    void onKeyF3() {}
+    void onKeyF4() {}
+    void onKeyF5() {}
+    void onKeyF6() {}
+    void onKeyF7() {}
+    void onKeyF8() {}
+    void onKeyF9() {}
+    void onKeyF10() {}
+    void onKeyF11() {}
+    void onKeyF12() {}
+    void onKeyEnter() {}
+    void onKeyUp() {}
+    void onKeyDown() {}
+    void onKeyLeft() {}
+    void onKeyRight() {}
 
 }
+
+// TODO: isKeyEnter
+// TODO: isKeyEsc
+// TODO: isKeyUp
+// TODO: isKeyDown
+// TODO: isKeyLeft
+// TODO: isKeyRight

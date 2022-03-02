@@ -1,7 +1,6 @@
 package club.denkyoku.TicTacToe;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class MessageDialog {
@@ -80,68 +79,69 @@ public class MessageDialog {
         boolean redraw = true;
         int currentButton = defaultButton;
 
-        char[] buffer = new char[10];
-
         int retvalue = -1;
+
+        KeyHandler keyHandler = new KeyHandler();
         while (true) {
             if (redraw) {
                 printDialog(message, buttons, currentButton, lastScreen);
                 redraw = false;
             }
-            Arrays.fill(buffer, '\0');
-            KeyHandler.getKey(buffer);
+            keyHandler.getKey();
 
-            if (cancelButton >= 0 && KeyHandler.isEsc(buffer)) {
-                retvalue = cancelButton;
-                break;
-            } else if (KeyHandler.isEnter(buffer)) {
-                retvalue = currentButton;
-                break;
-            } else if (KeyHandler.isKeyUp(buffer)) {
-                currentButton --;
-                if (currentButton < 0) {
-                    currentButton = buttons.length - 1;
-                }
-                redraw = true;
-            } else if (KeyHandler.isKeyDown(buffer)) {
-                currentButton ++;
-                if (currentButton >= buttons.length) {
-                    currentButton = 0;
-                }
-                redraw = true;
-            }
-            // test access key
-            if (buffer.length > 2 && buffer[1] == '\0') {
-                char key = buffer[0];
-                if ('a' <= key && key <= 'z') {
-                    key = (char) (key - ('a' - 'A'));
-                }
-                if (accessKeyIndex.containsKey(key)) {
-                    ArrayList<Integer> indexList = accessKeyIndex.get(key);
-                    // There happens to be a button, we just click it
-                    if (indexList.size() == 1) {
-                        retvalue = indexList.get(0);
-                        break;
-                    } else if (indexList.size() > 1) {
-                        // If there are multiple buttons, we cycle through them
-                        if (indexList.contains(currentButton)) {
-                            int curIndex = indexList.indexOf(currentButton);
-                            curIndex ++;
-                            if (curIndex >= indexList.size()) {
-                                curIndex = 0;
-                            }
-                            currentButton = indexList.get(curIndex);
-                            redraw = true;
-                        } else {
-                            currentButton = indexList.get(0);
-                            redraw = true;
-                        }
-                    }
-                }
-            }
+            // TOOD:
+//            if (cancelButton >= 0 && KeyHandler.isEsc(buffer)) {
+//                retvalue = cancelButton;
+//                break;
+//            } else if (KeyHandler.isEnter(buffer)) {
+//                retvalue = currentButton;
+//                break;
+//            } else if (KeyHandler.isKeyUp(buffer)) {
+//                currentButton --;
+//                if (currentButton < 0) {
+//                    currentButton = buttons.length - 1;
+//                }
+//                redraw = true;
+//            } else if (KeyHandler.isKeyDown(buffer)) {
+//                currentButton ++;
+//                if (currentButton >= buttons.length) {
+//                    currentButton = 0;
+//                }
+//                redraw = true;
+//            }
+//            // test access key
+//            if (buffer.length > 2 && buffer[1] == '\0') {
+//                char key = buffer[0];
+//                if ('a' <= key && key <= 'z') {
+//                    key = (char) (key - ('a' - 'A'));
+//                }
+//                if (accessKeyIndex.containsKey(key)) {
+//                    ArrayList<Integer> indexList = accessKeyIndex.get(key);
+//                    // There happens to be a button, we just click it
+//                    if (indexList.size() == 1) {
+//                        retvalue = indexList.get(0);
+//                        break;
+//                    } else if (indexList.size() > 1) {
+//                        // If there are multiple buttons, we cycle through them
+//                        if (indexList.contains(currentButton)) {
+//                            int curIndex = indexList.indexOf(currentButton);
+//                            curIndex ++;
+//                            if (curIndex >= indexList.size()) {
+//                                curIndex = 0;
+//                            }
+//                            currentButton = indexList.get(curIndex);
+//                            redraw = true;
+//                        } else {
+//                            currentButton = indexList.get(0);
+//                            redraw = true;
+//                        }
+//                    }
+//                }
+//            }
         }
-        ConsoleHelper.printScreen(lastScreen);
-        return retvalue;
+// TODO:
+//        ConsoleHelper.printScreen(lastScreen);
+//        return retvalue;
     }
 
     protected static void printDialog(String[] message, Button[] buttons, int currentButton, String[] lastScreen) {
