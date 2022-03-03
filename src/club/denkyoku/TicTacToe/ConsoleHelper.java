@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 public class ConsoleHelper {
+    // TODO: add support for Windows, to display Unicodes.
+
     protected static final PrintWriter printWriter = new PrintWriter(System.out, true);
     protected static String[] lastScreen = new String[]{""};
 
@@ -35,12 +37,13 @@ public class ConsoleHelper {
         }
     }
 
-    static String[] GetLastScreen() {
+    public static String[] GetLastScreen() {
         return ConsoleHelper.lastScreen;
     }
 
-    static int GetConsoleWidth() {
+    public static int GetConsoleWidth() {
         try {
+            // TODO: add support for Windows
             ShellHelper.Result result = ShellHelper.shell("tput cols");
             if (result.ret == 0) {
                 return Integer.parseInt(result.output);
@@ -49,8 +52,9 @@ public class ConsoleHelper {
         return 80; //default value
     }
 
-    static int GetConsoleHeight() {
+    public static int GetConsoleHeight() {
         try {
+            // TODO: add support for Windows
             ShellHelper.Result result = ShellHelper.shell("tput lines");
             if (result.ret == 0) {
                 return Integer.parseInt(result.output);

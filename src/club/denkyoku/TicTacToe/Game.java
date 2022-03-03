@@ -1,5 +1,7 @@
 package club.denkyoku.TicTacToe;
 
+import club.denkyoku.TicTacToe.UserInterface.Controls.MessageDialog;
+
 import java.util.StringJoiner;
 
 import static club.denkyoku.TicTacToe.Utility.Repeat;
