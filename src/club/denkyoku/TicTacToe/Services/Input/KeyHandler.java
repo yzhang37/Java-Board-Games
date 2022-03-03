@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 
-import biz.source_code.utils.RawConsoleInput;
+import club.denkyoku.TicTacToe.Libraries.OS.RawConsoleInput;
 import club.denkyoku.TicTacToe.Services.Debug.DebugHelper;
 import club.denkyoku.TicTacToe.Libraries.OS.SttyHelper;
 
