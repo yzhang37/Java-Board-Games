@@ -1,7 +1,7 @@
-package club.denkyoku.TicTacToe.UserInterface.Controls;
+package club.denkyoku.TicTacToe.Services.Output.Controls;
 
-import club.denkyoku.TicTacToe.Library.Terminal.ConsoleHelper;
-import club.denkyoku.TicTacToe.Input.KeyHandler;
+import club.denkyoku.TicTacToe.Services.Output.Terminal.ConsoleHelper;
+import club.denkyoku.TicTacToe.Services.Input.KeyHandler;
 
 import java.util.ArrayList;
 import java.util.HashMap;

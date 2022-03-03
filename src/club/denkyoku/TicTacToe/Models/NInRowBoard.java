@@ -1,4 +1,4 @@
-package club.denkyoku.TicTacToe;
+package club.denkyoku.TicTacToe.Models;
 
 public class NInRowBoard extends Board{
     private final int board_size;

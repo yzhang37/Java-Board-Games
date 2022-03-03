@@ -1,6 +1,7 @@
 package club.denkyoku.TicTacToe;
 
-import club.denkyoku.TicTacToe.Library.OS.SttyHelper;
+import club.denkyoku.TicTacToe.Libraries.OS.SttyHelper;
+import club.denkyoku.TicTacToe.Models.TicTacToe;
 
 public class Main {
 

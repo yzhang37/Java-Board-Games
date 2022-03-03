@@ -1,4 +1,5 @@
-package club.denkyoku.TicTacToe.Library.Terminal;
+package club.denkyoku.TicTacToe.Services.Debug;
+
 
 public class DebugHelper {
     // print the char buffer within int code.

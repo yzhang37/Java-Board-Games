@@ -1,4 +1,4 @@
-package club.denkyoku.TicTacToe.Library.OS;
+package club.denkyoku.TicTacToe.Libraries.OS;
 
 import java.io.IOException;
 
