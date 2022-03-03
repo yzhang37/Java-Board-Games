@@ -1,5 +1,6 @@
 package club.denkyoku.TicTacToe;
 
+import club.denkyoku.TicTacToe.Library.Terminal.ConsoleHelper;
 import club.denkyoku.TicTacToe.UserInterface.Controls.Menu;
 import club.denkyoku.TicTacToe.UserInterface.Controls.MessageDialog;
 
@@ -134,7 +135,7 @@ public class TicTacToe {
                 "Customize symbol"
         };
         String str1 = String.format("Player %d settings", (id + 1));
-        String str2 = Utility.Repeat("═", str1.length() + 2);
+        String str2 = "═".repeat(str1.length() + 2);
         while (true) {
 
             String title = String.format("%s\n%s\nName: %s\nSymbol: %c", str1, str2,

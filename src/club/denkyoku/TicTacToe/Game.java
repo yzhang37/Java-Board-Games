@@ -2,11 +2,11 @@ package club.denkyoku.TicTacToe;
 
 import club.denkyoku.TicTacToe.Input.ExamineKeyHandler;
 import club.denkyoku.TicTacToe.Input.KeyHandler;
+import club.denkyoku.TicTacToe.Library.Terminal.ConsoleHelper;
 import club.denkyoku.TicTacToe.UserInterface.Controls.MessageDialog;
 
 import java.util.StringJoiner;
 
-import static club.denkyoku.TicTacToe.Utility.Repeat;
 
 public class Game {
     protected static final String[] pauseGameMessages = new String[]{
@@ -128,7 +128,7 @@ public class Game {
                 sb.append(boardString[lineId]);
             } else {
                 // Otherwise, a blank line of the same width as the chessboard is generated
-                sb.append(Repeat(" ", maxBoardWidth));
+                sb.append(" ".repeat(maxBoardWidth));
             }
 
             if (curPrintPlayer < Math.min(firstPrintPlayer + maxPrintPlayers, this.players.length)) {

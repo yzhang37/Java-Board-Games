@@ -6,8 +6,8 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 
 import biz.source_code.utils.RawConsoleInput;
-import club.denkyoku.TicTacToe.DebugHelper;
-import club.denkyoku.TicTacToe.SttyHelper;
+import club.denkyoku.TicTacToe.Library.Terminal.DebugHelper;
+import club.denkyoku.TicTacToe.Library.OS.SttyHelper;
 
 
 public abstract class KeyHandler {
