@@ -1,4 +1,4 @@
-package club.denkyoku.TicTacToe;
+package club.denkyoku.TicTacToe.Input;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 
 import biz.source_code.utils.RawConsoleInput;
+import club.denkyoku.TicTacToe.DebugHelper;
+import club.denkyoku.TicTacToe.SttyHelper;
 
 
 public abstract class KeyHandler {
@@ -29,6 +31,10 @@ public abstract class KeyHandler {
         return 0;
     }
 
+    /**
+     * The raw function for reading a key from
+     * the console on Unix (Mac)/Linux.
+     */
     private void rawReadKeyBuffer() {
         Arrays.fill(KeyHandler.bufferUnix, '\0');
         try {
@@ -36,7 +42,12 @@ public abstract class KeyHandler {
         } catch (IOException e) {}
     }
 
-    public final int run() {
+    /**
+     * Begin one Raw key input routine.
+     * The function will wait until a key is pressed. And
+     * it will automatically call the corresponding callback.
+     */
+    public final void run() {
         if (RawConsoleInput.getIsWindows()) {
             int key = this.rawGetKeyWindows(true);
 
@@ -162,7 +173,6 @@ public abstract class KeyHandler {
             else
                 DebugHelper.viewKeyBuffer(bf);
         }
-        return 0;
     }
 
     protected void onKeyEsc() {}

@@ -1,5 +1,7 @@
 package club.denkyoku.TicTacToe;
 
+import club.denkyoku.TicTacToe.Input.ExamineKeyHandler;
+import club.denkyoku.TicTacToe.Input.KeyHandler;
 import club.denkyoku.TicTacToe.UserInterface.Controls.MessageDialog;
 
 import java.util.StringJoiner;
