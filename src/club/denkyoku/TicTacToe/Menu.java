@@ -98,6 +98,7 @@ public class Menu {
             }
         }
 
+        keyHandler.exitInput();
         // the program has already exited
         return -1;
     }
