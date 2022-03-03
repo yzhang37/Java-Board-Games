@@ -1,6 +1,7 @@
 package club.denkyoku.TicTacToe;
 
 import club.denkyoku.TicTacToe.UserInterface.Controls.Menu;
+import club.denkyoku.TicTacToe.UserInterface.Controls.MessageDialog;
 
 import java.util.Arrays;
 

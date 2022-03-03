@@ -1,13 +1,26 @@
-package club.denkyoku.TicTacToe;
+package club.denkyoku.TicTacToe.UserInterface.Controls;
+
+import club.denkyoku.TicTacToe.ConsoleHelper;
+import club.denkyoku.TicTacToe.KeyHandler;
+import club.denkyoku.TicTacToe.Utility;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
 
 public class MessageDialog {
     public static class Button {
         private final String title;
         private final char accessKey;
 
+        /**
+         * Create a new Button, with optional access key.
+         * @param title The caption of the button.
+         * @param accessKey The access key of the button.
+         *                 If <code>'\0'</code>, the button has no access key.
+         *                 Else, the MessageDialog will try to allocate
+         *                 this button an access key.
+         */
         public Button(String title, char accessKey) {
             this.title = title;
             if ('0' <= accessKey && accessKey <= '9' ||
@@ -20,15 +33,30 @@ public class MessageDialog {
             }
         }
 
+        /**
+         * Get the caption of the button.
+         * @return The caption of the button.
+         */
         public String getTitle() {
             return this.title;
         }
 
+        /**
+         * Get the access key of the button.
+         * @return The access key of the button.
+         */
         public char getAccessKey() {
             return this.accessKey;
         }
     }
 
+    /**
+     * Helper method to get the default OK and Cancel buttons.
+     * @return An array of two buttons, OK and Cancel.
+     *         Both buttons have no access key.
+     *         You have to define the primary button and
+     *         the cancel button yourself.
+     */
     public static Button[] getOKCancel() {
         return new Button[]{
                 new Button("OK", '\0'),
@@ -36,6 +64,14 @@ public class MessageDialog {
         };
     }
 
+    /**
+     * Helper method to get the default Yes and No buttons.
+     * @return An array of two buttons, Yes and No.
+     *         Yes button has access key <code>'Y'</code>.
+     *         No button has access key <code>'N'</code>.
+     *         You have to define the primary button and
+     *         the cancel button yourself.
+     */
     public static Button[] getYesNo() {
         return new Button[]{
                 new Button("Yes", 'Y'),
@@ -43,6 +79,16 @@ public class MessageDialog {
         };
     }
 
+    /**
+     * Helper method to get the default three
+     * Yes, No and Cancel buttons.
+     * @return An array of two buttons, Yes and No.
+     *         Yes button has access key <code>'Y'</code>.
+     *         No button has access key <code>'N'</code>.
+     *         Cancel button don't have an access key.
+     *         You have to define the primary button and
+     *         the cancel button yourself.
+     */
     public static Button[] getYesNoCancel() {
         return new Button[]{
                 new Button("Yes", 'Y'),
@@ -51,16 +97,31 @@ public class MessageDialog {
         };
     }
 
+    /**
+     * Helper method to get the only one OK button.
+     *
+     * Pretty useful when you just want to show a message,
+     * and let the user confirm it.
+     * @return An array of one button, OK. No access key.
+     */
     public static Button[] getOK() {
         return new Button[]{
                 new Button("OK", '\0')
         };
     }
 
+    /**
+     * Helper method to show the only one OK button message.
+     * @param message A list of strings, representing the message to show.
+     * @return The index of the button pressed.
+     */
     public static int show(String[] message) {
         return show(message, getOK(), 0, -1);
     }
 
+    /**
+     * The data synchronization between the Message Dialog and the key handler.
+     */
     private static class ShowDataSync {
         public boolean redraw;
         public boolean keepRun;
@@ -85,6 +146,9 @@ public class MessageDialog {
         }
     }
 
+    /**
+     * The customized key handler for the Message Dialog.
+     */
     private static class ShowDialogKeyHandler extends KeyHandler {
         ShowDataSync dataSync;
 
@@ -122,6 +186,22 @@ public class MessageDialog {
         }
     }
 
+    /**
+     * Begin the Message Dialog session.
+     *
+     * The Message Dialog will preserve the current screen state,
+     * and when exit, it will restore the last screen state.
+     * @param message A list of strings, representing the message to show.
+     * @param buttons An array of <code>MessageDialog.Button</code>,
+     *                representing the buttons to show.
+     * @param defaultButton The index of the default button.
+     *                      The user can press the Enter key to select this button.
+     *                      If <code>-1</code>, then there's no default button.
+     * @param cancelButton The index of the cancel button.
+     *                     The user can press the Esc key to select this button.
+     *                     If <code>-1</code>, then there's no cancel button.
+     * @return The index of the button pressed.
+     */
     public static int show(String[] message, Button[] buttons, int defaultButton, int cancelButton) {
         // If the button has an access key, index it once
         HashMap<Character, ArrayList<Integer>> accessKeyIndex = new HashMap<>();
@@ -205,7 +285,20 @@ public class MessageDialog {
         return ret_value;
     }
 
+    /**
+     * Functions for internal use
+     *
+     * Print the Message Dialog to the terminal.
+     * @param message The message to be displayed.
+     * @param buttons The buttons to be displayed.
+     * @param currentButton The index of the current chosen button.
+     * @param lastScreen The last screen before the dialog was displayed.
+     *                   It's used to recovered to the last screen stack.
+     */
     protected static void printDialog(String[] message, Button[] buttons, int currentButton, String[] lastScreen) {
+        // TODO: I want to make the buttons with
+        //       access key to be highlighted (or at least with an underline)
+
         // First get the width and height of the current window
         int height = ConsoleHelper.GetConsoleHeight(),
                 width = ConsoleHelper.GetConsoleWidth();
