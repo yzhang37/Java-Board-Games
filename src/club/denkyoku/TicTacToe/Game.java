@@ -1,6 +1,5 @@
 package club.denkyoku.TicTacToe;
 
-import java.util.Arrays;
 import java.util.StringJoiner;
 
 import static club.denkyoku.TicTacToe.Utility.Repeat;
@@ -37,6 +36,8 @@ public class Game {
         this.cursor_x = 0;
         this.cursor_y = 0;
 
+        // These fields are only used for
+        // printing final messages when the game is over.
         int humanCount = 0;
         for (Player player : players) {
             if (player.isHumanPlayer()) {
@@ -224,7 +225,7 @@ public class Game {
         this.printUI(false);
         Player curTurnPlayer = this.getPlayerAt(this.turn);
 
-        KeyHandler keyHandler = new KeyHandler();
+        KeyHandler keyHandler = new ExamineKeyHandler();
         if (curTurnPlayer.isHumanPlayer()) {
             boolean redraw = false;
             boolean firstTouch = true;

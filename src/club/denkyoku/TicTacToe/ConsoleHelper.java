@@ -7,27 +7,27 @@ public class ConsoleHelper {
     protected static final PrintWriter printWriter = new PrintWriter(System.out, true);
     protected static String[] lastScreen = new String[]{""};
 
-    static void CleanConsole() {
+    public static void CleanConsole() {
         printWriter.print("\033[H\033[2J");
     }
 
-    static void println(String str) {
+    public static void println(String str) {
         printWriter.println(str);
     }
 
-    static void print(String str) {
+    public static void print(String str) {
         printWriter.print(str);
     }
 
-    static void print(char c) {
+    public static void print(char c) {
         printWriter.print(c);
     }
 
-    static void bell() {
+    public static void bell() {
         print("\007");
     }
 
-    static void printScreen(String[] screen) {
+    public static void printScreen(String[] screen) {
         ConsoleHelper.CleanConsole();
         ConsoleHelper.lastScreen = screen;
         for (String line : screen) {
