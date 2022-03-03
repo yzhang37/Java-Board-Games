@@ -1,4 +1,6 @@
-package club.denkyoku.TicTacToe;
+package club.denkyoku.TicTacToe.Library.Terminal;
+
+import club.denkyoku.TicTacToe.Library.OS.ShellHelper;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -9,7 +11,11 @@ public class ConsoleHelper {
     protected static final PrintWriter printWriter = new PrintWriter(System.out, true);
     protected static String[] lastScreen = new String[]{""};
 
+    /**
+     * Helper method to clear the console.
+     */
     public static void CleanConsole() {
+        // TODO: add support for Windows
         printWriter.print("\033[H\033[2J");
     }
 
@@ -25,10 +31,21 @@ public class ConsoleHelper {
         printWriter.print(c);
     }
 
+    /**
+     * Helper method to make the terminal beep.
+     */
     public static void bell() {
         print("\007");
     }
 
+    /**
+     * Helper method to print the new screen, and
+     * update the last screen strings storage.
+     * <br/>
+     * If you want to do screen restore, please use <code>GetLastScreen()</code> method
+     * before this call.
+     * @param screen The new screen strings.
+     */
     public static void printScreen(String[] screen) {
         ConsoleHelper.CleanConsole();
         ConsoleHelper.lastScreen = screen;
@@ -37,10 +54,20 @@ public class ConsoleHelper {
         }
     }
 
+    /**
+     * Get the previous screen strings.
+     *
+     * Useful when you want to restore the screen after a screen change.
+     * @return The previous screen strings.
+     */
     public static String[] GetLastScreen() {
         return ConsoleHelper.lastScreen;
     }
 
+    /**
+     * Helper method to get the console width.
+     * @return The width of console window.
+     */
     public static int GetConsoleWidth() {
         try {
             // TODO: add support for Windows
@@ -52,6 +79,10 @@ public class ConsoleHelper {
         return 80; //default value
     }
 
+    /**
+     * Helper method to get the console height.
+     * @return The height of console window.
+     */
     public static int GetConsoleHeight() {
         try {
             // TODO: add support for Windows

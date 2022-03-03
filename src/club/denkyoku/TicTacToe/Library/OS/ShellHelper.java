@@ -1,4 +1,4 @@
-package club.denkyoku.TicTacToe;
+package club.denkyoku.TicTacToe.Library.OS;
 
 import java.io.BufferedReader;
 import java.io.IOException;

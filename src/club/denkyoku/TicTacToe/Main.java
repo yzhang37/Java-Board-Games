@@ -1,5 +1,7 @@
 package club.denkyoku.TicTacToe;
 
+import club.denkyoku.TicTacToe.Library.OS.SttyHelper;
+
 public class Main {
 
     public static void main(String[] args) {

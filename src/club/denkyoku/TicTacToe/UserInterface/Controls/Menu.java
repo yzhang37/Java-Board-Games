@@ -1,6 +1,6 @@
 package club.denkyoku.TicTacToe.UserInterface.Controls;
 
-import club.denkyoku.TicTacToe.ConsoleHelper;
+import club.denkyoku.TicTacToe.Library.Terminal.ConsoleHelper;
 import club.denkyoku.TicTacToe.Input.KeyHandler;
 
 

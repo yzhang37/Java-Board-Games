@@ -1,6 +1,6 @@
 package club.denkyoku.TicTacToe.Input;
 
-import club.denkyoku.TicTacToe.ConsoleHelper;
+import club.denkyoku.TicTacToe.Library.Terminal.ConsoleHelper;
 
 /**
  * KeyHandler for Examine all key presses.
