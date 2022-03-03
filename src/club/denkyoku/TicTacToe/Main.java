@@ -3,9 +3,6 @@ package club.denkyoku.TicTacToe;
 public class Main {
 
     public static void main(String[] args) {
-        // TODO: only needed for Unix and Linux
-        SttyHelper.disableEcho();
-        SttyHelper.bufferByCharacter();
 
         TicTacToe game = new TicTacToe();
         game.start();

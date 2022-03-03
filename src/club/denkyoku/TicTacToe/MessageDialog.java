@@ -195,6 +195,8 @@ public class MessageDialog {
                 }
             }
         }
+        keyHandler.exitInput();
+
         ConsoleHelper.printScreen(lastScreen);
         return ret_value;
     }

@@ -97,6 +97,10 @@ public class KeyHandler {
             else
                 System.out.println(key);
         } else {
+            // begin the unix raw input mode
+            SttyHelper.disableEcho();
+            SttyHelper.bufferByCharacter();
+
             // make call to read key stream
             this.rawReadKeyBuffer();
 
@@ -195,6 +199,9 @@ public class KeyHandler {
     public void exitInput() {
         try {
             RawConsoleInput.resetConsoleMode();
+
+            // Restore the original console mode
+            SttyHelper.enableEcho();
         } catch (IOException e) {}
     }
 }
