@@ -8,7 +8,7 @@ import java.util.Arrays;
 import biz.source_code.utils.RawConsoleInput;
 
 
-public class KeyHandler {
+public abstract class KeyHandler {
     // The character array used for reading stream.
     public static char[] bufferUnix = new char[10];
     // the buffer reader used on Linux and Mac
@@ -165,33 +165,33 @@ public class KeyHandler {
         return 0;
     }
 
-    void onKeyEsc() {}
-    void onKeyF1() {}
-    void onKeyF2() {}
-    void onKeyF3() {}
-    void onKeyF4() {}
-    void onKeyF5() {}
-    void onKeyF6() {}
-    void onKeyF7() {}
-    void onKeyF8() {}
-    void onKeyF9() {}
-    void onKeyF10() {}
-    void onKeyF11() {}
-    void onKeyF12() {}
-    void onKeyEnter() {}
-    void onKeyUp() {}
-    void onKeyDown() {}
-    void onKeyLeft() {}
-    void onKeyRight() {}
-    void onKeyHome() {}
-    void onKeyEnd() {}
-    void onKeyPgUp() {}
-    void onKeyPgDown() {}
-    void onKeyInsert() {}
-    void onKeyDelete() {}
-    void onKeyBackspace() {}
-    void onKeyTab() {}
-    void onNormalKey(char key) {}
+    protected void onKeyEsc() {}
+    protected void onKeyF1() {}
+    protected void onKeyF2() {}
+    protected void onKeyF3() {}
+    protected void onKeyF4() {}
+    protected void onKeyF5() {}
+    protected void onKeyF6() {}
+    protected void onKeyF7() {}
+    protected void onKeyF8() {}
+    protected void onKeyF9() {}
+    protected void onKeyF10() {}
+    protected void onKeyF11() {}
+    protected void onKeyF12() {}
+    protected void onKeyEnter() {}
+    protected void onKeyUp() {}
+    protected void onKeyDown() {}
+    protected void onKeyLeft() {}
+    protected void onKeyRight() {}
+    protected void onKeyHome() {}
+    protected void onKeyEnd() {}
+    protected void onKeyPgUp() {}
+    protected void onKeyPgDown() {}
+    protected void onKeyInsert() {}
+    protected void onKeyDelete() {}
+    protected void onKeyBackspace() {}
+    protected void onKeyTab() {}
+    protected void onNormalKey(char key) {}
 
     /**
      * Exit the Raw key input status.

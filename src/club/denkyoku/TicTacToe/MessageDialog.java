@@ -92,23 +92,27 @@ public class MessageDialog {
             dataSync = showDataSync;
         }
 
-        void onKeyEsc() {
+        protected void onKeyEsc() {
             dataSync.keepRun = false;
         }
 
-        void onKeyEnter() {
+        @Override
+        protected void onKeyEnter() {
             dataSync.doExecute = true;
         }
 
-        void onKeyUp() {
+        @Override
+        protected void onKeyUp() {
             dataSync.doDecrement = true;
         }
 
-        void onKeyDown() {
+        @Override
+        protected void onKeyDown() {
             dataSync.doIncrement = true;
         }
 
-        void onNormalKey(char key) {
+        @Override
+        protected void onNormalKey(char key) {
             if ('a' <= key && key <= 'z') {
                 key = (char) (key - ('a' - 'A'));
             }
