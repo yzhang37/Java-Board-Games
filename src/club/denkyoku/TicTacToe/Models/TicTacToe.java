@@ -1,8 +1,8 @@
-package club.denkyoku.TicTacToe;
+package club.denkyoku.TicTacToe.Models;
 
-import club.denkyoku.TicTacToe.Library.Terminal.ConsoleHelper;
-import club.denkyoku.TicTacToe.UserInterface.Controls.Menu;
-import club.denkyoku.TicTacToe.UserInterface.Controls.MessageDialog;
+import club.denkyoku.TicTacToe.Services.Output.Terminal.ConsoleHelper;
+import club.denkyoku.TicTacToe.Services.Output.Controls.Menu;
+import club.denkyoku.TicTacToe.Services.Output.Controls.MessageDialog;
 
 import java.util.Arrays;
 

@@ -1,9 +1,10 @@
-package club.denkyoku.TicTacToe.Library.Terminal;
+package club.denkyoku.TicTacToe.Services.Output.Terminal;
 
-import club.denkyoku.TicTacToe.Library.OS.ShellHelper;
+import club.denkyoku.TicTacToe.Libraries.OS.ShellHelper;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+
 
 public class ConsoleHelper {
     // TODO: add support for Windows, to display Unicodes.

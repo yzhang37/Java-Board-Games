@@ -1,4 +1,4 @@
-package club.denkyoku.TicTacToe;
+package club.denkyoku.TicTacToe.Models;
 
 import java.util.ArrayList;
 

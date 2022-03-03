@@ -1,4 +1,4 @@
-package club.denkyoku.TicTacToe;
+package club.denkyoku.TicTacToe.Models;
 
 // Human player, press the keyboard to play the game.
 public class HumanPlayer extends Player {

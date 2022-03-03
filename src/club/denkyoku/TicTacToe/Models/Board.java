@@ -1,4 +1,4 @@
-package club.denkyoku.TicTacToe;
+package club.denkyoku.TicTacToe.Models;
 
 public abstract class Board {
     // The size of the chessboard. Once set, it cannot be changed.

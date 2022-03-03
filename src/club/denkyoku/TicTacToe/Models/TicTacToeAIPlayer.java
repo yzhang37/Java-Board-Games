@@ -1,6 +1,6 @@
-package club.denkyoku.TicTacToe;
+package club.denkyoku.TicTacToe.Models;
 
-import club.denkyoku.TicTacToe.Library.Math.StdRandom;
+import club.denkyoku.TicTacToe.Libraries.Math.StdRandom;
 
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
