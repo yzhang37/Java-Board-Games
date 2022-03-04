@@ -5,7 +5,6 @@ import club.denkyoku.tictactoe.models.board.Slot;
 import club.denkyoku.tictactoe.models.gameplay.helpers.BoardRender;
 import club.denkyoku.tictactoe.models.gameplay.helpers.TurnBased;
 import club.denkyoku.tictactoe.models.player.Player;
-import club.denkyoku.tictactoe.services.input.DataSync;
 import club.denkyoku.tictactoe.services.input.KeyHandler;
 import club.denkyoku.tictactoe.services.output.controls.MessageDialog;
 
@@ -59,6 +58,11 @@ public class TicTacToeGamePlay extends GamePlay {
             do {
                 // do one turn
                 exitCode = this.oneTurn();
+
+                // means user want to quit
+                if (exitCode == -2) {
+                    return;
+                }
                 // check if the game is over
                 winner = this.checkWinner();
 
@@ -73,10 +77,6 @@ public class TicTacToeGamePlay extends GamePlay {
                 }
 
             } while (!gameOver);
-
-            // force exit
-            if (exitCode == -2)
-                return;
 
             // Reprint the board once before ending.
             this.printUI(false);
@@ -128,8 +128,8 @@ public class TicTacToeGamePlay extends GamePlay {
 
         Player curTurnPlayer = this.players[this.turn];
 
-        TurnBasedDataSync dataSync = new TurnBasedDataSync();
-        KeyHandler keyHandler = new TurnBasedKeyHandler(dataSync);
+        TurnBased.TurnBasedDataSync dataSync = new TurnBased.TurnBasedDataSync();
+        KeyHandler keyHandler = new TurnBased.TurnBasedKeyHandler(dataSync);
         if (curTurnPlayer.isHumanPlayer()) {
             boolean redraw = false;
             boolean firstTouch = true;
@@ -179,7 +179,7 @@ public class TicTacToeGamePlay extends GamePlay {
                     redraw = true;
                 } else if (dataSync.doEnter) {
                     if (this.checkCanPut(this.cursor_x, this.cursor_y)) {
-                        this.board.put(this.cursor_x, this.cursor_y, new Slot(curTurnPlayer));
+                        humanSelectMove(curTurnPlayer);
                         break;
                     }
                 }
@@ -194,65 +194,16 @@ public class TicTacToeGamePlay extends GamePlay {
         return 0;
     }
 
-    private static class TurnBasedDataSync extends DataSync {
-        public boolean doExit;
-        public boolean doMoveUp;
-        public boolean doMoveDown;
-        public boolean doMoveLeft;
-        public boolean doMoveRight;
-        public boolean doEnter;
-        public boolean keepRun;
-
-        @Override
-        public void reset() {
-            this.keepRun = true;
-            this.doExit = false;
-            this.doMoveUp = false;
-            this.doMoveDown = false;
-            this.doMoveLeft = false;
-            this.doMoveRight = false;
-            this.doEnter = false;
-        }
+    /**
+     * Called when human select a slot.
+     */
+    protected void humanSelectMove(Player curTurnPlayer) {
+        this.board.put(this.cursor_x, this.cursor_y, new Slot(curTurnPlayer));
     }
 
-    private static class TurnBasedKeyHandler extends KeyHandler {
-        protected final TurnBasedDataSync dataSync;
-
-        public TurnBasedKeyHandler(TurnBasedDataSync dataSync) {
-            this.dataSync = dataSync;
-        }
-
-        @Override
-        protected void onKeyEsc() {
-            this.dataSync.doExit = true;
-        }
-
-        @Override
-        protected void onKeyUp() {
-            this.dataSync.doMoveUp = true;
-        }
-
-        @Override
-        protected void onKeyDown() {
-            this.dataSync.doMoveDown = true;
-        }
-
-        @Override
-        protected void onKeyLeft() {
-            this.dataSync.doMoveLeft = true;
-        }
-
-        @Override
-        protected void onKeyRight() {
-            this.dataSync.doMoveRight = true;
-        }
-
-        @Override
-        protected void onKeyEnter() {
-            this.dataSync.doEnter = true;
-        }
-    }
-
+    /**
+     * Function used to switch to next player.
+     */
     protected void nextTurn() {
         this.turn ++;
         if (this.turn >= this.players.length) {
@@ -264,6 +215,10 @@ public class TicTacToeGamePlay extends GamePlay {
         return this.board.at(x, y) == null;
     }
 
+    /**
+     * Function used to check if the game have a winner.
+     * @return The winner player. If there's no winner, return null.
+     */
     protected Player checkWinner() {
         boolean same;
         Slot first;
@@ -360,6 +315,7 @@ public class TicTacToeGamePlay extends GamePlay {
 
     public void reset() {
         this.cursor_x = this.cursor_y = 0;
+        this.turn = 0;
         this.board.clear();
     }
 }

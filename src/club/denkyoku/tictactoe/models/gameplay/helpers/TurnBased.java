@@ -1,6 +1,8 @@
 package club.denkyoku.tictactoe.models.gameplay.helpers;
 
 import club.denkyoku.tictactoe.models.player.Player;
+import club.denkyoku.tictactoe.services.input.DataSync;
+import club.denkyoku.tictactoe.services.input.KeyHandler;
 import club.denkyoku.tictactoe.services.output.terminal.ConsoleHelper;
 
 /**
@@ -73,5 +75,64 @@ public class TurnBased {
             gameScreen[lineId] = sb.toString();
         }
         ConsoleHelper.printScreen(gameScreen);
+    }
+
+    public static class TurnBasedDataSync extends DataSync {
+        public boolean doExit;
+        public boolean doMoveUp;
+        public boolean doMoveDown;
+        public boolean doMoveLeft;
+        public boolean doMoveRight;
+        public boolean doEnter;
+        public boolean keepRun;
+
+        @Override
+        public void reset() {
+            this.keepRun = true;
+            this.doExit = false;
+            this.doMoveUp = false;
+            this.doMoveDown = false;
+            this.doMoveLeft = false;
+            this.doMoveRight = false;
+            this.doEnter = false;
+        }
+    }
+
+    public static class TurnBasedKeyHandler extends KeyHandler {
+        protected final TurnBasedDataSync dataSync;
+
+        public TurnBasedKeyHandler(TurnBasedDataSync dataSync) {
+            this.dataSync = dataSync;
+        }
+
+        @Override
+        protected void onKeyEsc() {
+            this.dataSync.doExit = true;
+        }
+
+        @Override
+        protected void onKeyUp() {
+            this.dataSync.doMoveUp = true;
+        }
+
+        @Override
+        protected void onKeyDown() {
+            this.dataSync.doMoveDown = true;
+        }
+
+        @Override
+        protected void onKeyLeft() {
+            this.dataSync.doMoveLeft = true;
+        }
+
+        @Override
+        protected void onKeyRight() {
+            this.dataSync.doMoveRight = true;
+        }
+
+        @Override
+        protected void onKeyEnter() {
+            this.dataSync.doEnter = true;
+        }
     }
 }

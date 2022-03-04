@@ -21,7 +21,10 @@ import java.util.Arrays;
 public class TicTacToeMenu {
     protected static final String[] mainMenuItems = new String[]{
             "Single Player", "Multiplayer", "Settings", "Mods", "Exit"};
-    protected static final String copyright = "\nCopyright (c) 2022 Denkyoku. All Rights Reserved.";
+    protected static final String copyright = """
+
+Copyright (c) 2007-2011, 2014, 2019-2022,
+Denkyoku. All Rights Reserved.""";
     protected static final String[] exitQueryMessage = new String[]{
             "Are you sure you want to exit?"
     };

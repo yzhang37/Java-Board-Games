@@ -1,6 +1,6 @@
 package club.denkyoku.tictactoe.models.game;
 
-import club.denkyoku.tictactoe.models.gamemenu.TicTacToeMenu;
+import club.denkyoku.tictactoe.models.gamemenu.OrderAndChaosMenu;
 
 public class OrderAndChaosMod extends Mod {
     public OrderAndChaosMod() {
@@ -10,7 +10,7 @@ public class OrderAndChaosMod extends Mod {
 
     @Override
     public void run() {
-        TicTacToeMenu game = new TicTacToeMenu();
+        OrderAndChaosMenu game = new OrderAndChaosMenu();
         game.start();
     }
 }
