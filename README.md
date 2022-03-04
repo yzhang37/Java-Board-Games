@@ -9,7 +9,7 @@ Student Id: U82871437
 
 ### Compile and Run:
 
-You must have at least Java 8 or OpenJDK 1.8 to build the project. Otherwise it's not guaranteed that it will work.
+This program is tested on OpenJDK 1.17.
 
 first clone this repo, and then inside the repo, type and enter:
 
@@ -21,7 +21,7 @@ javac src/club/denkyoku/TicTacToe/*.java -d out/production/Tic-Tac-Toe
 And to run:
 
 ```Bash
-(cd out/production/Tic-Tac-Toe/ && java club.denkyoku.TicTacToe.Main)
+(cd out/production/Tic-Tac-Toe/ && java club.denkyoku.tictactoe.Main)
 ```
 
 
@@ -70,7 +70,7 @@ Notes: Without Deep learning, AI can only play with you when board size is $3\ti
 
 ### Class extensiblity
 
-This project takes full account of scalability in each design place. In other words, you only need to modify some of the codes, or use some class overloads, you can easily rewrite this game into any board game, including Go, Gobang, Chess, Checkers, etc.
+This project takes full account of scalability in each design place. In other words, you only need to modify some codes, or use some class overloads, you can easily rewrite this game into any board game, including Go, Gobang, Chess, Checkers, etc.
 
 Each class that can be overloaded or customized is listed below:
 
@@ -95,7 +95,7 @@ The player class is a highly abstract class. It only implements the most basic f
 
 There are two very important contents:
 
-- `boolean isHumanPlayer`: This is an property. When a subclass inherits, it should clearly indicate whether this class is a human player. In the process of game processing, if a player is found to be a human player, it will open the up, down, left and right control keys to let the player control the position of move by himself. If `False`, `getMove(Board, myId, otherIds)` will be called to let the program automatically calculate the next move.
+- `boolean isHumanPlayer`: This is a property. When a subclass inherits, it should clearly indicate whether this class is a human player. In the process of game processing, if a player is found to be a human player, it will open the up, down, left and right control keys to let the player control the position of move by himself. If `False`, `getMove(Board, myId, otherIds)` will be called to let the program automatically calculate the next move.
 - `Move getMove(Board, int myId, int[] otherIds)`: Board object is required for AI to check the board and calculate. Then it is also necessary to provide the id corresponding to AI and the id corresponding to other players to help AI to calculate the current weight value. (Some methods like min/max algorithm, AI needs these stuffs to compute).
 
 #### Menu and MessageDialog
@@ -109,7 +109,7 @@ These two classes implement the most basic interface in the game and are very ea
 
 ### Known problem
 
-Because this program uses TTY-based technology, it can only run in Mac OS or Linux systems. The interaction key under the Windows will have problems and cannot be used. It is recommended to use `csa1.bu.edu` or `csa2.bu.edu` for evaluation.
+Because this program uses TTY-based technology, it can only run in macOS or Linux systems. The interaction key under the Windows will have problems and cannot be used. It is recommended to use `csa1.bu.edu` or `csa2.bu.edu` for evaluation.
 
 I will find other compatibility solutions to solve the compatibility problems under Windows.
 
