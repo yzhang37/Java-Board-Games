@@ -35,6 +35,7 @@ public class ConsoleHelper {
      */
     public static void CleanConsole() {
         if (RawConsoleInput.getIsWindows()) {
+            winRunOnce();
             try {
                 new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
             } catch (IOException | InterruptedException e) {
