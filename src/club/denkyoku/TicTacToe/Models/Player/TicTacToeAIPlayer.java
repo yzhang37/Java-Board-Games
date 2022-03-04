@@ -1,8 +1,9 @@
-package club.denkyoku.TicTacToe.Models;
+package club.denkyoku.TicTacToe.Models.Player;
 
 import club.denkyoku.TicTacToe.Libraries.Math.StdRandom;
 import club.denkyoku.TicTacToe.Models.Board.Board;
 import club.denkyoku.TicTacToe.Models.Board.Slot;
+import club.denkyoku.TicTacToe.Models.Player.Player;
 
 import java.util.concurrent.ThreadLocalRandom;
 

@@ -1,6 +1,6 @@
 package club.denkyoku.TicTacToe.Models.GamePlay.Helpers;
 
-import club.denkyoku.TicTacToe.Models.Player;
+import club.denkyoku.TicTacToe.Models.Player.Player;
 import club.denkyoku.TicTacToe.Services.Output.Terminal.ConsoleHelper;
 
 /**

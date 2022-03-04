@@ -1,6 +1,6 @@
 package club.denkyoku.TicTacToe.Models.GamePlay;
 
-import club.denkyoku.TicTacToe.Models.Player;
+import club.denkyoku.TicTacToe.Models.Player.Player;
 
 public abstract class GamePlay {
     // whether there's only one human player

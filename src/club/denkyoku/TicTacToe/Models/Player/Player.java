@@ -1,4 +1,4 @@
-package club.denkyoku.TicTacToe.Models;
+package club.denkyoku.TicTacToe.Models.Player;
 
 import club.denkyoku.TicTacToe.Models.Board.Board;
 import club.denkyoku.TicTacToe.Models.Board.Slot;
