@@ -1,6 +1,6 @@
 package club.denkyoku.TicTacToe.Models.Board;
 
-import club.denkyoku.TicTacToe.Models.Player;
+import club.denkyoku.TicTacToe.Models.Player.Player;
 
 public class Slot {
     protected Player player;

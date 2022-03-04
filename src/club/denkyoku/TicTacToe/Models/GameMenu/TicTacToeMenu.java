@@ -1,7 +1,12 @@
-package club.denkyoku.TicTacToe.Models;
+package club.denkyoku.TicTacToe.Models.GameMenu;
 
+import club.denkyoku.TicTacToe.Models.Config;
 import club.denkyoku.TicTacToe.Models.GamePlay.GamePlay;
 import club.denkyoku.TicTacToe.Models.GamePlay.TicTacToeGamePlay;
+import club.denkyoku.TicTacToe.Models.ModMenu;
+import club.denkyoku.TicTacToe.Models.Player.HumanPlayer;
+import club.denkyoku.TicTacToe.Models.Player.Player;
+import club.denkyoku.TicTacToe.Models.Player.TicTacToeAIPlayer;
 import club.denkyoku.TicTacToe.Services.Output.Terminal.ConsoleHelper;
 import club.denkyoku.TicTacToe.Services.Output.Controls.Menu;
 import club.denkyoku.TicTacToe.Services.Output.Controls.MessageDialog;
@@ -9,8 +14,9 @@ import club.denkyoku.TicTacToe.Services.Output.Controls.MessageDialog;
 import java.util.Arrays;
 
 
-public class TicTacToe {
-    protected static String[] mainMenuItems = new String[]{"Single Player", "Multiplayer", "Settings", "Exit"};
+public class TicTacToeMenu {
+    protected static String[] mainMenuItems = new String[]{
+            "Single Player", "Multiplayer", "Settings", "Mods", "Exit"};
     protected static String copyright = "\nCopyright (c) 2022 Denkyoku. All Rights Reserved.";
     protected static String[] exitQueryMessage = new String[]{
             "Are you sure you want to exit?"
@@ -29,11 +35,16 @@ public class TicTacToe {
                 case 0 -> singlePlayer();
                 case 1 -> multiplayer();
                 case 2 -> settings();
-                case 3, -1 -> {
+                case 3 -> {
+                    if (ModMenu.chooseMod())
+                        return;
+                }
+                case 4, -1 -> {
                     int retVal = MessageDialog.show(exitQueryMessage,
                             MessageDialog.getYesNo(), 1, 1);
                     if (retVal == 0) {
                         ConsoleHelper.println("See you~");
+                        Config.doExitProgram = true;
                         return;
                     }
                 }

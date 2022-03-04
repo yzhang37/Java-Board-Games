@@ -4,7 +4,7 @@ import club.denkyoku.TicTacToe.Models.Board.Board;
 import club.denkyoku.TicTacToe.Models.Board.Slot;
 import club.denkyoku.TicTacToe.Models.GamePlay.Helpers.BoardRender;
 import club.denkyoku.TicTacToe.Models.GamePlay.Helpers.TurnBased;
-import club.denkyoku.TicTacToe.Models.Player;
+import club.denkyoku.TicTacToe.Models.Player.Player;
 import club.denkyoku.TicTacToe.Services.Input.KeyHandler;
 import club.denkyoku.TicTacToe.Services.Output.Controls.MessageDialog;
 
