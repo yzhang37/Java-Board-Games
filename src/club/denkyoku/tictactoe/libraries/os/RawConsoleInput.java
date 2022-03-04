@@ -15,8 +15,11 @@ package club.denkyoku.tictactoe.libraries.os;
 
 // Java API
 
-import java.io.InputStream;
+import com.sun.jna.*;
+import com.sun.jna.ptr.IntByReference;
+
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.Charset;
@@ -24,14 +27,6 @@ import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CodingErrorAction;
 import java.util.Arrays;
 import java.util.List;
-
-// Core JAVA Native API
-import com.sun.jna.LastErrorException;
-import com.sun.jna.Library;
-import com.sun.jna.Native;
-import com.sun.jna.Structure;
-import com.sun.jna.Pointer;
-import com.sun.jna.ptr.IntByReference;
 
 /**
  * A JNA based driver for reading single characters from the console.

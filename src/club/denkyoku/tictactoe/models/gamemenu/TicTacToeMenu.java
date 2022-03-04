@@ -1,16 +1,16 @@
 package club.denkyoku.tictactoe.models.gamemenu;
 
 import club.denkyoku.tictactoe.models.Config;
+import club.denkyoku.tictactoe.models.ModMenu;
+import club.denkyoku.tictactoe.models.Resources;
 import club.denkyoku.tictactoe.models.gameplay.GamePlay;
 import club.denkyoku.tictactoe.models.gameplay.TicTacToeGamePlay;
-import club.denkyoku.tictactoe.models.ModMenu;
 import club.denkyoku.tictactoe.models.player.HumanPlayer;
 import club.denkyoku.tictactoe.models.player.Player;
 import club.denkyoku.tictactoe.models.player.TicTacToeAIPlayer;
-import club.denkyoku.tictactoe.models.Resources;
-import club.denkyoku.tictactoe.services.output.terminal.ConsoleHelper;
 import club.denkyoku.tictactoe.services.output.controls.Menu;
 import club.denkyoku.tictactoe.services.output.controls.MessageDialog;
+import club.denkyoku.tictactoe.services.output.terminal.ConsoleHelper;
 
 import java.util.Arrays;
 

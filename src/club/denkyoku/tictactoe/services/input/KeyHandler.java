@@ -1,13 +1,13 @@
 package club.denkyoku.tictactoe.services.input;
 
+import club.denkyoku.tictactoe.libraries.os.RawConsoleInput;
+import club.denkyoku.tictactoe.libraries.os.SttyHelper;
+import club.denkyoku.tictactoe.services.debug.DebugHelper;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
-
-import club.denkyoku.tictactoe.libraries.os.RawConsoleInput;
-import club.denkyoku.tictactoe.services.debug.DebugHelper;
-import club.denkyoku.tictactoe.libraries.os.SttyHelper;
 
 
 public abstract class KeyHandler {

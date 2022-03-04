@@ -1,8 +1,8 @@
 package club.denkyoku.tictactoe.services.output.controls;
 
 import club.denkyoku.tictactoe.services.input.DataSync;
-import club.denkyoku.tictactoe.services.output.terminal.ConsoleHelper;
 import club.denkyoku.tictactoe.services.input.KeyHandler;
+import club.denkyoku.tictactoe.services.output.terminal.ConsoleHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;

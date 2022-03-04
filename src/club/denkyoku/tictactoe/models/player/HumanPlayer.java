@@ -1,9 +1,9 @@
 package club.denkyoku.tictactoe.models.player;
 
 
+import club.denkyoku.tictactoe.models.Config;
 import club.denkyoku.tictactoe.models.board.Board;
 import club.denkyoku.tictactoe.models.board.Slot;
-import club.denkyoku.tictactoe.models.Config;
 import club.denkyoku.tictactoe.models.configuration.PlayerInfo;
 
 // Human player, press the keyboard to play the game.
