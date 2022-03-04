@@ -1,5 +1,9 @@
 package club.denkyoku.TicTacToe.Models;
 
+
+import club.denkyoku.TicTacToe.Models.Board.Board;
+import club.denkyoku.TicTacToe.Models.Board.Slot;
+
 // Human player, press the keyboard to play the game.
 public class HumanPlayer extends Player {
     public HumanPlayer() {
@@ -15,7 +19,8 @@ public class HumanPlayer extends Player {
     }
 
     @Override
-    public Move getMove(Board board, int myId, int[] otherIds) {
+    public <T extends Slot> Move getMove(
+            Board<T> board, Player[] playerLists) {
         return new Move(0, 0);
     }
 }

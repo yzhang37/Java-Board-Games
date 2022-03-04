@@ -2,13 +2,13 @@ package club.denkyoku.TicTacToe.Models;
 
 import java.util.ArrayList;
 
-public class config {
-    static char[] randomSymbol = new char[]{
+public class Config {
+    public static char[] randomSymbol = new char[]{
             '◎', '●', '◇', '◆', '□', '■', '♧', '♣', '♤', '♠', '♡', '♥', '♢', '♦', '♪', '♫', '$', '·', '∞'};
-    static char[] allSymbol = new char[]{'✕', '○',
+    public static char[] allSymbol = new char[]{'✕', '○',
             '◎', '●', '◇', '◆', '□', '■', '♧', '♣', '♤', '♠', '♡', '♥', '♢', '♦', '♪', '♫', '$', '·', '∞'};
 
-    static class PlayerInfo {
+    public static class PlayerInfo {
         public String name;
         public char symbol;
         public PlayerInfo(String name, char symbol) {
@@ -17,12 +17,12 @@ public class config {
         }
     }
 
-    static int boardSize = 3;
+    public static int boardSize = 3;
     private static int playerCounts = 2;
-    static ArrayList<PlayerInfo> playerInfos = new ArrayList<>();
+    public static ArrayList<PlayerInfo> playerInfos = new ArrayList<>();
 
-    static void setPlayerCounts(int playerCounts) {
-        config.playerCounts = playerCounts;
+    public static void setPlayerCounts(int playerCounts) {
+        Config.playerCounts = playerCounts;
         while (playerInfos.size() < playerCounts) {
             char newSymbol = randomSymbol[(int) (Math.random() * randomSymbol.length)];
             playerInfos.add(new PlayerInfo(
@@ -30,7 +30,7 @@ public class config {
         }
     }
 
-    static int getPlayerCounts() {
+    public static int getPlayerCounts() {
         return playerCounts;
     }
 
@@ -39,7 +39,7 @@ public class config {
         playerInfos.add(new PlayerInfo("Player 2", '○'));
     }
 
-    static String getCustomTicName(int boardSize) {
+    public static String getCustomTicName(int boardSize) {
         if (boardSize == 3) {
             return "Tic-Tac-Toe";
         } else {
