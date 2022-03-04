@@ -1,5 +1,6 @@
 package club.denkyoku.tictactoe.services.output.terminal;
 
+import club.denkyoku.tictactoe.libraries.os.RawConsoleInput;
 import club.denkyoku.tictactoe.libraries.os.ShellHelper;
 
 import java.io.IOException;
@@ -16,8 +17,13 @@ public class ConsoleHelper {
      * Helper method to clear the console.
      */
     public static void CleanConsole() {
-        // TODO: add support for Windows
-        printWriter.print("\033[H\033[2J");
+        if (RawConsoleInput.getIsWindows()){
+            try {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } catch (IOException | InterruptedException e) {}
+        } else {
+            printWriter.print("\033[H\033[2J");
+        }
     }
 
     public static void println(String str) {

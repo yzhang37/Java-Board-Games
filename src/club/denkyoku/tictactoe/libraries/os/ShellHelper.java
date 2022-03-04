@@ -3,9 +3,21 @@ package club.denkyoku.tictactoe.libraries.os;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 
 public class ShellHelper {
-    private static final String SHELL = "/bin/sh";
+    private static final String SHELL;
+    private static final String OP;
+
+    static {
+        if (RawConsoleInput.getIsWindows()) {
+            SHELL = "cmd.exe";
+            OP = "/C";
+        } else {
+            SHELL = "/bin/sh";
+            OP = "-c";
+        }
+    }
 
     public static class Result {
         public final String output;
@@ -23,7 +35,7 @@ public class ShellHelper {
         Runtime rt = Runtime.getRuntime();
         int ret = 1;
 
-        Process proc = rt.exec(new String[]{SHELL, "-c", command});
+        Process proc = rt.exec(new String[]{SHELL, OP, command});
 
         BufferedReader stdOutput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
         BufferedReader stdError = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
