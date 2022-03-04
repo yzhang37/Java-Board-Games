@@ -1,5 +1,9 @@
 package club.denkyoku.TicTacToe.Models;
 
+import club.denkyoku.TicTacToe.Models.Board.Board;
+import club.denkyoku.TicTacToe.Models.Board.Slot;
+
+
 public abstract class Player {
     protected String name;
     protected char symbol;
@@ -31,9 +35,16 @@ public abstract class Player {
         return this.isHuman;
     }
 
-    // Given a board, let the player decide which position to take.
-    // If isHuman = true, Game can ignore calling this function.
-    public abstract Move getMove(Board board, int myId, int[] otherIds);
+    /**
+     * Function, given a board, let the player decide which position to take.
+     * If <code>isHuman = true</code>, Game can ignore calling this function.
+     * @param board The <code>Board</code> object the player will check.
+     * @param playerLists The <code>Player</code> objects in the game.
+     *                    The player can use it to check score of other players.
+     * @param <T> The type of <code>Slot</code> object.
+     * @return The place the player wants to take.
+     */
+    public abstract <T extends Slot> Move getMove(Board<T> board, Player[] playerLists);
 
     public static class Move {
         public int x;
