@@ -177,7 +177,7 @@ public class TicTacToeAIPlayer extends Player {
     }
 
     private <T extends Slot> Move FindRandom(Board<T> board) {
-        int x = 0, y = 0;
+        int x, y;
         do {
             x = ThreadLocalRandom.current().nextInt(1, 3 + 1);
             y = ThreadLocalRandom.current().nextInt(1, 3 + 1);

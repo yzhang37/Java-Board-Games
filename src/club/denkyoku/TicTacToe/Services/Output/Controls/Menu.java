@@ -1,5 +1,6 @@
 package club.denkyoku.TicTacToe.Services.Output.Controls;
 
+import club.denkyoku.TicTacToe.Services.Input.DataSync;
 import club.denkyoku.TicTacToe.Services.Output.Terminal.ConsoleHelper;
 import club.denkyoku.TicTacToe.Services.Input.KeyHandler;
 
@@ -167,17 +168,14 @@ public class Menu {
     /**
      * The data synchronization between the menu and the key handler.
      */
-    private static class MenuHandlerDataSync {
+    private static class MenuHandlerDataSync extends DataSync {
         public boolean redraw;
         public boolean keepRun;
         public boolean doIncrement;
         public boolean doDecrement;
         public boolean doExecute;
 
-        public MenuHandlerDataSync() {
-            this.reset();
-        }
-
+        @Override
         public void reset() {
             this.redraw = false;
             this.keepRun = true;

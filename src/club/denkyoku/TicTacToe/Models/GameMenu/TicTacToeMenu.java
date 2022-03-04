@@ -1,12 +1,14 @@
 package club.denkyoku.TicTacToe.Models.GameMenu;
 
 import club.denkyoku.TicTacToe.Models.Config;
+import club.denkyoku.TicTacToe.Models.Configuration.PlayerInfo;
 import club.denkyoku.TicTacToe.Models.GamePlay.GamePlay;
 import club.denkyoku.TicTacToe.Models.GamePlay.TicTacToeGamePlay;
 import club.denkyoku.TicTacToe.Models.ModMenu;
 import club.denkyoku.TicTacToe.Models.Player.HumanPlayer;
 import club.denkyoku.TicTacToe.Models.Player.Player;
 import club.denkyoku.TicTacToe.Models.Player.TicTacToeAIPlayer;
+import club.denkyoku.TicTacToe.Models.Resources;
 import club.denkyoku.TicTacToe.Services.Output.Terminal.ConsoleHelper;
 import club.denkyoku.TicTacToe.Services.Output.Controls.Menu;
 import club.denkyoku.TicTacToe.Services.Output.Controls.MessageDialog;
@@ -14,6 +16,9 @@ import club.denkyoku.TicTacToe.Services.Output.Controls.MessageDialog;
 import java.util.Arrays;
 
 
+/**
+ * The Game Entry Menu for TicTacToe.
+ */
 public class TicTacToeMenu {
     protected static String[] mainMenuItems = new String[]{
             "Single Player", "Multiplayer", "Settings", "Mods", "Exit"};
@@ -26,10 +31,16 @@ public class TicTacToeMenu {
             "classic Tic-Tac-Toe and 2 players.",
     };
 
+    /**
+     * The main entry point of the program.
+     */
     public void start() {
+        // When enter the game, we first run the bell once.
+        ConsoleHelper.bell();
+
         while (true) {
             Menu menu = new Menu(mainMenuItems,
-                    Config.getCustomTicName(Config.boardSize), copyright);
+                    TicTacToeMenu.getCustomTicName(Config.boardSize), copyright);
             int ret = menu.start();
             switch (ret) {
                 case 0 -> singlePlayer();
@@ -52,6 +63,9 @@ public class TicTacToeMenu {
         }
     }
 
+    /**
+     * Do single player game.
+     */
     protected void singlePlayer() {
         if (Config.boardSize != 3 || Config.getPlayerCounts() != 2) {
             MessageDialog.show(singleWarning);
@@ -85,20 +99,18 @@ public class TicTacToeMenu {
         }
     }
 
+    /**
+     * Do multiplayer game.
+     */
     protected void multiplayer() {
-        GamePlay gamePlay = new TicTacToeGamePlay(Config.boardSize, createPlayers());
+        GamePlay gamePlay = new TicTacToeGamePlay(Config.boardSize,
+                HumanPlayer.createHumanPlayers());
         gamePlay.start();
     }
 
-    protected Player[] createPlayers() {
-        Player[] players = new Player[Config.getPlayerCounts()];
-        for (int i = 0; i < Config.getPlayerCounts(); i++) {
-            Config.PlayerInfo info = Config.playerInfos.get(i);
-            players[i] = new HumanPlayer(info.name, info.symbol);
-        }
-        return players;
-    }
-
+    /**
+     * Do settings.
+     */
     protected void settings() {
         String[] basicSettings = new String[]{
                 "Board size",
@@ -114,7 +126,7 @@ public class TicTacToeMenu {
             }
 
             Menu menu = new Menu(advSettings,
-                    Config.getCustomTicName(Config.boardSize) + " Settings", "");
+                    TicTacToeMenu.getCustomTicName(Config.boardSize) + " Settings", "");
             int ret = menu.start();
 
             switch (ret) {
@@ -132,6 +144,10 @@ public class TicTacToeMenu {
         }
     }
 
+    /**
+     * Change player id settings
+     * @param id the player id
+     */
     protected void playerFancySettings(int id) {
         String[] settings = new String[]{
                 "Change your name",
@@ -165,17 +181,20 @@ public class TicTacToeMenu {
     }
 
     protected void settingsPlayerSymbol(int id) {
-        String [] symbols = new String[Config.allSymbol.length];
+        String [] symbols = new String[Resources.getAllSymbolLength()];
         for (int i = 0; i < symbols.length; i++) {
-            symbols[i] = String.format("%c", Config.allSymbol[i]);
+            symbols[i] = String.format("%c", Resources.getAllSymbol(i));
         }
         Menu menu = new Menu(symbols,"Player " + (id + 1) + " symbol", "");
         int ret = menu.start();
         if (ret >= 0) {
-            Config.playerInfos.get(id).symbol = Config.allSymbol[ret];
+            Config.playerInfos.get(id).symbol = Resources.getAllSymbol(ret);
         }
     }
 
+    /**
+     * Do change player counts
+     */
     protected void settingsPlayerCounts() {
         Menu menu = new Menu(
                 new String[]{"2", "3", "4", "5", "6", "7", "8", "9"},
@@ -196,6 +215,9 @@ public class TicTacToeMenu {
         }
     }
 
+    /**
+     * Do change the Board Size
+     */
     protected void settingsBoardSize() {
         Menu menu = new Menu(
                 new String[]{"3✕3", "4✕4", "5✕5", "6✕6", "7✕7", "8✕8", "9✕9"},
@@ -210,6 +232,19 @@ public class TicTacToeMenu {
             case 4 -> Config.boardSize = 7;
             case 5 -> Config.boardSize = 8;
             case 6 -> Config.boardSize = 9;
+        }
+    }
+
+    /**
+     * Helper function to show different Game title for TicTacToe
+     * @param boardSize board size
+     * @return The title of the game based on board size.
+     */
+    public static String getCustomTicName(int boardSize) {
+        if (boardSize == 3) {
+            return "Tic-Tac-Toe";
+        } else {
+            return String.format("%d-In-a-Row", boardSize);
         }
     }
 }

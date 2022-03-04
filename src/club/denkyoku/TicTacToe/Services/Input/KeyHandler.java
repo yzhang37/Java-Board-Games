@@ -12,9 +12,9 @@ import club.denkyoku.TicTacToe.Libraries.OS.SttyHelper;
 
 public abstract class KeyHandler {
     // The character array used for reading stream.
-    public static char[] bufferUnix = new char[10];
+    public static final char[] bufferUnix = new char[10];
     // the buffer reader used on Linux and Mac
-    public static BufferedReader brUnix = new BufferedReader(new InputStreamReader(System.in));
+    public static final BufferedReader brUnix = new BufferedReader(new InputStreamReader(System.in));
 
     /**
      * The raw function for reading a key from

@@ -9,7 +9,7 @@ public class OrderAndChaosMod extends Mod {
     }
 
     @Override
-    public void Run() {
+    public void run() {
         TicTacToeMenu game = new TicTacToeMenu();
         game.start();
     }

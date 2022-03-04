@@ -1,7 +1,7 @@
 package club.denkyoku.TicTacToe.Models.Board;
 
 public class Board<T extends Slot> {
-    private T[][] board;
+    private final T[][] board;
     private final int height;
     private final int width;
     private int usedSlots;
