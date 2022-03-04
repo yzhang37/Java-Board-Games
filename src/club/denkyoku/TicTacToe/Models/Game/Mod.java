@@ -33,7 +33,7 @@ public abstract class Mod {
     /**
      * Run the Game Mod.
      */
-    abstract public void Run();
+    abstract public void run();
 
     @Override
     public boolean equals(Object obj) {

@@ -5,6 +5,7 @@ import club.denkyoku.TicTacToe.Models.Board.Slot;
 import club.denkyoku.TicTacToe.Models.GamePlay.Helpers.BoardRender;
 import club.denkyoku.TicTacToe.Models.GamePlay.Helpers.TurnBased;
 import club.denkyoku.TicTacToe.Models.Player.Player;
+import club.denkyoku.TicTacToe.Services.Input.DataSync;
 import club.denkyoku.TicTacToe.Services.Input.KeyHandler;
 import club.denkyoku.TicTacToe.Services.Output.Controls.MessageDialog;
 
@@ -190,7 +191,7 @@ public class TicTacToeGamePlay extends GamePlay {
         return 0;
     }
 
-    private static class TurnBasedDataSync {
+    private static class TurnBasedDataSync extends DataSync {
         public boolean doExit;
         public boolean doMoveUp;
         public boolean doMoveDown;
@@ -199,10 +200,7 @@ public class TicTacToeGamePlay extends GamePlay {
         public boolean doEnter;
         public boolean keepRun;
 
-        public TurnBasedDataSync() {
-            this.reset();
-        }
-
+        @Override
         public void reset() {
             this.keepRun = true;
             this.doExit = false;

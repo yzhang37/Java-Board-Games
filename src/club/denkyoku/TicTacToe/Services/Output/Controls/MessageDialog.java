@@ -1,5 +1,6 @@
 package club.denkyoku.TicTacToe.Services.Output.Controls;
 
+import club.denkyoku.TicTacToe.Services.Input.DataSync;
 import club.denkyoku.TicTacToe.Services.Output.Terminal.ConsoleHelper;
 import club.denkyoku.TicTacToe.Services.Input.KeyHandler;
 
@@ -121,7 +122,7 @@ public class MessageDialog {
     /**
      * The data synchronization between the Message Dialog and the key handler.
      */
-    private static class ShowDataSync {
+    private static class ShowDataSync extends DataSync {
         public boolean redraw;
         public boolean keepRun;
 
@@ -130,10 +131,7 @@ public class MessageDialog {
         public boolean doExecute;
         public char accessKey;
 
-        public ShowDataSync() {
-            this.reset();
-        }
-
+        @Override
         public void reset() {
             this.redraw = false;
             this.keepRun = true;

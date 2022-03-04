@@ -34,7 +34,7 @@ public class ShellHelper {
 
         // Read the output from the command
         StringBuilder sbOutput = new StringBuilder();
-        String s = null;
+        String s;
         while ((s = stdOutput.readLine()) != null) {
             if (sbOutput.length() > 0) {
                 sbOutput.append("\n");
