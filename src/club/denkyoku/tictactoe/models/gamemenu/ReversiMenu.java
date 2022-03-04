@@ -1,13 +1,30 @@
 package club.denkyoku.tictactoe.models.gamemenu;
 
+import club.denkyoku.tictactoe.libraries.math.StdRandom;
 import club.denkyoku.tictactoe.models.Config;
 import club.denkyoku.tictactoe.models.ModMenu;
 import club.denkyoku.tictactoe.services.output.controls.Menu;
+import club.denkyoku.tictactoe.services.output.controls.MessageDialog;
+
 
 public class ReversiMenu {
     protected static final String[] mainMenuItems = new String[]{
             "Single Player", "Multiplayer", "Skirmish", "Settings", "Mods", "Exit"};
 
+    protected static final String[][] exitQueryMessage = new String[][] {
+            new String[]{ "Ready to get back to work?" },
+            new String[] { "I wouldn't leave if I were you.", "", "Work is much worse." },
+            new String[] { "I'm not leaving.", "I'm not leaving.", "I'm not leaving. <333333" },
+            new String[] { "Are you sure you want to quit", "this great game? "},
+            new String[] { "Go ahead and leave.", "", "See if I care." }
+    };
+
+    protected static final MessageDialog.Button[] exitButtons = new MessageDialog.Button[] {
+            new MessageDialog.Button("Leave Anyway", '\0'),
+            new MessageDialog.Button("No, I'm not leaving", '\0'),
+    };
+
+    // begin the main menu
     public void start() {
         Menu menu = new Menu(mainMenuItems,
                 "🔴🔵Reversi",
@@ -23,26 +40,24 @@ Copyright © 1987-1990 Microsoft Corp.""");
             int ret = menu.start();
 
             switch (ret) {
-                case 0:
-                    singlePlayer();
-                    break;
-                case 1:
-                    multiPlayer();
-                    break;
-                case 2:
-                    skirmish();
-                    break;
-                case 3:
-                    settings();
-                    break;
-                case 4:
+                case 0 -> singlePlayer();
+                case 1 -> multiPlayer();
+                case 2 -> skirmish();
+                case 3 -> settings();
+                case 4 -> {
                     if (ModMenu.chooseMod())
                         return;
-                    break;
-                case 5:
-                case -1:
-                    Config.doExitProgram = true;
-                    return;
+                }
+                case 5, -1 -> {
+                    int choose = StdRandom.uniform(0, exitQueryMessage.length);
+
+                    int retVal = MessageDialog.show(exitQueryMessage[choose],
+                            exitButtons, 1, 1);
+                    if (retVal == 0) {
+                        Config.doExitProgram = true;
+                        return;
+                    }
+                }
             }
         }
     }
