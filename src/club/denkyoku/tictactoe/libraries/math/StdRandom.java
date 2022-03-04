@@ -1,4 +1,4 @@
-package club.denkyoku.TicTacToe;
+package club.denkyoku.tictactoe.libraries.math;
 
 
 import java.util.Random;

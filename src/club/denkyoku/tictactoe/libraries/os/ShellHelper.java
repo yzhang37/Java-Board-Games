@@ -1,4 +1,4 @@
-package club.denkyoku.TicTacToe;
+package club.denkyoku.tictactoe.libraries.os;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,9 +8,9 @@ public class ShellHelper {
     private static final String SHELL = "/bin/sh";
 
     public static class Result {
-        public String output;
-        public String error;
-        public int ret;
+        public final String output;
+        public final String error;
+        public final int ret;
 
         public Result(String output, String error, int ret) {
             this.output = output;
@@ -34,7 +34,7 @@ public class ShellHelper {
 
         // Read the output from the command
         StringBuilder sbOutput = new StringBuilder();
-        String s = null;
+        String s;
         while ((s = stdOutput.readLine()) != null) {
             if (sbOutput.length() > 0) {
                 sbOutput.append("\n");
