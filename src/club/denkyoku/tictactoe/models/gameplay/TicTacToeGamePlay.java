@@ -150,6 +150,7 @@ public class TicTacToeGamePlay extends GamePlay {
 
                 if (dataSync.doExit) {
                     if (MessageDialog.show(pauseGameMessages, pauseGameButtons, 0, 0) == 1) {
+                        keyHandler.exitInput();
                         return -2;
                     }
                 } else if (dataSync.doMoveUp) {
@@ -183,6 +184,8 @@ public class TicTacToeGamePlay extends GamePlay {
                     }
                 }
             }
+
+            keyHandler.exitInput();
         } else {
             // AI player
             Player.Move move = curTurnPlayer.getMove(this.board, this.players);
