@@ -25,7 +25,7 @@ public class HumanPlayer extends Player {
      */
     @Override
     public <T extends Slot> Move getMove(
-            Board<T> board, Player[] playerLists) {
+            Board<T> board, Player[] playerLists, Move[] availableMoves) {
         return new Move(0, 0);
     }
 

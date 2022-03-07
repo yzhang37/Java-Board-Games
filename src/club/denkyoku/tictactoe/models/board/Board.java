@@ -1,7 +1,7 @@
 package club.denkyoku.tictactoe.models.board;
 
-public class Board<T extends Slot> {
-    private final T[][] board;
+public class Board<T extends Slot> implements Cloneable {
+    private T[][] board;
     private final int height;
     private final int width;
     private int usedSlots;
@@ -97,4 +97,17 @@ public class Board<T extends Slot> {
         this.usedSlots = 0;
     }
 
+    @Override
+    public Board<T> clone() {
+        try {
+            Board<T> clone = (Board<T>) super.clone();
+            clone.board = (T[][]) new Slot[this.height][this.width];
+            for (int i = 0; i < this.height; i++) {
+                System.arraycopy(this.board[i], 0, clone.board[i], 0, this.width);
+            }
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
 }

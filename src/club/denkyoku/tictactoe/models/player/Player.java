@@ -38,12 +38,13 @@ public abstract class Player {
     /**
      * Function, given a board, let the player decide which position to take.
      * If <code>isHuman = true</code>, Game can ignore calling this function.
+     * @param <T> The type of <code>Slot</code> object.
      * @param board The <code>Board</code> object the player will check.
      * @param playerLists The <code>Player</code> objects in the game.
      *                    The player can use it to check score of other players.
-     * @param <T> The type of <code>Slot</code> object.
+     * @param availableMoves
      * @return The place the player wants to take.
      */
-    public abstract <T extends Slot> Move getMove(Board<T> board, Player[] playerLists);
+    public abstract <T extends Slot> Move getMove(Board<T> board, Player[] playerLists, Move[] availableMoves);
 
 }

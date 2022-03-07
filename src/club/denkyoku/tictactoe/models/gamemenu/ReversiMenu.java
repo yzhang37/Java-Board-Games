@@ -67,14 +67,23 @@ Copyright © 1987-1990 Microsoft Corp.""");
     }
 
     protected void singlePlayer() {
+        ReversiPlayer[] players = new ReversiPlayer[2];
+        for (int i = 0; i < 2; i++) {
+            PlayerInfo info = Config.playerInfos.get(i);
+            players[i] = new ReversiPlayer(false, 1.0, info.name, info.symbol);
+        }
+        players[0].setSymbol('●');
+        players[1].setSymbol('○');
 
+        ReversiGamePlay gamePlay = new ReversiGamePlay(players, true);
+        gamePlay.start();
     }
 
     protected void multiPlayer() {
         ReversiPlayer[] players = new ReversiPlayer[2];
         for (int i = 0; i < 2; i++) {
             PlayerInfo info = Config.playerInfos.get(i);
-            players[i] = new ReversiPlayer(true, 3, info.name, info.symbol);
+            players[i] = new ReversiPlayer(true, 1.0, info.name, info.symbol);
         }
         players[0].setSymbol('●');
         players[1].setSymbol('○');

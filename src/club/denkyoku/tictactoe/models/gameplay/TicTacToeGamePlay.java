@@ -192,7 +192,7 @@ public class TicTacToeGamePlay extends GamePlay {
             keyHandler.exitInput();
         } else {
             // AI player
-            Move move = curTurnPlayer.getMove(this.board, this.players);
+            Move move = curTurnPlayer.getMove(this.board, this.players, null);
             this.board.put(move.x, move.y, new Slot(curTurnPlayer));
         }
         return 0;

@@ -6,11 +6,11 @@ import club.denkyoku.tictactoe.models.gameplay.helpers.BoardRender;
 import club.denkyoku.tictactoe.models.gameplay.helpers.TurnBased;
 import club.denkyoku.tictactoe.models.player.Move;
 import club.denkyoku.tictactoe.models.player.Player;
+import club.denkyoku.tictactoe.models.player.ReversiPlayer;
 import club.denkyoku.tictactoe.services.input.KeyHandler;
 import club.denkyoku.tictactoe.services.output.controls.MessageDialog;
 
 import java.util.ArrayList;
-import java.lang.Thread;
 
 
 // Classes for the whole Reversi Game Play Experience
@@ -27,6 +27,12 @@ public class ReversiGamePlay extends GamePlay {
             "You may only move to a space where",
             "there is a dot show there.",
     };
+    protected final String[] cheatsWarningMessage = new String[]{
+            "You're about to enable cheats",
+            "for this round. This won't be counted",
+            "into the statistics.",
+            "Do you want to continue?",
+    };
     protected final MessageDialog.Button[] pauseGameButtons = new MessageDialog.Button[]{
             new MessageDialog.Button("Resume", 'R'),
             new MessageDialog.Button("Quit", 'Q'),
@@ -37,15 +43,16 @@ public class ReversiGamePlay extends GamePlay {
     };
 
     protected final int boardSize = 8;
-    protected final Player[] players;
+    protected final ReversiPlayer[] players;
     protected final int[] playerMovesCount;
     protected final Board<Slot> board;
     protected int turn;
     protected int cursor_x;
     protected int cursor_y;
     protected boolean showAnimation;
+    protected boolean cheats;
 
-    public ReversiGamePlay(Player[] players, boolean showAnimation) {
+    public ReversiGamePlay(ReversiPlayer[] players, boolean showAnimation) {
         if (players == null || players.length != 2) {
             throw new IllegalArgumentException("Reversi requires exactly 2 players.");
         }
@@ -77,7 +84,8 @@ public class ReversiGamePlay extends GamePlay {
             int exitCode;
             while (true) {
                 // compute the available moves for the player
-                Move[] availableMoves = this.getAvailableMoves();
+                Move[] availableMoves = getAvailableMoves(this.board,
+                        this.players[this.turn], this.players[this.turn ^ 1]);
 
                 // do one turn
                 exitCode = this.oneTurn(availableMoves);
@@ -92,6 +100,11 @@ public class ReversiGamePlay extends GamePlay {
                 if (this.playerMovesCount[0] == 0 || this.playerMovesCount[1] == 0 ||
                     this.board.isFull()) {
                     break;
+                }
+
+                // if show animation, wait for 1 second
+                if (!this.players[this.turn].isHumanPlayer() && this.showAnimation) {
+                    GamePlay.waitMilliseconds(1000);
                 }
 
                 this.nextTurn();
@@ -150,16 +163,14 @@ public class ReversiGamePlay extends GamePlay {
      * Compute the available moves for the current turn player.
      * @return the available moves for the current turn player.
      */
-    private Move[] getAvailableMoves() {
+    public static <T extends Slot> Move[] getAvailableMoves(
+            Board<T> board, Player self, Player opponent) {
         ArrayList<Move> movesList = new ArrayList<>();
 
-        Player self = this.players[this.turn];
-        Player opponent = this.players[this.turn ^ 1];
-
-        for (int i = 0; i < this.boardSize; i++) {
-            for (int j = 0; j < this.boardSize; j++) {
-                if (this.board.at(i, j) == null) {
-                    if (ReversiGamePlay.computeFlip(this.board,
+        for (int i = 0; i < board.getHeight(); i++) {
+            for (int j = 0; j < board.getWidth(); j++) {
+                if (board.at(i, j) == null) {
+                    if (ReversiGamePlay.computeFlip(board,
                             i, j, self, opponent).length > 0) {
                         movesList.add(new Move(i, j));
                     }
@@ -233,11 +244,6 @@ public class ReversiGamePlay extends GamePlay {
     }
 
     protected int oneTurn(Move[] availableMoves) {
-        if (availableMoves.length == 0) {
-            MessageDialog.show(mustPassMessage);
-            return 0;
-        }
-
         // first print the game without cursor.
         this.printUI(false, availableMoves, null);
 
@@ -248,6 +254,10 @@ public class ReversiGamePlay extends GamePlay {
 
         Move the_move = null;
         if (curTurnPlayer.isHumanPlayer()) {
+            if (availableMoves.length == 0) {
+                MessageDialog.show(mustPassMessage);
+            }
+
             boolean redraw = false;
             boolean firstTouch = true;
 
@@ -307,14 +317,36 @@ public class ReversiGamePlay extends GamePlay {
                         the_move = new Move(this.cursor_x, this.cursor_y);
                         break;
                     } else {
-                        MessageDialog.show(invalidMoveMessage);
+                        // if there's place to move, show invalid move message
+                        if (availableMoves.length > 0)
+                            MessageDialog.show(invalidMoveMessage);
+                        else
+                        // if there's no place to move, show must pass message
+                            MessageDialog.show(mustPassMessage);
                     }
+                } else if (dataSync.doFunction1) {
+                    // TODO: do pass
+                } else if (dataSync.doFunction2) {
+                    // make a hint
+                    if (!this.cheats) {
+                        int ret = MessageDialog.show(cheatsWarningMessage,
+                                MessageDialog.getYesNo(), 1, 1);
+                        if (ret == 1)
+                            break;
+                        this.cheats = true;
+                    }
+                    Move hint = curTurnPlayer.getMove(this.board, this.players, availableMoves);
+                    // TODO: 这里应该显示一个 blink
                 }
             }
             keyHandler.exitInput();
         } else {
             // AI player
-            the_move = curTurnPlayer.getMove(this.board, this.players);
+            // TODO: 如果 AI 没有 Moves，就必须让他 pass
+            if (availableMoves.length == 0) {
+                return 0;
+            }
+            the_move = curTurnPlayer.getMove(this.board, this.players, availableMoves);
         }
 
         if (the_move == null) {
@@ -335,6 +367,25 @@ public class ReversiGamePlay extends GamePlay {
         }
 
         return 0;
+    }
+
+    /**
+     * A helper function for doing the turn
+     * It's called by Players
+     * @param board The board
+     * @param x    The x coordinate
+     * @param y    The y coordinate
+     * @param self The player
+     * @param opponent The opponent
+     */
+    public static void tryTurn(
+            Board<Slot> board, int x, int y, Player self, Player opponent) {
+        Move[] flippedMoves = ReversiGamePlay.computeFlip(
+                board, x, y, self, opponent);
+        board.put(x, y, new Slot(self));
+        for (Move move : flippedMoves) {
+            board.put(move.x, move.y, new Slot(self));
+        }
     }
 
     /**
@@ -384,7 +435,7 @@ public class ReversiGamePlay extends GamePlay {
 
         // making the preset backgrounds
         ArrayList<BoardRender.SlotChar> dynamicPreset = new ArrayList<>(init_capacity);
-        BoardRender.SlotChar[] presetArray = null;
+        BoardRender.SlotChar[] presetArray;
 
         if (availableMoves != null) {
             for (var move : availableMoves) {
@@ -416,13 +467,9 @@ public class ReversiGamePlay extends GamePlay {
                         presetArray);
 
                 TurnBased.drawUI(boardString, this.players, this.turn);
+                GamePlay.waitMilliseconds(250);
             }
             dynamicPreset.add(new BoardRender.SlotChar(move, curPlayerSymbol, true));
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                return;
-            }
         }
 
         presetArray = new BoardRender.SlotChar[dynamicPreset.size()];
@@ -449,6 +496,7 @@ public class ReversiGamePlay extends GamePlay {
         this.cursor_x = this.cursor_y = 3;
         this.turn = 0;
         this.board.clear();
+        this.cheats = false;
 
         // default moves in the center of the board.
         this.board.put(3, 3, new Slot(this.players[0]));

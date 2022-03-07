@@ -33,4 +33,15 @@ public abstract class GamePlay {
      */
     abstract public void start();
 
+    /**
+     * The helper function for waiting some time.
+     * @param milliseconds The time to wait.
+     */
+    public static void waitMilliseconds(int milliseconds) {
+        try {
+            Thread.sleep(milliseconds);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }

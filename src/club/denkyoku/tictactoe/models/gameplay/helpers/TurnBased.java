@@ -12,9 +12,10 @@ public class TurnBased {
 
     /**
      * Helper function for printing UI in turn-based game.
+     *
      * @param boardString <code>String[] </code>The pre-rendered board string.
-     * @param players <code>Player[] </code>The players.
-     * @param turn <code>int </code>The current turn.
+     * @param players     <code>Player[] </code>The players.
+     * @param turn        <code>int </code>The current turn.
      */
     public static void drawUI(String[] boardString,
                               Player[] players,
@@ -69,7 +70,7 @@ public class TurnBased {
                             sb.append("AI thinking...");
                         }
                     }
-                    curPrintPlayer ++;
+                    curPrintPlayer++;
                 }
             }
             gameScreen[lineId] = sb.toString();
@@ -85,16 +86,30 @@ public class TurnBased {
         public boolean doMoveRight;
         public boolean doEnter;
         public boolean keepRun;
+        public boolean doFunction1;
+        public boolean doFunction2;
+        public boolean doFunction3;
+        public boolean doFunction4;
+        public boolean doFunction5;
+        public boolean doFunction6;
+        public boolean doFunction7;
+        public boolean doFunction8;
+        public boolean doFunction9;
+        public boolean doFunction10;
+        public boolean doFunction11;
+        public boolean doFunction12;
 
         @Override
         public void reset() {
             this.keepRun = true;
             this.doExit = false;
-            this.doMoveUp = false;
-            this.doMoveDown = false;
-            this.doMoveLeft = false;
-            this.doMoveRight = false;
             this.doEnter = false;
+
+            this.doMoveUp = this.doMoveDown = this.doMoveLeft = this.doMoveRight = false;
+            this.doFunction1 = this.doFunction2 = this.doFunction3 = this.doFunction4 =
+                               this.doFunction5 = this.doFunction6 = this.doFunction7 =
+                               this.doFunction8 = this.doFunction9 = this.doFunction10 =
+                               this.doFunction11 = this.doFunction12 = false;
         }
     }
 
@@ -133,6 +148,66 @@ public class TurnBased {
         @Override
         protected void onKeyEnter() {
             this.dataSync.doEnter = true;
+        }
+
+        @Override
+        protected void onKeyF1() {
+            this.dataSync.doFunction1 = true;
+        }
+
+        @Override
+        protected void onKeyF2() {
+            this.dataSync.doFunction2 = true;
+        }
+
+        @Override
+        protected void onKeyF3() {
+            this.dataSync.doFunction3 = true;
+        }
+
+        @Override
+        protected void onKeyF4() {
+            this.dataSync.doFunction4 = true;
+        }
+
+        @Override
+        protected void onKeyF5() {
+            this.dataSync.doFunction5 = true;
+        }
+
+        @Override
+        protected void onKeyF6() {
+            this.dataSync.doFunction6 = true;
+        }
+
+        @Override
+        protected void onKeyF7() {
+            this.dataSync.doFunction7 = true;
+        }
+
+        @Override
+        protected void onKeyF8() {
+            this.dataSync.doFunction8 = true;
+        }
+
+        @Override
+        protected void onKeyF9() {
+            this.dataSync.doFunction9 = true;
+        }
+
+        @Override
+        protected void onKeyF10() {
+            this.dataSync.doFunction10 = true;
+        }
+
+        @Override
+        protected void onKeyF11() {
+            this.dataSync.doFunction11 = true;
+        }
+
+        @Override
+        protected void onKeyF12() {
+            this.dataSync.doFunction12 = true;
         }
     }
 }
