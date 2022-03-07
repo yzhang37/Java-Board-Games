@@ -127,6 +127,7 @@ public class ReversiGamePlay extends GamePlay {
 
                 // means user want to quit
                 if (exitCode == -2) {
+                    GamePlay.showGameStatistics(this.players);
                     return;
                 }
 
@@ -141,6 +142,9 @@ public class ReversiGamePlay extends GamePlay {
             }
 
             Player winner = this.checkWinner();
+            if (!this.cheats) {
+                GamePlay.doGameStatistics(this.players, winner);
+            }
 
             // Reprint the board once before ending
             this.printUI(false, null, null);
@@ -184,6 +188,7 @@ public class ReversiGamePlay extends GamePlay {
             }
             int msgRet = MessageDialog.show(messages, restartGameButtons, 0, 1);
             if (msgRet == 1) {
+                GamePlay.showGameStatistics(this.players);
                 break;
             }
         }

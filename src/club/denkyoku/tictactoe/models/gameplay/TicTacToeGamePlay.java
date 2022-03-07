@@ -64,6 +64,7 @@ public class TicTacToeGamePlay extends GamePlay {
 
                 // means user want to quit
                 if (exitCode == -2) {
+                    GamePlay.showGameStatistics(this.players);
                     return;
                 }
                 // check if the game is over
@@ -85,6 +86,7 @@ public class TicTacToeGamePlay extends GamePlay {
             this.printUI(false);
 
             String[] messages;
+            GamePlay.doGameStatistics(this.players, winner);
 
             if (winner == null) {
                 messages = new String[]{
@@ -120,10 +122,13 @@ public class TicTacToeGamePlay extends GamePlay {
             }
             int msgRet = MessageDialog.show(messages, restartGameButtons, 0, 1);
             if (msgRet == 1) {
+                GamePlay.showGameStatistics(this.players);
                 break;
             }
         }
     }
+
+
 
     public int oneTurn() {
         // first print the game without cursor.

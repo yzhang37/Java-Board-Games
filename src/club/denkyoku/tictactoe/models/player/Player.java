@@ -8,6 +8,9 @@ public abstract class Player {
     protected String name;
     protected char symbol;
     protected boolean isHuman;
+    public int wins;
+    public int losses;
+    public int ties;
 
     public Player() {
         this.symbol = '○';
