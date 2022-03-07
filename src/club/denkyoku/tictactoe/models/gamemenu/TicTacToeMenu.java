@@ -40,9 +40,10 @@ Denkyoku. All Rights Reserved.""";
         // When enter the game, we first run the bell once.
         ConsoleHelper.bell();
 
+        Menu menu = new Menu(mainMenuItems,
+                TicTacToeMenu.getCustomTicName(Config.boardSize), copyright);
         while (true) {
-            Menu menu = new Menu(mainMenuItems,
-                    TicTacToeMenu.getCustomTicName(Config.boardSize), copyright);
+
             int ret = menu.start();
             switch (ret) {
                 case 0 -> singlePlayer();
@@ -118,6 +119,7 @@ Denkyoku. All Rights Reserved.""";
                 "Board size",
                 "Player counts"
         };
+
         while (true) {
             String[] advSettings = Arrays.copyOf(basicSettings,
                     basicSettings.length + Config.getPlayerCounts());

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 public class ReversiPlayer extends Player {
     protected double smart_prob;
+    protected int depth;
 
     /**
      * There is no very strict distinction between AIPlayer and HumanPlayer.
@@ -23,6 +24,7 @@ public class ReversiPlayer extends Player {
     public ReversiPlayer(
             boolean isHuman,
             double smart_prob,
+            int depth,
             String name,
             char symbol) {
         super();
@@ -30,14 +32,10 @@ public class ReversiPlayer extends Player {
         this.name = name;
         this.symbol = symbol;
         this.smart_prob = smart_prob;
-    }
-
-    public double getSmart_prob() {
-        return smart_prob;
-    }
-
-    public void setSmart_prob(double smart_prob) {
-        this.smart_prob = smart_prob;
+        if (depth % 2 != 0 || depth < 0) {
+            throw new IllegalArgumentException("Depth must be a positive even number.");
+        }
+        this.depth = depth;
     }
 
     @Override

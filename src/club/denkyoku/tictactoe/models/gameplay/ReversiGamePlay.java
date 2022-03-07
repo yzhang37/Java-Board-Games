@@ -107,10 +107,20 @@ public class ReversiGamePlay extends GamePlay {
             this.printUI(false, null, null);
 
             int exitCode;
+            int consecutiveNoMoves = 0;
             while (true) {
                 // compute the available moves for the player
                 Move[] availableMoves = getAvailableMoves(this.board,
                         this.players[this.turn], this.players[this.turn ^ 1]);
+                if (availableMoves.length == 0) {
+                    consecutiveNoMoves++;
+                    // both two players cannot make a move, game ends
+                    if (consecutiveNoMoves == 2) {
+                        break;
+                    }
+                } else {
+                    consecutiveNoMoves = 0;
+                }
 
                 // do one turn
                 exitCode = this.oneTurn(availableMoves);
@@ -345,7 +355,7 @@ public class ReversiGamePlay extends GamePlay {
                             MessageDialog.showOK(mustPassMessage);
                     }
                 } else if (dataSync.doFunction1) {
-                    if (this.freshBoard) {
+                    if (this.freshBoard || availableMoves.length == 0) {
                         return 0;
                     } else {
                         MessageDialog.showOK(onlyFirstPassMessage);

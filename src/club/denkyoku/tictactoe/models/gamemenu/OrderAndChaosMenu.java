@@ -22,8 +22,8 @@ public class OrderAndChaosMenu {
     };
 
     public void start() {
+        Menu menu = new Menu(mainMenuItems, "Order and Chaos", copyright);
         while (true) {
-            Menu menu = new Menu(mainMenuItems, "Order and Chaos", copyright);
             int ret = menu.start();
             switch (ret) {
                 case 0 -> multiplayer();

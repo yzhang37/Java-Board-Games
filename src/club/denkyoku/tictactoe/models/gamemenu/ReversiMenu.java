@@ -24,8 +24,8 @@ public class ReversiMenu {
     };
 
     protected static final MessageDialog.Button[] exitButtons = new MessageDialog.Button[] {
-            new MessageDialog.Button("Leave Anyway", '\0'),
-            new MessageDialog.Button("No, I'm not leaving", '\0'),
+            new MessageDialog.Button("Leave Anyway", 'Y'),
+            new MessageDialog.Button("No, I'm not leaving", 'N'),
     };
 
     // begin the main menu
@@ -67,13 +67,33 @@ Copyright © 1987-1990 Microsoft Corp.""");
     }
 
     protected void singlePlayer() {
+        Menu menu = new Menu(
+                new String[]{"Beginner", "Novice", "Expert", "Master"}, "Choose Difficulty", null
+        );
         ReversiPlayer[] players = new ReversiPlayer[2];
-        for (int i = 0; i < 2; i++) {
-            PlayerInfo info = Config.playerInfos.get(i);
-            players[i] = new ReversiPlayer(false, 1.0, info.name, info.symbol);
+
+        while (true) {
+            int ret = menu.start();
+
+            if (ret == 0) {
+                players[1] = new ReversiPlayer(false, 0.3, 2, "Computer", '○');
+                break;
+            } else if (ret == 1) {
+                players[1] = new ReversiPlayer(false, 0.5, 2, "Computer", '○');
+                break;
+            } else if (ret == 2) {
+                players[1] = new ReversiPlayer(false, 0.7, 4, "Computer", '○');
+                break;
+            } else if (ret == 3) {
+                players[1] = new ReversiPlayer(false, 0.9, 6, "Computer", '○');
+                break;
+            } else if (ret == -1) {
+                return;
+            }
         }
-        players[0].setSymbol('●');
-        players[1].setSymbol('○');
+        players[0] = new ReversiPlayer(true,
+                1.0, 4,
+                Config.playerInfos.get(0).name, '●');
 
         ReversiGamePlay gamePlay = new ReversiGamePlay(players, true);
         gamePlay.start();
@@ -83,7 +103,7 @@ Copyright © 1987-1990 Microsoft Corp.""");
         ReversiPlayer[] players = new ReversiPlayer[2];
         for (int i = 0; i < 2; i++) {
             PlayerInfo info = Config.playerInfos.get(i);
-            players[i] = new ReversiPlayer(true, 1.0, info.name, info.symbol);
+            players[i] = new ReversiPlayer(true, 1.0, 4, info.name, info.symbol);
         }
         players[0].setSymbol('●');
         players[1].setSymbol('○');
