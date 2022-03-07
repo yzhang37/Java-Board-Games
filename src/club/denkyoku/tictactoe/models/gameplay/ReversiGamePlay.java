@@ -55,6 +55,13 @@ public class ReversiGamePlay extends GamePlay {
             new MessageDialog.Button("Have another try", 'T'),
             new MessageDialog.Button("Back to menu", 'B'),
     };
+    protected final String[] headerMessage = new String[] {
+            "",
+            "",
+    };
+    protected final String[] footerMessage = new String[] {
+            "F1: Pass  F2: Hint  Esc: Pause"
+    };
 
     protected final int boardSize = 8;
     protected final ReversiPlayer[] players;
@@ -349,7 +356,8 @@ public class ReversiGamePlay extends GamePlay {
                         int ret = MessageDialog.show(cheatsWarningMessage,
                                 MessageDialog.getYesNo(), 1, 1);
                         if (ret == 1)
-                            break;
+                            continue;
+                        this.headerMessage[0] = "Reversi Practice Game";
                         this.cheats = true;
                         MessageDialog.showOK(useHintMessage);
                     }
@@ -473,7 +481,7 @@ public class ReversiGamePlay extends GamePlay {
                     bShowCursor, this.cursor_x, this.cursor_y,
                     presetArray);
 
-            TurnBased.drawUI(boardString, this.players, this.turn);
+            TurnBased.drawUI(boardString, this.players, this.turn, this.headerMessage, this.footerMessage);
             return;
         }
 
@@ -498,7 +506,7 @@ public class ReversiGamePlay extends GamePlay {
                 String[] boardString = BoardRender.drawRectBoard(this.board,
                         bShowCursor, this.cursor_x, this.cursor_y,
                         presetArray);
-                TurnBased.drawUI(boardString, this.players, this.turn);
+                TurnBased.drawUI(boardString, this.players, this.turn, this.headerMessage, this.footerMessage);
                 Time.waitMilliseconds(500);
             }
         }
@@ -510,7 +518,7 @@ public class ReversiGamePlay extends GamePlay {
                 bShowCursor, this.cursor_x, this.cursor_y,
                 presetArray);
 
-        TurnBased.drawUI(boardString, this.players, this.turn);
+        TurnBased.drawUI(boardString, this.players, this.turn, this.headerMessage, this.footerMessage);
     }
 
     /**
@@ -530,6 +538,7 @@ public class ReversiGamePlay extends GamePlay {
         this.board.clear();
         this.cheats = false;
         this.freshBoard = true;
+        this.headerMessage[0] = "Reversi";
 
         // default moves in the center of the board.
         this.board.put(3, 3, new Slot(this.players[0]));

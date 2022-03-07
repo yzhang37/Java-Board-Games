@@ -12,16 +12,48 @@ public class TurnBased {
 
     /**
      * Helper function for printing UI in turn-based game.
-     *
      * @param boardString <code>String[] </code>The pre-rendered board string.
      * @param players     <code>Player[] </code>The players.
      * @param turn        <code>int </code>The current turn.
+     * @param header      Display header. If <code>null</code> then skip this.
+     * @param footer      Display footer. If <code>null</code> then skip this.
      */
     public static void drawUI(String[] boardString,
                               Player[] players,
-                              int turn) {
-        // Because the chessboard here must be of equal width, the first one is the largest size.
-        int maxBoardWidth = boardString[0].length();
+                              int turn,
+                              String[] header,
+                              String[] footer) {
+        int finalBoardStringLength = boardString.length;
+        if (header != null) {
+            finalBoardStringLength += header.length;
+        }
+        if (footer != null) {
+            finalBoardStringLength += footer.length;
+        }
+        int maxBoardWidth = 0;
+        String[] finalBoardString = new String[finalBoardStringLength];
+
+        int j = 0;
+        if (header != null)
+            for (int i = 0; i < header.length; i++, j++) {
+                finalBoardString[j] = header[i];
+                if (header[i].length() > maxBoardWidth) {
+                    maxBoardWidth = header[i].length();
+                }
+            }
+        for (int i = 0; i < boardString.length; i++, j++) {
+            finalBoardString[j] = boardString[i];
+            if (boardString[i].length() > maxBoardWidth) {
+                maxBoardWidth = boardString[i].length();
+            }
+        }
+        if (footer != null)
+            for (int i = 0; i < footer.length; i++, j++) {
+                finalBoardString[j] = footer[i];
+                if (footer[i].length() > maxBoardWidth) {
+                    maxBoardWidth = footer[i].length();
+                }
+            }
 
         // Because the chessboard here must be of equal width, the first one is the largest size.
         // The current user must be printed out.
@@ -32,16 +64,20 @@ public class TurnBased {
         }
         int maxPrintPlayersLines = Math.min(maxPrintPlayers * 3, players.length * 3);
 
-        int finalMaxLines = Math.max(maxPrintPlayersLines, boardString.length);
+        int finalMaxLines = Math.max(maxPrintPlayersLines, finalBoardString.length);
+
         String[] gameScreen = new String[finalMaxLines];
         for (int lineId = 0, curPrintPlayer = firstPrintPlayer;
              lineId < finalMaxLines; ++lineId) {
 
             StringBuilder sb = new StringBuilder();
 
-            if (lineId < boardString.length) {
+            if (lineId < finalBoardString.length) {
                 // If it is part of the chessboard, output the content of the chessboard
-                sb.append(boardString[lineId]);
+                sb.append(finalBoardString[lineId]);
+                if (finalBoardString[lineId].length() < maxBoardWidth) {
+                    sb.append(" ".repeat(maxBoardWidth - finalBoardString[lineId].length()));
+                }
             } else {
                 // Otherwise, a blank line of the same width as the chessboard is generated
                 sb.append(" ".repeat(maxBoardWidth));

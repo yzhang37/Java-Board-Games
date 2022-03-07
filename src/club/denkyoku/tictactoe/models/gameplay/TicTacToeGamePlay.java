@@ -314,7 +314,7 @@ public class TicTacToeGamePlay extends GamePlay {
     protected void printUI(boolean showCursor) {
         String[] boardString = BoardRender.drawRectBoard(this.board,
                 showCursor, this.cursor_x, this.cursor_y, null);
-        TurnBased.drawUI(boardString, this.players, this.turn);
+        TurnBased.drawUI(boardString, this.players, this.turn, null, null);
     }
 
     public void reset() {
