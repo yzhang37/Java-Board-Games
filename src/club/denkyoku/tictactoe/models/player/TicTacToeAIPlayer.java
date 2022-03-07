@@ -18,7 +18,7 @@ public class TicTacToeAIPlayer extends Player {
     }
 
     @Override
-    public <T extends Slot> Move getMove(Board<T> board, Player[] playerLists) {
+    public <T extends Slot> Move getMove(Board<T> board, Player[] playerLists, Move[] availableMoves) {
         if (board.getHeight() != 3 || board.getWidth() != 3) {
             throw new IllegalArgumentException("Board must be 3x3");
         }

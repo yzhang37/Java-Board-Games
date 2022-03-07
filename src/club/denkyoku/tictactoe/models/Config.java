@@ -3,6 +3,7 @@ package club.denkyoku.tictactoe.models;
 import club.denkyoku.tictactoe.models.configuration.PlayerInfo;
 import club.denkyoku.tictactoe.models.game.Mod;
 import club.denkyoku.tictactoe.models.game.OrderAndChaosMod;
+import club.denkyoku.tictactoe.models.game.ReversiMod;
 import club.denkyoku.tictactoe.models.game.TicTacToeMod;
 
 import java.util.ArrayList;
@@ -16,6 +17,9 @@ public class Config {
     // The common setting for board size.
     // Some mod may ignore this setting.
     public static int boardSize = 3;
+
+    public static boolean doReversiUseAnimation = true;
+    public static int[] reversiSkirmishRoles = new int[]{1, 0};
 
     // The common setting for the number of players.
     // Some mod may ignore this setting.
@@ -52,6 +56,7 @@ public class Config {
      * A preset of the mod that will load.
      */
     public static final Mod[] modList = new Mod[] {
+            new ReversiMod(),
             new TicTacToeMod(),
             new OrderAndChaosMod(),
     };

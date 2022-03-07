@@ -1,16 +1,16 @@
 package club.denkyoku.tictactoe.models.gamemenu;
 
 import club.denkyoku.tictactoe.models.Config;
+import club.denkyoku.tictactoe.models.ModMenu;
+import club.denkyoku.tictactoe.models.Resources;
 import club.denkyoku.tictactoe.models.gameplay.GamePlay;
 import club.denkyoku.tictactoe.models.gameplay.TicTacToeGamePlay;
-import club.denkyoku.tictactoe.models.ModMenu;
 import club.denkyoku.tictactoe.models.player.HumanPlayer;
 import club.denkyoku.tictactoe.models.player.Player;
 import club.denkyoku.tictactoe.models.player.TicTacToeAIPlayer;
-import club.denkyoku.tictactoe.models.Resources;
-import club.denkyoku.tictactoe.services.output.terminal.ConsoleHelper;
 import club.denkyoku.tictactoe.services.output.controls.Menu;
 import club.denkyoku.tictactoe.services.output.controls.MessageDialog;
+import club.denkyoku.tictactoe.services.output.terminal.ConsoleHelper;
 
 import java.util.Arrays;
 
@@ -40,9 +40,10 @@ Denkyoku. All Rights Reserved.""";
         // When enter the game, we first run the bell once.
         ConsoleHelper.bell();
 
+        Menu menu = new Menu(mainMenuItems,
+                TicTacToeMenu.getCustomTicName(Config.boardSize), copyright);
         while (true) {
-            Menu menu = new Menu(mainMenuItems,
-                    TicTacToeMenu.getCustomTicName(Config.boardSize), copyright);
+
             int ret = menu.start();
             switch (ret) {
                 case 0 -> singlePlayer();
@@ -70,7 +71,7 @@ Denkyoku. All Rights Reserved.""";
      */
     protected void singlePlayer() {
         if (Config.boardSize != 3 || Config.getPlayerCounts() != 2) {
-            MessageDialog.show(singleWarning);
+            MessageDialog.showOK(singleWarning);
             return;
         }
 
@@ -118,6 +119,7 @@ Denkyoku. All Rights Reserved.""";
                 "Board size",
                 "Player counts"
         };
+
         while (true) {
             String[] advSettings = Arrays.copyOf(basicSettings,
                     basicSettings.length + Config.getPlayerCounts());
@@ -166,7 +168,7 @@ Denkyoku. All Rights Reserved.""";
             int ret = menu.start();
             switch (ret) {
                 case 0:
-                    MessageDialog.show(new String[]{
+                    MessageDialog.showOK(new String[]{
                             "Under Construction",
                             "Sorry, this feature is not available yet.",
                             "Due to the lack of TextInput Control in Terminal.",

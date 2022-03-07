@@ -1,9 +1,9 @@
 package club.denkyoku.tictactoe.models.player;
 
 
+import club.denkyoku.tictactoe.models.Config;
 import club.denkyoku.tictactoe.models.board.Board;
 import club.denkyoku.tictactoe.models.board.Slot;
-import club.denkyoku.tictactoe.models.Config;
 import club.denkyoku.tictactoe.models.configuration.PlayerInfo;
 
 // Human player, press the keyboard to play the game.
@@ -25,7 +25,7 @@ public class HumanPlayer extends Player {
      */
     @Override
     public <T extends Slot> Move getMove(
-            Board<T> board, Player[] playerLists) {
+            Board<T> board, Player[] playerLists, Move[] availableMoves) {
         return new Move(0, 0);
     }
 

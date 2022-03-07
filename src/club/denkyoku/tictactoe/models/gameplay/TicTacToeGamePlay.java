@@ -4,21 +4,22 @@ import club.denkyoku.tictactoe.models.board.Board;
 import club.denkyoku.tictactoe.models.board.Slot;
 import club.denkyoku.tictactoe.models.gameplay.helpers.BoardRender;
 import club.denkyoku.tictactoe.models.gameplay.helpers.TurnBased;
+import club.denkyoku.tictactoe.models.player.Move;
 import club.denkyoku.tictactoe.models.player.Player;
 import club.denkyoku.tictactoe.services.input.KeyHandler;
 import club.denkyoku.tictactoe.services.output.controls.MessageDialog;
 
 
 public class TicTacToeGamePlay extends GamePlay {
-    protected static final String[] pauseGameMessages = new String[]{
+    protected final String[] pauseGameMessages = new String[]{
             "Game is paused.",
             "What do you want to do?",
     };
-    protected static final MessageDialog.Button[] pauseGameButtons = new MessageDialog.Button[]{
+    protected final MessageDialog.Button[] pauseGameButtons = new MessageDialog.Button[]{
             new MessageDialog.Button("Resume", 'R'),
             new MessageDialog.Button("Quit", 'Q'),
     };
-    protected static final MessageDialog.Button[] restartGameButtons = new MessageDialog.Button[]{
+    protected final MessageDialog.Button[] restartGameButtons = new MessageDialog.Button[]{
             new MessageDialog.Button("Have another try", 'T'),
             new MessageDialog.Button("Back to menu", 'B'),
     };
@@ -49,7 +50,9 @@ public class TicTacToeGamePlay extends GamePlay {
     @Override
     public void start() {
         while (true) {
+            // first reset the game states.
             this.reset();
+            // print the first UI.
             this.printUI(false);
 
             boolean gameOver = false;
@@ -130,6 +133,7 @@ public class TicTacToeGamePlay extends GamePlay {
 
         TurnBased.TurnBasedDataSync dataSync = new TurnBased.TurnBasedDataSync();
         KeyHandler keyHandler = new TurnBased.TurnBasedKeyHandler(dataSync);
+
         if (curTurnPlayer.isHumanPlayer()) {
             boolean redraw = false;
             boolean firstTouch = true;
@@ -188,7 +192,7 @@ public class TicTacToeGamePlay extends GamePlay {
             keyHandler.exitInput();
         } else {
             // AI player
-            Player.Move move = curTurnPlayer.getMove(this.board, this.players);
+            Move move = curTurnPlayer.getMove(this.board, this.players, null);
             this.board.put(move.x, move.y, new Slot(curTurnPlayer));
         }
         return 0;
@@ -309,8 +313,8 @@ public class TicTacToeGamePlay extends GamePlay {
      */
     protected void printUI(boolean showCursor) {
         String[] boardString = BoardRender.drawRectBoard(this.board,
-                showCursor, this.cursor_x, this.cursor_y);
-        TurnBased.drawUI(boardString, this.players, this.turn);
+                showCursor, this.cursor_x, this.cursor_y, null);
+        TurnBased.drawUI(boardString, this.players, this.turn, null, null);
     }
 
     public void reset() {
