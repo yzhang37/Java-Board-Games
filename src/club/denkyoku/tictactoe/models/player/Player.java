@@ -46,18 +46,4 @@ public abstract class Player {
      */
     public abstract <T extends Slot> Move getMove(Board<T> board, Player[] playerLists);
 
-    public static class Move {
-        public final int x;
-        public final int y;
-        public Move(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-    }
-
-    public static class Move1 extends Move {
-        public Move1(int x, int y) {
-            super(x - 1, y - 1);
-        }
-    }
 }
