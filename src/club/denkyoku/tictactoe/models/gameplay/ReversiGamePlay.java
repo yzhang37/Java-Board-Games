@@ -160,10 +160,16 @@ public class ReversiGamePlay extends GamePlay {
                         "Please restart the game.",
                 };
             } else {
-                if (this.hasAI && !winner.isHumanPlayer()) {
+                if (this.hasAI && this.onlyOneHuman && !winner.isHumanPlayer()) {
                     messages = new String[] {
                             "You lose!",
-                            String.format("[Computer] beat you by %d.", moveDiff),
+                            String.format("[Computer] beats you by %d.", moveDiff),
+                            "Would you like to have another try?",
+                    };
+                } else if (this.hasAI && !this.hasHuman) {
+                    messages = new String[] {
+                            "Game Ends!",
+                            String.format("[Computer] wins by %d.", moveDiff),
                             "Would you like to have another try?",
                     };
                 } else if (this.onlyOneHuman && this.hasAI) {
@@ -404,15 +410,18 @@ public class ReversiGamePlay extends GamePlay {
         Move[] flippedMoves = ReversiGamePlay.computeFlip(
                 this.board, the_move.x, the_move.y,
                 this.players[this.turn], this.players[this.turn ^ 1]);
+        this.playerMovesCount[this.turn]++;
 
         this.board.put(the_move.x, the_move.y, new Slot(curTurnPlayer));
         this.printUI(false, null, flippedMoves);
+        this.playerMovesCount[this.turn] += flippedMoves.length;
+        this.playerMovesCount[this.turn ^ 1] -= flippedMoves.length;
 
         // do the flipping
         for (Move move : flippedMoves) {
             this.board.put(move.x, move.y, new Slot(curTurnPlayer));
         }
-
+//        this.headerMessage[1] = "A: " + this.playerMovesCount[0] + " B: " + this.playerMovesCount[1];
         return 0;
     }
 

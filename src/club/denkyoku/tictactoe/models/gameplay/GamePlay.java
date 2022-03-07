@@ -8,6 +8,7 @@ public abstract class GamePlay {
     protected boolean onlyOneHuman;
     // represent whether there's AI in the game
     protected boolean hasAI = false;
+    protected boolean hasHuman;
 
     /**
      * Helper functions for computing the player
@@ -24,9 +25,8 @@ public abstract class GamePlay {
                 this.hasAI = true;
             }
         }
-        if (humanCount == 1) {
-            this.onlyOneHuman = true;
-        }
+        this.onlyOneHuman = humanCount == 1;
+        this.hasHuman = humanCount > 0;
     }
 
     /**

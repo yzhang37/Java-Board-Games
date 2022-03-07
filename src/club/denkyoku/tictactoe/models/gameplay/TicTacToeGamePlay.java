@@ -97,7 +97,7 @@ public class TicTacToeGamePlay extends GamePlay {
                 if (this.hasAI && !winner.isHumanPlayer()) {
                     messages = new String[] {
                             "You lose!",
-                            "[Computer] beat you.",
+                            "[Computer] beats you.",
                             "Would you like to have another try?",
                     };
                 } else if (this.onlyOneHuman && this.hasAI) {
