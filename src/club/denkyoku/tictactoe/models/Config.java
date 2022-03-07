@@ -18,6 +18,9 @@ public class Config {
     // Some mod may ignore this setting.
     public static int boardSize = 3;
 
+    public static boolean doReversiUseAnimation = true;
+    public static int[] reversiSkirmishRoles = new int[]{1, 0};
+
     // The common setting for the number of players.
     // Some mod may ignore this setting.
     private static int playerCounts = 2;
