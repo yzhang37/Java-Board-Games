@@ -232,7 +232,7 @@ public class ReversiGamePlay extends GamePlay {
         return moves;
     }
 
-    private int oneTurn(Move[] availableMoves) {
+    protected int oneTurn(Move[] availableMoves) {
         if (availableMoves.length == 0) {
             MessageDialog.show(mustPassMessage);
             return 0;
@@ -329,6 +329,11 @@ public class ReversiGamePlay extends GamePlay {
         this.board.put(the_move.x, the_move.y, new Slot(curTurnPlayer));
         this.printUI(false, availableMoves, flippedMoves);
 
+        // do the flipping
+        for (Move move : flippedMoves) {
+            this.board.put(move.x, move.y, new Slot(curTurnPlayer));
+        }
+
         return 0;
     }
 
@@ -336,7 +341,7 @@ public class ReversiGamePlay extends GamePlay {
      * Find the game winner.
      * @return the winner, or null if there is no winner.
      */
-    private Player checkWinner() {
+    protected Player checkWinner() {
         if (this.playerMovesCount[0] == 0 && this.playerMovesCount[1] != 0) {
             return this.players[1];
         } else if (this.playerMovesCount[1] == 0 && this.playerMovesCount[0] != 0) {
@@ -383,7 +388,7 @@ public class ReversiGamePlay extends GamePlay {
 
         if (availableMoves != null) {
             for (var move : availableMoves) {
-                dynamicPreset.add(new BoardRender.SlotChar(move, '·'));
+                dynamicPreset.add(new BoardRender.SlotChar(move, '·', false));
             }
         }
 
@@ -402,8 +407,6 @@ public class ReversiGamePlay extends GamePlay {
 
         // if show animation, we will show flipping one by one.
         for (var move : flippingMoves) {
-            dynamicPreset.add(new BoardRender.SlotChar(move, curPlayerSymbol));
-
             if (this.showAnimation) {
                 presetArray = new BoardRender.SlotChar[dynamicPreset.size()];
                 presetArray = dynamicPreset.toArray(presetArray);
@@ -413,23 +416,23 @@ public class ReversiGamePlay extends GamePlay {
                         presetArray);
 
                 TurnBased.drawUI(boardString, this.players, this.turn);
-                try {
-                    Thread.sleep(250);
-                } catch (InterruptedException e) {
-                    return;
-                }
+            }
+            dynamicPreset.add(new BoardRender.SlotChar(move, curPlayerSymbol, true));
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                return;
             }
         }
-        if (!this.showAnimation) {
-            presetArray = new BoardRender.SlotChar[dynamicPreset.size()];
-            presetArray = dynamicPreset.toArray(presetArray);
 
-            String[] boardString = BoardRender.drawRectBoard(this.board,
-                    bShowCursor, this.cursor_x, this.cursor_y,
-                    presetArray);
+        presetArray = new BoardRender.SlotChar[dynamicPreset.size()];
+        presetArray = dynamicPreset.toArray(presetArray);
 
-            TurnBased.drawUI(boardString, this.players, this.turn);
-        }
+        String[] boardString = BoardRender.drawRectBoard(this.board,
+                bShowCursor, this.cursor_x, this.cursor_y,
+                presetArray);
+
+        TurnBased.drawUI(boardString, this.players, this.turn);
     }
 
     /**

@@ -7,14 +7,15 @@ import club.denkyoku.tictactoe.models.player.Move;
 import java.util.StringJoiner;
 
 public class BoardRender {
-    public record SlotChar(Move move, char symbol) {
-
+    public record SlotChar(Move move, char symbol, boolean top) {
         public char getSymbol() {
             return symbol;
         }
-
         public Move getMove() {
             return move;
+        }
+        public boolean getTop() {
+            return top;
         }
     }
 
@@ -38,13 +39,28 @@ public class BoardRender {
         // pre-compute the display characters for each slot.
         char[][] boardCache = new char[board.getWidth()][board.getHeight()];
 
+        // under layer
         if (presetBackGrounds != null) {
             for (var slotChar : presetBackGrounds) {
-                int i = slotChar.getMove().x;
-                int j = slotChar.getMove().y;
-                if (i >= 0 && i < board.getWidth() &&
-                        j >= 0 && j < board.getHeight()) {
-                    boardCache[i][j] = slotChar.getSymbol();
+                if (!slotChar.getTop() && checkSlotChar(board, slotChar)) {
+                    boardCache[slotChar.getMove().x][slotChar.getMove().y] = slotChar.getSymbol();
+                }
+            }
+        }
+        // slot
+        for (int i = 0; i < board.getWidth(); i++) {
+            for (int j = 0; j < board.getHeight(); j++) {
+                Slot slot = board.at(i, j);
+                if (slot != null) {
+                    boardCache[i][j] = slot.getPlayer().getSymbol();
+                }
+            }
+        }
+        // over layer
+        if (presetBackGrounds != null) {
+            for (var slotChar : presetBackGrounds) {
+                if (slotChar.getTop() && checkSlotChar(board, slotChar)) {
+                    boardCache[slotChar.getMove().x][slotChar.getMove().y] = slotChar.getSymbol();
                 }
             }
         }
@@ -60,14 +76,9 @@ public class BoardRender {
 
             for (int j = 0; j < board.getWidth(); ++j) {
                 joiner1.add("───");
-                char symbolForJoiner2 = boardCache[j][i] == '\0' ? ' ' : boardCache[j][i];
+                char symbolForJoiner2 = boardCache[i][j] == '\0' ? ' ' : boardCache[i][j];
                 if (showCursor && x == i && y == j) {
                     symbolForJoiner2 = '█';
-                } else {
-                    Slot slot = board.at(i, j);
-                    if (slot != null) {
-                        symbolForJoiner2 = slot.getPlayer().getSymbol();
-                    }
                 }
                 joiner2.add(" " + String.valueOf(symbolForJoiner2) + " ");
             }
@@ -82,5 +93,12 @@ public class BoardRender {
         }
         lines[2 * board.getHeight()] = joiner1.toString();
         return lines;
+    }
+
+    private static <T extends Slot>  boolean checkSlotChar(Board<T> board, SlotChar slotChar) {
+        int i = slotChar.getMove().x;
+        int j = slotChar.getMove().y;
+        return i >= 0 && i < board.getWidth() &&
+                j >= 0 && j < board.getHeight();
     }
 }
