@@ -9,6 +9,8 @@ import java.util.ArrayList;
 
 
 public class ReversiPlayer extends Player {
+    protected double smart_prob;
+
     /**
      * There is no very strict distinction between AIPlayer and HumanPlayer.
      * Because even HumanPlayer can call the hint function, which triggers
@@ -18,8 +20,6 @@ public class ReversiPlayer extends Player {
      * @param name the name of the player
      * @param symbol the symbol of the player
      */
-    protected double smart_prob;
-
     public ReversiPlayer(
             boolean isHuman,
             double smart_prob,

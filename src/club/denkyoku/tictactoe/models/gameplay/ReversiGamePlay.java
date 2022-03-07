@@ -1,5 +1,6 @@
 package club.denkyoku.tictactoe.models.gameplay;
 
+import club.denkyoku.tictactoe.libraries.os.Time;
 import club.denkyoku.tictactoe.models.board.Board;
 import club.denkyoku.tictactoe.models.board.Slot;
 import club.denkyoku.tictactoe.models.gameplay.helpers.BoardRender;
@@ -23,6 +24,15 @@ public class ReversiGamePlay extends GamePlay {
             "You cannot make a move.",
             "You must pass.",
     };
+    protected final String[] aiMustPassMessage = new String[]{
+            "To computer:",
+            "You cannot make a move,",
+            "You have to pass."
+    };
+    protected final String[] onlyFirstPassMessage = new String[]{
+            "You may not pass.",
+            "Move to a place where there's a dot.",
+    };
     protected final String[] invalidMoveMessage = new String[]{
             "You may only move to a space where",
             "there is a dot show there.",
@@ -32,6 +42,10 @@ public class ReversiGamePlay extends GamePlay {
             "for this round. This won't be counted",
             "into the statistics.",
             "Do you want to continue?",
+    };
+    protected final String[] useHintMessage = new String[] {
+            "When you use a hint, the cursor will",
+            "be moved to a recommended place."
     };
     protected final MessageDialog.Button[] pauseGameButtons = new MessageDialog.Button[]{
             new MessageDialog.Button("Resume", 'R'),
@@ -49,8 +63,12 @@ public class ReversiGamePlay extends GamePlay {
     protected int turn;
     protected int cursor_x;
     protected int cursor_y;
+    // if show animation
     protected boolean showAnimation;
+    // when use cheats (hint), this won't be counted into statistics
     protected boolean cheats;
+    // pass can be used only once
+    protected boolean freshBoard;
 
     public ReversiGamePlay(ReversiPlayer[] players, boolean showAnimation) {
         if (players == null || players.length != 2) {
@@ -250,7 +268,7 @@ public class ReversiGamePlay extends GamePlay {
         Move the_move = null;
         if (curTurnPlayer.isHumanPlayer()) {
             if (availableMoves.length == 0) {
-                MessageDialog.show(mustPassMessage);
+                MessageDialog.showOK(mustPassMessage);
             }
 
             boolean redraw = false;
@@ -314,13 +332,17 @@ public class ReversiGamePlay extends GamePlay {
                     } else {
                         // if there's place to move, show invalid move message
                         if (availableMoves.length > 0)
-                            MessageDialog.show(invalidMoveMessage);
+                            MessageDialog.showOK(invalidMoveMessage);
                         else
                         // if there's no place to move, show must pass message
-                            MessageDialog.show(mustPassMessage);
+                            MessageDialog.showOK(mustPassMessage);
                     }
                 } else if (dataSync.doFunction1) {
-                    // TODO: do pass
+                    if (this.freshBoard) {
+                        return 0;
+                    } else {
+                        MessageDialog.showOK(onlyFirstPassMessage);
+                    }
                 } else if (dataSync.doFunction2) {
                     // make a hint
                     if (!this.cheats) {
@@ -329,21 +351,24 @@ public class ReversiGamePlay extends GamePlay {
                         if (ret == 1)
                             break;
                         this.cheats = true;
+                        MessageDialog.showOK(useHintMessage);
                     }
                     Move hint = curTurnPlayer.getMove(this.board, this.players, availableMoves);
-                    // TODO: 这里应该显示一个 blink
+                    this.cursor_x = hint.x;
+                    this.cursor_y = hint.y;
+                    redraw = true;
                 }
             }
             keyHandler.exitInput();
         } else {
             // AI player
-            // TODO: 如果 AI 没有 Moves，就必须让他 pass
             if (availableMoves.length == 0) {
+                MessageDialog.show(aiMustPassMessage);
                 return 0;
             }
             // if show animation, wait for 1 second
             if (!this.players[this.turn].isHumanPlayer() && this.showAnimation) {
-                GamePlay.waitMilliseconds(1000);
+                Time.waitMilliseconds(1000);
             }
             the_move = curTurnPlayer.getMove(this.board, this.players, availableMoves);
         }
@@ -474,7 +499,7 @@ public class ReversiGamePlay extends GamePlay {
                         bShowCursor, this.cursor_x, this.cursor_y,
                         presetArray);
                 TurnBased.drawUI(boardString, this.players, this.turn);
-                GamePlay.waitMilliseconds(500);
+                Time.waitMilliseconds(500);
             }
         }
 
@@ -492,6 +517,7 @@ public class ReversiGamePlay extends GamePlay {
      * Function used to switch to next player.
      */
     protected void nextTurn() {
+        this.freshBoard = false;
         this.turn ++;
         if (this.turn >= this.players.length) {
             this.turn = 0;
@@ -503,6 +529,7 @@ public class ReversiGamePlay extends GamePlay {
         this.turn = 0;
         this.board.clear();
         this.cheats = false;
+        this.freshBoard = true;
 
         // default moves in the center of the board.
         this.board.put(3, 3, new Slot(this.players[0]));

@@ -1,5 +1,6 @@
 package club.denkyoku.tictactoe.services.output.controls;
 
+import club.denkyoku.tictactoe.libraries.os.Time;
 import club.denkyoku.tictactoe.services.input.DataSync;
 import club.denkyoku.tictactoe.services.input.KeyHandler;
 import club.denkyoku.tictactoe.services.output.terminal.ConsoleHelper;
@@ -49,6 +50,10 @@ public class MessageDialog {
             return this.accessKey;
         }
     }
+
+    protected static Button[] wait3 = { new Button("Disappear in 3s", '\0') };
+    protected static Button[] wait2 = { new Button("Disappear in 2s", '\0') };
+    protected static Button[] wait1 = { new Button("Disappear in 1s", '\0') };
 
     /**
      * Helper method to get the default OK and Cancel buttons.
@@ -115,8 +120,16 @@ public class MessageDialog {
      * @param message A list of strings, representing the message to show.
      * @return The index of the button pressed.
      */
-    public static int show(String[] message) {
+    public static int showOK(String[] message) {
         return show(message, getOK(), 0, -1);
+    }
+
+    /**
+     * Helper method to show a message that will disappear in 3 seconds.
+     * @param message A list of strings, representing the message to show.
+     */
+    public static void show(String[] message) {
+        show(message, new Button[0], -1, -1);
     }
 
     /**
@@ -191,6 +204,9 @@ public class MessageDialog {
      * @param message A list of strings, representing the message to show.
      * @param buttons An array of <code>MessageDialog.Button</code>,
      *                representing the buttons to show.
+     *                If the array is empty, then the Message Dialog
+     *                will display only 3 seconds, and then will
+     *                automatically exit.
      * @param defaultButton The index of the default button.
      *                      The user can press the Enter key to select this button.
      *                      If <code>-1</code>, then there's no default button.
@@ -202,13 +218,17 @@ public class MessageDialog {
     public static int show(String[] message, Button[] buttons, int defaultButton, int cancelButton) {
         // If the button has an access key, index it once
         HashMap<Character, ArrayList<Integer>> accessKeyIndex = new HashMap<>();
-        for (int i = 0; i < buttons.length; i++) {
-            char key = buttons[i].getAccessKey();
-            if (key != '\0') {
-                if (!accessKeyIndex.containsKey(key)) {
-                    accessKeyIndex.put(key, new ArrayList<>());
+        boolean autoExitMode;
+        autoExitMode = buttons.length == 0;
+        if (!autoExitMode) {
+            for (int i = 0; i < buttons.length; i++) {
+                char key = buttons[i].getAccessKey();
+                if (key != '\0') {
+                    if (!accessKeyIndex.containsKey(key)) {
+                        accessKeyIndex.put(key, new ArrayList<>());
+                    }
+                    accessKeyIndex.get(key).add(i);
                 }
-                accessKeyIndex.get(key).add(i);
             }
         }
 
@@ -216,67 +236,76 @@ public class MessageDialog {
         int ret_value = -1;
         int currentButton = defaultButton;
 
-        ShowDataSync dataSync = new ShowDataSync();
-        // draw the first time
-        dataSync.redraw = true;
-        KeyHandler keyHandler = new ShowDialogKeyHandler(dataSync);
+        // not the auto exit mode
+        if (!autoExitMode) {
+            ShowDataSync dataSync = new ShowDataSync();
+            // draw the first time
+            dataSync.redraw = true;
+            KeyHandler keyHandler = new ShowDialogKeyHandler(dataSync);
 
-        while (dataSync.keepRun) {
-            if (dataSync.redraw) {
-                printDialog(message, buttons, currentButton, lastScreen);
-            }
-
-            dataSync.reset();
-            keyHandler.run();
-
-            if (!dataSync.keepRun && cancelButton >= 0) {
-                ret_value = cancelButton;
-                break;
-            } else if (dataSync.doDecrement) {
-                currentButton --;
-                if (currentButton < 0) {
-                    currentButton = buttons.length - 1;
+            while (dataSync.keepRun) {
+                if (dataSync.redraw) {
+                    printDialog(message, buttons, currentButton, lastScreen);
                 }
-                dataSync.redraw = true;
-            } else if (dataSync.doIncrement) {
-                currentButton ++;
-                if (currentButton >= buttons.length) {
-                    currentButton = 0;
-                }
-                dataSync.redraw = true;
-            } else if (dataSync.doExecute) {
-                ret_value = currentButton;
-                break;
-            } else if (dataSync.accessKey != '\0') {
-                char key = dataSync.accessKey;
 
-                if (accessKeyIndex.containsKey(key)) {
-                    ArrayList<Integer> indexList = accessKeyIndex.get(key);
+                dataSync.reset();
+                keyHandler.run();
 
-                    // There happens to be a button, we just click it
-                    if (indexList.size() == 1) {
-                        ret_value = indexList.get(0);
-                        break;
-                    } else if (indexList.size() > 1) {
+                if (!dataSync.keepRun && cancelButton >= 0) {
+                    ret_value = cancelButton;
+                    break;
+                } else if (dataSync.doDecrement) {
+                    currentButton --;
+                    if (currentButton < 0) {
+                        currentButton = buttons.length - 1;
+                    }
+                    dataSync.redraw = true;
+                } else if (dataSync.doIncrement) {
+                    currentButton ++;
+                    if (currentButton >= buttons.length) {
+                        currentButton = 0;
+                    }
+                    dataSync.redraw = true;
+                } else if (dataSync.doExecute) {
+                    ret_value = currentButton;
+                    break;
+                } else if (dataSync.accessKey != '\0') {
+                    char key = dataSync.accessKey;
 
-                        // If there are multiple buttons, we cycle through them
-                        if (indexList.contains(currentButton)) {
-                            int curIndex = indexList.indexOf(currentButton);
-                            curIndex ++;
-                            if (curIndex >= indexList.size()) {
-                                curIndex = 0;
+                    if (accessKeyIndex.containsKey(key)) {
+                        ArrayList<Integer> indexList = accessKeyIndex.get(key);
+
+                        // There happens to be a button, we just click it
+                        if (indexList.size() == 1) {
+                            ret_value = indexList.get(0);
+                            break;
+                        } else if (indexList.size() > 1) {
+
+                            // If there are multiple buttons, we cycle through them
+                            if (indexList.contains(currentButton)) {
+                                int curIndex = indexList.indexOf(currentButton);
+                                curIndex ++;
+                                if (curIndex >= indexList.size()) {
+                                    curIndex = 0;
+                                }
+                                currentButton = indexList.get(curIndex);
+                            } else {
+                                currentButton = indexList.get(0);
                             }
-                            currentButton = indexList.get(curIndex);
-                            dataSync.redraw = true;
-                        } else {
-                            currentButton = indexList.get(0);
                             dataSync.redraw = true;
                         }
                     }
                 }
             }
+            keyHandler.exitInput();
+        } else {
+            printDialog(message, wait3, currentButton, lastScreen);
+            Time.waitMilliseconds(1000);
+            printDialog(message, wait2, currentButton, lastScreen);
+            Time.waitMilliseconds(1000);
+            printDialog(message, wait1, currentButton, lastScreen);
+            Time.waitMilliseconds(1000);
         }
-        keyHandler.exitInput();
 
         ConsoleHelper.printScreen(lastScreen);
         return ret_value;

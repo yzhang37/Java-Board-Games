@@ -70,7 +70,7 @@ Denkyoku. All Rights Reserved.""";
      */
     protected void singlePlayer() {
         if (Config.boardSize != 3 || Config.getPlayerCounts() != 2) {
-            MessageDialog.show(singleWarning);
+            MessageDialog.showOK(singleWarning);
             return;
         }
 
@@ -166,7 +166,7 @@ Denkyoku. All Rights Reserved.""";
             int ret = menu.start();
             switch (ret) {
                 case 0:
-                    MessageDialog.show(new String[]{
+                    MessageDialog.showOK(new String[]{
                             "Under Construction",
                             "Sorry, this feature is not available yet.",
                             "Due to the lack of TextInput Control in Terminal.",
