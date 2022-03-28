@@ -1,10 +1,7 @@
 package club.denkyoku.tictactoe.models;
 
 import club.denkyoku.tictactoe.models.configuration.PlayerInfo;
-import club.denkyoku.tictactoe.models.game.Mod;
-import club.denkyoku.tictactoe.models.game.OrderAndChaosMod;
-import club.denkyoku.tictactoe.models.game.ReversiMod;
-import club.denkyoku.tictactoe.models.game.TicTacToeMod;
+import club.denkyoku.tictactoe.models.game.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,6 +53,7 @@ public class Config {
      * A preset of the mod that will load.
      */
     public static final Mod[] modList = new Mod[] {
+            new LegendMonstersHeroesMod(),
             new ReversiMod(),
             new TicTacToeMod(),
             new OrderAndChaosMod(),
