@@ -14,6 +14,8 @@ public abstract class Hero extends BaseRole implements IReadonlyHero {
     protected long agility;
     // store the full mana of the hero
     protected long mana;
+    // store the hero's healthPower
+    protected long healthPower;
     // buffered experience point, used for leveling up
     protected long bufferedExp;
     // total experience point
@@ -33,7 +35,7 @@ public abstract class Hero extends BaseRole implements IReadonlyHero {
         this.dexterity = dexterity;
         this.bufferedExp = 0;
         this.level = 1;
-        this.healthPower = this.getHealthPower();
+        this.healthPower = this.getDefaultHealthPower();
         this.money = money;
         this.addExperience(exp);
     }
@@ -61,6 +63,11 @@ public abstract class Hero extends BaseRole implements IReadonlyHero {
     @Override
     public long getMana() {
         return this.mana;
+    }
+
+    @Override
+    public long getHealthPower() {
+        return this.healthPower;
     }
 
     /**

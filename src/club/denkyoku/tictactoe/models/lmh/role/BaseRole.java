@@ -7,13 +7,8 @@ public abstract class BaseRole {
     // An abstract attribute that returns the name of a character.
     public abstract String getName();
 
-    // Hero's temporary blood level
-    protected long healthPower;
-
-    // Get Hero's temporary blood level
-    public long getHealthPower() {
-        return healthPower;
-    }
+    // An abstract function that returns Hero's temporary blood level
+    public abstract long getHealthPower();
 
     // specify the level of the role
     protected long level;
