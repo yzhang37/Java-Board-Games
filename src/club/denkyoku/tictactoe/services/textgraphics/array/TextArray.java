@@ -1,6 +1,6 @@
-package club.denkyoku.tictactoe.services.output.array;
+package club.denkyoku.tictactoe.services.textgraphics.array;
 
-public abstract class TextArray {
+public abstract class TextArray implements ITextArrayable {
     // the scale of the text array.
     protected int width;
     protected int height;
@@ -20,11 +20,11 @@ public abstract class TextArray {
 
     /**
      * Set the content of a point in a monotone text array
-     * @param x x-coordinate
-     * @param y y-coordinate
+     * @param h x-coordinate
+     * @param w y-coordinate
      * @param c char content
      */
-    public abstract void setPointContent(int x, int y, char c);
+    public abstract void setPointContent(int h, int w, char c);
 
     /**
      * Helper function to set a point with a String
@@ -44,4 +44,9 @@ public abstract class TextArray {
     // Define a function that returns the
     // Screen content calculated by the array.
     public abstract String[] toScreen();
+
+    // a shadow function which return itself
+    public TextArray GetArray() {
+        return this;
+    }
 }

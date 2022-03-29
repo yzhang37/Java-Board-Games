@@ -1,9 +1,9 @@
-package club.denkyoku.tictactoe.services.output.array;
+package club.denkyoku.tictactoe.services.textgraphics.array;
 
 /**
  * Create a monotone text array
  */
-public class MonoTextArray extends TextArray {
+public class MonoTextArray extends TextArray implements IMonoTextArrayable {
     protected char[][] monoArray;
 
     /**
@@ -58,26 +58,25 @@ public class MonoTextArray extends TextArray {
      *
      * If the Array is placed beyond the bottom right
      * corner of the screen, it will be truncated.
-     *
-     * @param x the position of the array on the x-axis
-     * @param y the position of the array on the y-axis
+     *  @param h the position of the array on the x-axis
+     * @param w the position of the array on the y-axis
      * @param array the array to embed
      */
-    public void insertArray(int x, int y, TextArray array) {
+    public void insertArray(int h, int w, TextArray array) {
         // first compute the size of the target array
         int tgtHeight = array.getHeight();
         int tgtWidth = array.getWidth();
 
         for (int i = 0; i < tgtHeight; i++) {
             // compute the X, truncate if beyond the screen
-            int newX = x + i;
+            int newX = h + i;
             if (newX >= this.height) {
                 break;
             }
 
             for (int j = 0; j < tgtWidth; j++) {
                 // compute the Y, truncate if beyond the screen
-                int newY = y + j;
+                int newY = w + j;
                 if (newY >= this.width) {
                     break;
                 }
@@ -88,13 +87,13 @@ public class MonoTextArray extends TextArray {
 
     /**
      * Set the content of a point in a monotone text array
-     * @param x x-coordinate
-     * @param y y-coordinate
+     * @param h x-coordinate
+     * @param w y-coordinate
      * @param c char content
      */
     @Override
-    public void setPointContent(int x, int y, char c) {
-        this.monoArray[x][y] = c;
+    public void setPointContent(int h, int w, char c) {
+        this.monoArray[h][w] = c;
     }
 
     /**
@@ -118,10 +117,15 @@ public class MonoTextArray extends TextArray {
         for (int i = 0; i < this.height; i++) {
             StringBuilder sb = new StringBuilder();
             for (int j = 0; j < this.width; j++) {
-                sb.append(this.monoArray[i][j]);
+                sb.append(this.monoArray[i][j] >= 32 ? this.monoArray[i][j] : ' ');
             }
             result[i] = sb.toString();
         }
         return result;
+    }
+
+    @Override
+    public MonoTextArray GetMonoArray() {
+        return this;
     }
 }
