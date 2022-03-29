@@ -9,9 +9,9 @@ class TextTableTest {
 
     @Test
     void getMonoArray() {
-        int[] widths = new int[]{3, 3, 3};
-        int[] heights = new int[]{3, 3, 3};
-        TextTable textTable = new TextTable(widths, heights, null);
+        int[] widths = new int[] {6, 6, 6};
+        int[] heights = new int[] {2, 2, 2};
+        TextTable textTable = new TextTable(heights, widths, BoxStyle.Engraved);
         var monoArray = textTable.GetMonoArray();
         ConsoleHelper.printScreen(monoArray.toScreen());
     }

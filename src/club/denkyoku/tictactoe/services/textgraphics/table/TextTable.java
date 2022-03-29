@@ -115,7 +115,44 @@ public class TextTable implements ITextArrayable, IMonoTextArrayable {
             currentLeft = 0;
         }
 
+        // After drawing the table, we reapply the style to the table
+        if (this.style == BoxStyle.Emboss) {
+            char []cc = "┐┒│┃┘┛┤┨┴┷└┕─━".toCharArray();
+            int i, j;
+            j = result.getWidth() - 1;
+            for (i = 0; i < result.getHeight(); i++) {
+                repairMonoHelper(cc, i, j, result);
+            }
+            i = result.getHeight() - 1;
+            for (j = 0; j < result.getWidth() - 1; j++) {
+                repairMonoHelper(cc, i, j, result);
+            }
+        } else if (this.style == BoxStyle.Engraved) {
+            char []cc = "┌┏─━┐┑┬┯│┃├┠└┖".toCharArray();
+            int i, j;
+            j = 0;
+            for (i = 0; i < result.getHeight(); i++) {
+                repairMonoHelper(cc, i, j, result);
+            }
+            i = 0;
+            for (j = 1; j < result.getWidth(); j++) {
+                repairMonoHelper(cc, i, j, result);
+            }
+        }
+
         return result;
+    }
+
+    private void repairMonoHelper(
+            char[] cc, int i, int j, MonoTextArray result
+    ) {
+        char c = result.getPointContent(i, j);
+        for (int x = 0; x < cc.length; x += 2) {
+            if (c == cc[x]) {
+                result.setPointContent(i, j, cc[x + 1]);
+                break;
+            }
+        }
     }
 
     @Override
