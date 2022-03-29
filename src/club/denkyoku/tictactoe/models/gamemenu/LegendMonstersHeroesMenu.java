@@ -2,6 +2,7 @@ package club.denkyoku.tictactoe.models.gamemenu;
 
 import club.denkyoku.tictactoe.models.Config;
 import club.denkyoku.tictactoe.models.ModMenu;
+import club.denkyoku.tictactoe.models.lmh.gameplay.explore.Explore;
 import club.denkyoku.tictactoe.services.output.controls.Menu;
 import club.denkyoku.tictactoe.services.output.controls.MessageDialog;
 import club.denkyoku.tictactoe.services.output.terminal.ConsoleHelper;
@@ -31,7 +32,8 @@ public class LegendMonstersHeroesMenu {
             int ret = menu.start();
             switch (ret) {
                 case 0 -> {
-                    // TODO: begin the game
+                    Explore explore = new Explore();
+                    explore.start();
                 }
                 case 1 -> {
                     if (ModMenu.chooseMod())

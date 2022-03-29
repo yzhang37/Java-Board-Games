@@ -6,8 +6,11 @@ IF %retCode% NEQ 0 (
     EXIT /B %retCode%
 )
 
-dir /s /B *.java > sources.txt
-javac -encoding UTF-8 -classpath .\jna-5.10.0.jar @sources.txt -d out\production\tictactoe
+dir /s /B *.java > sources1.txt
+findstr /v /i "test" sources1.txt > sources2.txt
+DEL sources1.txt
+javac -encoding UTF-8 -classpath .\jna-5.10.0.jar @sources2.txt -d out\production\tictactoe
+
 
 set retCode=%ERRORLEVEL%
 IF %retCode% NEQ 0 (
@@ -15,4 +18,4 @@ IF %retCode% NEQ 0 (
     EXIT /B %retCode%
 )
 
-DEL sources.txt
+DEL sources2.txt

@@ -1,8 +1,6 @@
-package club.denkyoku.tictactoe.models.lmh.gameplay;
+package club.denkyoku.tictactoe.models.lmh.gameplay.explore;
 
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class ExploreTest {
 
@@ -10,5 +8,11 @@ class ExploreTest {
     void drawFrame() {
         Explore explore = new Explore();
         explore.drawFrame();
+    }
+
+    @Test
+    void start() {
+        Explore explore = new Explore();
+        explore.start();
     }
 }
