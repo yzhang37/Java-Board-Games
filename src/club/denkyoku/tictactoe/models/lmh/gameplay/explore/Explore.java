@@ -136,13 +136,25 @@ public class Explore {
             keyHandler.run();
 
             if (dataSync.doMoveUp) {
-                redraw = moveUp();
+                if (moveUp())
+                    redraw = true;
+                else
+                    ConsoleHelper.bell();
             } else if (dataSync.doMoveDown) {
-                redraw = moveDown();
+                if (moveDown())
+                    redraw = true;
+                else
+                    ConsoleHelper.bell();
             } else if (dataSync.doMoveLeft) {
-                redraw = moveLeft();
+                if (moveLeft())
+                    redraw = true;
+                else
+                    ConsoleHelper.bell();
             } else if (dataSync.doMoveRight) {
-                redraw = moveRight();
+                if (moveRight())
+                    redraw = true;
+                else
+                    ConsoleHelper.bell();
             } else if (dataSync.doEsc) {
                 return;
             }
