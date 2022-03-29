@@ -80,7 +80,9 @@ public class MonoTextArray extends TextArray implements IMonoTextArrayable {
                 if (newY >= this.width) {
                     break;
                 }
-                this.monoArray[newX][newY] = array.getPointContent(i, j);
+                char c = array.getPointContent(i, j);
+                if (c != '\0')
+                    this.monoArray[newX][newY] = c;
             }
         }
     }
