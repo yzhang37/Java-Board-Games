@@ -46,7 +46,17 @@ public abstract class TextArray implements ITextArrayable {
     public abstract String[] toScreen();
 
     // a shadow function which return itself
-    public TextArray GetArray() {
+    public TextArray toArray() {
         return this;
     }
+
+    /**
+     * Given a horizontal and vertical axis,
+     * embed another Text Array in the specified position
+     *
+     *  @param h the position of the array on the x-axis
+     * @param w the position of the array on the y-axis
+     * @param array the array to embed
+     */
+    public abstract void insertArray(int h, int w, TextArray array);
 }

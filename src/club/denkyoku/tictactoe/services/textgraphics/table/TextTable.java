@@ -30,24 +30,39 @@ public class TextTable implements ITextArrayable, IMonoTextArrayable {
     public TextTable(int[] rowsHeight,
                      int[] columnsWidth,
                      BoxStyle style) {
-        this.rowsHeight = rowsHeight;
-        this.columnsWidth = columnsWidth;
-        // Confirm that there are no cells with negative sizes
-        for (int j : rowsHeight) {
-            if (j < 1) {
-                throw new IllegalArgumentException("Row height must be positive");
-            }
-        }
-        for (int j : columnsWidth) {
-            if (j < 1) {
-                throw new IllegalArgumentException("Column width must be positive");
-            }
-        }
+        setRowsHeight(rowsHeight);
+        setColumnsWidth(columnsWidth);
         this.style = Objects.requireNonNullElse(style, BoxStyle.Default);
     }
 
+    public void setRowsHeight(int[] rowsHeight) {
+        if (rowsHeight == null) {
+            this.rowsHeight = new int[0];
+        } else {
+            for (int j : rowsHeight) {
+                if (j < 1) {
+                    throw new IllegalArgumentException("Row height must be positive");
+                }
+            }
+            this.rowsHeight = rowsHeight;
+        }
+    }
+
+    public void setColumnsWidth(int[] columnsWidth) {
+        if (columnsWidth == null) {
+            this.columnsWidth = new int[0];
+        } else {
+            for (int j : columnsWidth) {
+                if (j < 1) {
+                    throw new IllegalArgumentException("Column width must be positive");
+                }
+            }
+            this.columnsWidth = columnsWidth;
+        }
+    }
+
     @Override
-    public MonoTextArray GetMonoArray() {
+    public MonoTextArray toMonoArray() {
         if (this.rowsHeight.length == 0 || this.columnsWidth.length == 0) {
             return new MonoTextArray(0, 0);
         }
@@ -83,7 +98,7 @@ public class TextTable implements ITextArrayable, IMonoTextArrayable {
             for (int width: this.columnsWidth) {
                 box.setWidth(width + 2);
 
-                tempArray = box.GetMonoArray();
+                tempArray = box.toMonoArray();
                 result.insertArray(currentTop, currentLeft, tempArray);
 
                 if (currentLeft > 0 && currentTop > 0) {
@@ -156,7 +171,7 @@ public class TextTable implements ITextArrayable, IMonoTextArrayable {
     }
 
     @Override
-    public TextArray GetArray() {
-        return this.GetMonoArray();
+    public TextArray toArray() {
+        return this.toMonoArray();
     }
 }

@@ -40,7 +40,7 @@ public class Box implements ITextArrayable, IMonoTextArrayable {
     }
 
     @Override
-    public MonoTextArray GetMonoArray() {
+    public MonoTextArray toMonoArray() {
         MonoTextArray array = new MonoTextArray(this.height, this.width);
         // Top left corner
         array.setPointContent(0, 0, BoxDrawingHelper.getLeftTop(this.style));
@@ -64,7 +64,7 @@ public class Box implements ITextArrayable, IMonoTextArrayable {
     }
 
     @Override
-    public TextArray GetArray() {
-        return this.GetMonoArray();
+    public TextArray toArray() {
+        return this.toMonoArray();
     }
 }

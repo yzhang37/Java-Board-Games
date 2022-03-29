@@ -125,7 +125,7 @@ public class MonoTextArray extends TextArray implements IMonoTextArrayable {
     }
 
     @Override
-    public MonoTextArray GetMonoArray() {
+    public MonoTextArray toMonoArray() {
         return this;
     }
 }
