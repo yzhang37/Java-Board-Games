@@ -8,8 +8,10 @@ if [ $ret -ne 0 ]; then
   exit $ret
 fi
 
-find . -name "*.java" > sources.txt
-javac -classpath ./jna-5.10.0.jar @sources.txt -d out/production/tictactoe
+find . -name "*.java" > sources1.txt
+grep -iv "test" sources1.txt > sources2.txt
+rm sources1.txt
+javac -classpath ./jna-5.10.0.jar @sources2.txt -d out/production/tictactoe
 
 ret=$?
 if [ $ret -ne 0 ]; then
@@ -17,4 +19,4 @@ if [ $ret -ne 0 ]; then
   exit $ret
 fi
 
-rm sources.txt
+rm sources2.txt
